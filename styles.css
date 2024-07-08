@@ -46,6 +46,7 @@ a:hover {
       }
 table {
       width: 100%;
+      table-layout: fixed;
       border: 1px solid yellow;
       }
 td {
