@@ -49,16 +49,14 @@ table {
       width: 100%;
       border: 1px solid yellow;
       }
-img {
-      height:100%;
-      max-width:100%;
-      }
 .thumbnail {
       background-color: black;
-      width: 250px;
       height: 200px;
       display: inline-block; /* makes it fit in like an <img> */
       background-size: contain; /* or contain */
       background-position: center center;
       background-repeat: no-repeat;
+      }
+.thumbnail img {
+      width: 100%;
       }
