@@ -48,5 +48,10 @@ table {
       width: 100%;
       border: 1px solid yellow;
       }
+tr {
+      height: 100px;
+      }
 img {
+      max-height:100%;
+      max-width:100%
       }
