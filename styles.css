@@ -1,10 +1,11 @@
 
 html {
       height: 100%;
+      background-color: black;
+
       }
 body {
       height: 100%;
-      background-color: black;
       left: 20px;
       right: 20px;
       }
@@ -35,12 +36,12 @@ p {
       font-size: 10px;
       color: #FFFFFF;
       }
-body a {
+a {
       color: yellow;
       text-decoration: none;
       height: 100px;
       }
-body a:hover {
+a:hover {
       text-decoration: red wavy underline; 
       cursor: pointer;  
       }
