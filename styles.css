@@ -45,11 +45,12 @@ a:hover {
       cursor: pointer;  
       }
 table {
+      table-layout: fixed;
       width: 100%;
       border: 1px solid yellow;
       }
 td {
-      height: 100px;
+      height: 250px;
       }
 img {
       max-height:100%;
