@@ -45,7 +45,6 @@ a:hover {
       cursor: pointer;  
       }
 table {
-      table-layout: auto;
       width: 100%;
       border: 1px solid yellow;
       }
