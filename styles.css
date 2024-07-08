@@ -58,7 +58,7 @@ img {
       width: 250px;
       height: 200px;
       display: inline-block; /* makes it fit in like an <img> */
-      background-size: cover; /* or contain */
+      background-size: contain; /* or contain */
       background-position: center center;
       background-repeat: no-repeat;
       }
