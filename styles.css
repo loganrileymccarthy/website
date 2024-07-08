@@ -38,6 +38,7 @@ p {
 a {
       color: yellow;
       text-decoration: none;
+      height: 100px;
       }
 a:hover {
       text-decoration: red wavy underline; 
@@ -48,5 +49,4 @@ table {
       border: 1px solid yellow;
       }
 img {
-      height: 100px;
       }
