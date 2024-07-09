@@ -7,12 +7,18 @@ body {
       background-color: black;
       }
 header { 
+      margin: 0;
+      padding: 0;
       height: 50px;    
       }
 main { 
+      margin: 0;
+      padding: 0;
       height: auto;    
       }
 footer { 
+      margin: 0;
+      padding: 0;
       height: 50px;    
       }
 h1 {
