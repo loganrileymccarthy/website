@@ -56,6 +56,6 @@ a:hover {
 table {
       margin: 0 20px;
       width: 100%;
-      table-layout: fixed;
+      table-layout: auto;
       border: 1px solid yellow;
       }
