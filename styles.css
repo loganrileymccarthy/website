@@ -54,8 +54,8 @@ a:hover {
       cursor: pointer;  
       }
 table {
-      padding: 0;
-      width: 100%;
-      table-layout: fixed;
+      margin-left:auto;
+      margin-right:auto;
+      width: 98%;
       border: 1px solid yellow;
       }
