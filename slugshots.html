@@ -14,13 +14,6 @@
             align-items: center;
         }
         
-        .image-item {
-            margin-bottom: 20px; /* Add some space between images */
-            width: calc(100vw - 320px); /* Adjust this value to leave more or less horizontal space around the image */
-            height: auto;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
         img {
             width: 100%;
             object-fit: contain; /* Adjust this value to change how images are displayed within their containers */
@@ -33,7 +26,7 @@
         }
         
         @media (max-width: 768px) { /* You can add different styles for smaller screens here */
-            .image-item {
+            .image-container {
                 width: calc(50vw - 20px); /* Adjust this value to change the horizontal space on smaller screens */
             }
         }
@@ -69,5 +62,6 @@
         <!-- Add more images as needed -->
     </div>
     </main>
+    <footer></footer>
 </body>
 </html>
