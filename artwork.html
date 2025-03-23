@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x2694LRM&#x2694</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        
+        .image-container {
+            width: 100vw; /* Take up the full width of the screen */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        img {
+            width: 100%;
+            max-width: 600px;
+            object-fit: contain; /* Adjust this value to change how images are displayed within their containers */
+            border-radius: 10px;
+            transition: box-shadow 0.3s ease-in-out;
+            
+            &:hover {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+    </style>
+</head>
 
+<body>
+    <header>
+        <h1><a href="../index.html" style="color:white;text-decoration:none;">&#x2694 LRM &#x2694</a></h1>
+    </header>
+    <main>
+    <h2><a href="../index.html"><< back</a></h2>
+    <div class="image-container">
+        <!-- Example images, replace these with your own -->
+        <img src="../images/wc_01.jpg" alt="wc_01">
+        <img src="../images/wc_02.jpg" alt="wc_02">
+        <img src="../images/wc_03.jpg" alt="wc_03">
+        <img src="../images/wc_04.jpg" alt="wc_04">
+        <img src="../images/wc_05.jpg" alt="wc_05">
+        <!-- Add more images as needed -->
+    </div>
+    </main>
+    <footer></footer>
+</body>
+</html>
