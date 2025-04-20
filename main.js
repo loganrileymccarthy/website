@@ -1,6 +1,6 @@
 class MyHeader extends HTMLElement {
-	connectedCallback() {
-	this.innerHTML = '
+	ConnectedCallback() {
+	this.innerHTML = `
 		<header>
         		<h1>
 				<a href="../index.html" style="color:white;text-decoration:none;">&#x2694 LRM &#x2694</a>
@@ -14,7 +14,7 @@ class MyHeader extends HTMLElement {
 				<a href="../running.html">running PRs</a>
         		</h2>
     		</header>
-	'
+	`
 	}
 }
 
