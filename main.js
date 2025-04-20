@@ -6,6 +6,7 @@ class MyHeader extends HTMLElement {
 				<a href="../index.html" style="color:white;text-decoration:none;">&#x2694 LRM &#x2694</a>
 			</h1>
 			<h2>
+   				<br>
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a> // 
 				<a href="../slugshots.html">slugshots</a> // 
