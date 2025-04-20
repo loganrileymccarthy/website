@@ -21,12 +21,12 @@ class MyHeader extends HTMLElement {
 customElements.define('my-header', MyHeader)
 
 class MyFooter extends HTMLElement {
-	connectedCallback() {
-	this.innerHTML = '
+	ConnectedCallback() {
+	this.innerHTML = `
 		<footer>
 			2025
 		</footer>
-	'
+	`
 	}
 }
 
