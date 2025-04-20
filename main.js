@@ -24,7 +24,7 @@ class MyFooter extends HTMLElement {
 	ConnectedCallback() {
 	this.innerHTML = `
 		<footer>
-			2025
+			<p>2025</p>
 		</footer>
 	`
 	}
