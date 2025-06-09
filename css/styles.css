@@ -102,3 +102,9 @@ table {
 .diceNumber {
   font-size: 20px;
 }
+.googleDoc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
