@@ -82,6 +82,11 @@ table {
   width: 98%;
   border: 1px solid yellow;
 }
+iframe {
+  display: block;
+  width: 80%;
+  height: 30%;
+}
 .numberGroup {
   display: flex;
   flex-direction: row;
