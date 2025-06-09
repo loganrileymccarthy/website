@@ -7,7 +7,6 @@ class MyHeader extends HTMLElement {
 			</h1>
 			<h2>
    				<br>
-				
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a> // 
 				<a href="../tools.html">tools</a> // 
