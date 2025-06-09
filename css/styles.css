@@ -102,6 +102,7 @@ iframe {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'Courier New', monospace;
 }
 .diceNumber {
   font-size: 20px;
