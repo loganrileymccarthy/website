@@ -84,8 +84,6 @@ table {
 }
 iframe {
   display: block;
-  width: 80%;
-  height: 30%;
 }
 .numberGroup {
   display: flex;
