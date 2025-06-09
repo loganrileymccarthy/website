@@ -84,21 +84,9 @@ table {
 }
 iframe {
   display: block;
-}
-.iframe-container {
-    position:relative;
-    padding-bottom:56.25%;
-    padding-top:30px;
-    height:0;
-    overflow:hidden;
-}
-
-.iframe-container iframe, .iframe-container object, .iframe-container embed {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+  max-width: 80%;
+  width: auto;
+  height: auto;
 }
 .numberGroup {
   display: flex;
