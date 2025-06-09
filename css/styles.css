@@ -52,6 +52,7 @@ p {
   color: white;
   }
 a {
+  font-family: 'Courier New', monospace;
   color: yellow;
   text-decoration: none;
   }
@@ -107,4 +108,5 @@ table {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
