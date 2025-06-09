@@ -103,6 +103,8 @@ table {
   font-size: 20px;
 }
 .googleDoc {
+  width: 80%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
