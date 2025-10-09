@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x2694LRM&#x2694</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('../images/slug_01.jpg');
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cards-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+        
+        .card {
+            width: 140px;
+            height: 190px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(255,255,255,0.3);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        button:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <script type=module src=../main.js></script>
+    <my-header></my-header>
+    <main>
+    
+    <h1>Hold'em Board Generator</h1>
+    <div class="cards-container" id="cardsContainer"></div>
+    <button onclick="drawCards()">Deal</button>
+
+    <script>
+        const suits = ['H', 'D', 'C', 'S'];
+        const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
+        
+        function createDeck() {
+            const deck = [];
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    deck.push({
+                        rank: rank,
+                        suit: suit,
+                        image: `https://deckofcardsapi.com/static/img/${rank}${suit}.png`
+                    });
+                }
+            }
+            return deck;
+        }
+        
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function drawCards() {
+            const deck = createDeck();
+            const shuffled = shuffleArray(deck);
+            const hand = shuffled.slice(0, 5);
+            
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            hand.forEach(card => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.innerHTML = `<img src="${card.image}" alt="${card.rank} of ${card.suit}">`;
+                container.appendChild(cardDiv);
+            });
+        }
+        
+        // Draw initial cards
+        drawCards();
+    </script>
+  
+    </main>
+    <my-footer></my-footer>
+</body>
+</html>
