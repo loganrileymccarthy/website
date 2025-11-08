@@ -3,7 +3,7 @@ class MyHeader extends HTMLElement {
 	this.innerHTML = `
 		<header>
         		<h1>
-				<a href="../index.html" style="color:white;text-decoration:none;">&#x2694 LRM &#x2694</a>
+				<a href="../index.html" style="color:white;text-decoration:none;align-text:center;">&#x2694 LRM &#x2694</a>
 			</h1>
 			<h2>
    				<br>
