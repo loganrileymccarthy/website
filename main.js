@@ -2,9 +2,7 @@ class MyHeader extends HTMLElement {
 	connectedCallback() {
 	this.innerHTML = `
 		<header>
-        		<h1>
-				<a href="../index.html" style="color:white;text-decoration:none;align-text:center;">&#x2694 LRM &#x2694</a>
-			</h1>
+        	<h1 href="../index.html">&#x2694 LRM &#x2694</h1>
 			<h2>
    				<br>
 				<a href="../music.html">music</a> // 
