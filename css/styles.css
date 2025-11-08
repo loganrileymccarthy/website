@@ -28,7 +28,7 @@ footer {
   height: 50px;    
   }
 .wrapper-main {
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
   }
 h1 {
