@@ -12,7 +12,7 @@ class MyHeader extends HTMLElement {
 				<a href="../tools.html">tools</a> // 
     			<a href="../slugshots.html">slugshots</a> // 
 				<a href="../workout.html">workout</a> // 
-				<a href="../running.html">running PRs</a>
+				<a href="../running.html">running</a>
     		</p>
     	</header>
 	`
