@@ -32,63 +32,66 @@
         }
     </style>
 </head>
+
 <body>
     <script type=module src=../main.js></script>
-    <my-header></my-header>
-    <main>
+    <div class="wrapper-main">
+        <my-header></my-header>
+        <main>
     
-    <h1><br>Hold'em Board Generator</h1>
-    <div class="cards-container" id="cardsContainer"></div>
-    <button onclick="drawCards()">Deal</button>
+            <h1><br>Hold'em Board Generator</h1>
+            <div class="cards-container" id="cardsContainer"></div>
+            <button onclick="drawCards()">Deal</button>
 
-    <script>
-        const suits = ['H', 'D', 'C', 'S'];
-        const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
+            <script>
+                const suits = ['H', 'D', 'C', 'S'];
+                const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
         
-        function createDeck() {
-            const deck = [];
-            for (let suit of suits) {
-                for (let rank of ranks) {
-                    deck.push({
-                        rank: rank,
-                        suit: suit,
-                        image: `https://deckofcardsapi.com/static/img/${rank}${suit}.png`
+                function createDeck() {
+                    const deck = [];
+                    for (let suit of suits) {
+                        for (let rank of ranks) {
+                            deck.push({
+                                rank: rank,
+                                suit: suit,
+                                image: `https://deckofcardsapi.com/static/img/${rank}${suit}.png`
+                            });
+                        }
+                    }
+                    return deck;
+                }
+                
+                function shuffleArray(array) {
+                    const shuffled = [...array];
+                    for (let i = shuffled.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                    }
+                    return shuffled;
+                }
+        
+                function drawCards() {
+                    const deck = createDeck();
+                    const shuffled = shuffleArray(deck);
+                    const hand = shuffled.slice(0, 5);
+                    
+                    const container = document.getElementById('cardsContainer');
+                    container.innerHTML = '';
+            
+                    hand.forEach(card => {
+                        const cardDiv = document.createElement('div');
+                        cardDiv.className = 'card';
+                        cardDiv.innerHTML = `<img src="${card.image}" alt="${card.rank} of ${card.suit}">`;
+                        container.appendChild(cardDiv);
                     });
                 }
-            }
-            return deck;
-        }
         
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-        
-        function drawCards() {
-            const deck = createDeck();
-            const shuffled = shuffleArray(deck);
-            const hand = shuffled.slice(0, 5);
-            
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
-            
-            hand.forEach(card => {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'card';
-                cardDiv.innerHTML = `<img src="${card.image}" alt="${card.rank} of ${card.suit}">`;
-                container.appendChild(cardDiv);
-            });
-        }
-        
-        // Draw initial cards
-        drawCards();
-    </script>
+                // Draw initial cards
+                drawCards();
+            </script>
   
-    </main>
-    <my-footer></my-footer>
+        </main>
+        <my-footer></my-footer>
+    </div>
 </body>
 </html>
