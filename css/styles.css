@@ -53,6 +53,7 @@ p {
   }
 a {
   color: yellow;
+  text-decoration: none;
   }
 a:hover {
   text-decoration: red wavy underline; 
