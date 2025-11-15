@@ -27,9 +27,6 @@ footer {
   padding: 0;
   height: 50px;    
   }
-.wrapper-main {
-  margin: 0 auto;
-  }
 h1 {
   font-family: 'Courier New', monospace;
   font-weight: bold;
@@ -44,6 +41,7 @@ h2 {
   font-weight: normal;
   font-size: 10px;
   color: white;
+  text-align: center;
   }
 p {
   margin: 0 20px;
@@ -54,9 +52,7 @@ p {
   color: white;
   }
 a {
-  font-family: 'Courier New', monospace;
   color: yellow;
-  text-decoration: none;
   }
 a:hover {
   text-decoration: red wavy underline; 
@@ -67,55 +63,66 @@ button {
   border-style: none;
   border-radius: 5px;
   padding: 10px 20px;
-}
+  }
 button:hover {
   background-color: yellow;
   color: black;
   text-decoration: red wavy underline;
-}
+  }
 input[type="checkbox"] {
   width: 2em;
   height: 2em;
   accent-color: yellow;
-}
+  }
 table {
   margin-left:auto;
   margin-right:auto;
   width: 98%;
   border: 1px solid yellow;
-}
+  }
 iframe {
   display: block;
   max-width: 80%;
   width: auto;
   height: auto;
-}
+  }
+.wrapper-main {
+  max-width: 425px; /* Set your desired maximum width */
+  margin-left: auto;
+  margin-right: auto;
+  }
+.homeButton {
+  color: white;
+  }
+.homeButton:hover {
+  text-decoration: none;
+  }
 .numberGroup {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
+  }
 .number {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+  }
 .rollButton {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: 'Courier New', monospace;
-}
+  }
 .diceNumber {
   font-size: 20px;
-}
+  }
 .googleDoc {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
+  }
