@@ -1,7 +1,6 @@
 class MyHeader extends HTMLElement {
 	connectedCallback() {
 	this.innerHTML = `
-	<div class="wrapper-main">
 		<header>
       		<h1>
 				<a href="../index.html" class="homeButton">&#x2694 LRM &#x2694</a>
@@ -28,7 +27,6 @@ class MyFooter extends HTMLElement {
 		<footer>
 			<p></p>
 		</footer>
-	</div>
 	`
 	}
 }
