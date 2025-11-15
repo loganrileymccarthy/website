@@ -5,7 +5,7 @@ class MyHeader extends HTMLElement {
       		<h1>
 				<a href="../index.html" class="homeButton">&#x2694 LRM &#x2694</a>
 			</h1>
-			<p>
+			<p style="text-align:center;">
    				<br>
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a> // 
