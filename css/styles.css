@@ -93,7 +93,7 @@ img {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  justify-content: center;
+  object-position: center;
   }
 .homeButton {
   color: white;
