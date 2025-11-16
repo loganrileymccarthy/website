@@ -89,7 +89,7 @@ img {
 
 .wrapper-main {
   width: auto;
-  max-width: 900px; /* Set your desired maximum width */
+  /*max-width: 900px; /* Set your desired maximum width */
   margin-left: auto;
   margin-right: auto;
   justify-content: center;
