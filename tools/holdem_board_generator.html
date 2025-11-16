@@ -135,7 +135,7 @@
                 button.textContent = 'Deal Turn';
                 if (currentHand[0].rank == currentHand[1].rank || currentHand[0].rank == currentHand[2].rank || currentHand[1].rank == currentHand[2].rank) {
                 nuts.value = "quads";
-                paired-flop.checked = "checked";
+                paired-flop.checked = true;
                 }
                 
             } else if (dealStage === 1) {
@@ -157,7 +157,7 @@
                 dealStage = 0;
                 button.textContent = 'Deal Flop';
                 nuts.value = "";
-                paired-flop.checked = "unchecked";
+                paired-flop.checked = false;
                 dealNext();
             }
         }
