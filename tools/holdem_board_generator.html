@@ -43,54 +43,94 @@
     
             <h1><br>Hold'em Board Generator</h1>
             <div class="cards-container" id="cardsContainer"></div>
-            <button onclick="drawCards()">Deal</button>
+            <button onclick="dealNext()" id="dealButton">Deal Flop</button>
 
-            <script>
-                const suits = ['H', 'D', 'C', 'S'];
-                const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K'];
+    <script>
+        let currentDeck = [];
+        let currentHand = [];
+        let dealStage = 0; // 0 = ready for flop, 1 = flop dealt, 2 = turn dealt, 3 = river dealt
         
-                function createDeck() {
-                    const deck = [];
-                    for (let suit of suits) {
-                        for (let rank of ranks) {
-                            deck.push({
-                                rank: rank,
-                                suit: suit,
-                                image: `https://deckofcardsapi.com/static/img/${rank}${suit}.png`
-                            });
-                        }
-                    }
-                    return deck;
-                }
-                
-                function shuffleArray(array) {
-                    const shuffled = [...array];
-                    for (let i = shuffled.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-                    }
-                    return shuffled;
-                }
+        const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+        const ranks = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king'];
         
-                function drawCards() {
-                    const deck = createDeck();
-                    const shuffled = shuffleArray(deck);
-                    const hand = shuffled.slice(0, 5);
-                    
-                    const container = document.getElementById('cardsContainer');
-                    container.innerHTML = '';
-            
-                    hand.forEach(card => {
-                        const cardDiv = document.createElement('div');
-                        cardDiv.className = 'card';
-                        cardDiv.innerHTML = `<img src="${card.image}" alt="${card.rank} of ${card.suit}">`;
-                        container.appendChild(cardDiv);
+        function createDeck() {
+            const deck = [];
+            for (let suit of suits) {
+                for (let rank of ranks) {
+                    deck.push({
+                        rank: rank,
+                        suit: suit,
+                        image: `https://deckofcardsapi.com/static/img/${rank === 'ace' ? 'A' : rank === 'jack' ? 'J' : rank === 'queen' ? 'Q' : rank === 'king' ? 'K' : rank.toUpperCase()}${suit.charAt(0).toUpperCase()}.png`
                     });
                 }
+            }
+            return deck;
+        }
         
-                // Draw initial cards
-                drawCards();
-            </script>
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+        
+        function dealNext() {
+            const button = document.getElementById('dealButton');
+            const container = document.getElementById('cardsContainer');
+            
+            if (dealStage === 0) {
+                // Deal flop (3 cards)
+                const deck = createDeck();
+                const shuffled = shuffleArray(deck);
+                currentHand = shuffled.slice(0, 5);
+                
+                container.innerHTML = '';
+                
+                // Create all card elements
+                currentHand.forEach(card => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'card';
+                    cardDiv.innerHTML = `<img src="${card.image}" alt="${card.rank} of ${card.suit}">`;
+                    container.appendChild(cardDiv);
+                });
+                
+                const cards = container.querySelectorAll('.card');
+                
+                // Deal first 3 cards
+                setTimeout(() => cards[0].classList.add('dealt'), 100);
+                setTimeout(() => cards[1].classList.add('dealt'), 200);
+                setTimeout(() => cards[2].classList.add('dealt'), 300);
+                
+                dealStage = 1;
+                button.textContent = 'Deal Turn';
+                
+            } else if (dealStage === 1) {
+                // Deal turn (4th card)
+                const cards = container.querySelectorAll('.card');
+                cards[3].classList.add('dealt');
+                dealStage = 2;
+                button.textContent = 'Deal River';
+                
+            } else if (dealStage === 2) {
+                // Deal river (5th card)
+                const cards = container.querySelectorAll('.card');
+                cards[4].classList.add('dealt');
+                dealStage = 3;
+                button.textContent = 'New Hand';
+                
+            } else {
+                // Reset for new hand
+                dealStage = 0;
+                button.textContent = 'Deal Flop';
+                dealNext();
+            }
+        }
+        
+        // Start with button ready
+        dealStage = 0;
+    </script>
   
         </main>
         <my-footer></my-footer>
