@@ -91,6 +91,7 @@ img {
   max-width: 420px; /* Set your desired maximum width */
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
   }
 .homeButton {
   color: white;
