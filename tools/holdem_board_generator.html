@@ -47,21 +47,25 @@
     <div class="wrapper-main">
         <my-header></my-header>
         <main>
-    
-            <h1><br>Hold'em Board Generator</h1>
+            <h1>
+                <br>Hold'em Board Generator
+            </h1>
             <div class="cards-container" id="cardsContainer"></div>
-            <button onclick="dealNext()" id="dealButton">Deal Flop</button>
-            <label for="nuts">Nuts:</label>
-            <input list="hand-types" id="nuts" name="nuts" />
-            <datalist id="hand-types">
-              <option value="sflush"></option>
-              <option value="quads"></option>
-              <option value="boat"></option>
-              <option value="flush"></option>
-              <option value="straight"></option>
-              <option value="trips"></option>
-            </datalist>
-
+            <div>
+                <button onclick="dealNext()" id="dealButton">Deal Flop</button>
+            </div>
+            <div>
+                <label for="nuts">Nuts:</label>
+                <input list="hand-types" id="nuts" name="nuts" />
+                <datalist id="hand-types">
+                    <option value="sflush"></option>
+                    <option value="quads"></option>
+                    <option value="boat"></option>
+                    <option value="flush"></option>
+                    <option value="straight"></option>
+                    <option value="trips"></option>
+                </datalist>
+            </div>
     <script>
         let currentDeck = [];
         let currentHand = [];
@@ -122,8 +126,8 @@
                 
                 dealStage = 1;
                 button.textContent = 'Deal Turn';
-                if (currentHand[0].rank == currentHand[1].rank) {
-                nuts.value = "boat";
+                if (currentHand[0].rank == currentHand[1].rank || currentHand[0].rank == currentHand[2].rank || currentHand[1].rank == currentHand[2].rank) {
+                nuts.value = "quads";
                 }
                 
             } else if (dealStage === 1) {
