@@ -51,6 +51,16 @@
             <h1><br>Hold'em Board Generator</h1>
             <div class="cards-container" id="cardsContainer"></div>
             <button onclick="dealNext()" id="dealButton">Deal Flop</button>
+            <label for="nuts">Nuts:</label>
+            <input list="hand-types" id="nuts" name="nuts" />
+            <datalist id="hand-types">
+              <option value="sflush"></option>
+              <option value="quads"></option>
+              <option value="boat"></option>
+              <option value="flush"></option>
+              <option value="straight"></option>
+              <option value="trips"></option>
+            </datalist>
 
     <script>
         let currentDeck = [];
@@ -112,6 +122,9 @@
                 
                 dealStage = 1;
                 button.textContent = 'Deal Turn';
+                if (currentHand[0].rank == currentHand[1].rank) {
+                nuts.value = "boat";
+                }
                 
             } else if (dealStage === 1) {
                 // Deal turn (4th card)
