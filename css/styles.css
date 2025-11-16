@@ -88,12 +88,11 @@ img {
 
 
 .wrapper-main {
-  width: auto;
   max-width: 420px; /* Set your desired maximum width */
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  object-position: center;
+  align-items: center;
   }
 .homeButton {
   color: white;
