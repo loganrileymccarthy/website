@@ -32,7 +32,6 @@ h1 {
   font-weight: bold;
   font-size: 24px;
   color: white;
-  text-align: center;
   }
 h2 {
   margin: 0 20px;
@@ -41,7 +40,6 @@ h2 {
   font-weight: normal;
   font-size: 10px;
   color: yellow;
-  text-align: center;
   }
 p {
   margin: 0 20px;
