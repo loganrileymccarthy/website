@@ -67,10 +67,6 @@
                     <option value=""></option>
                 </datalist>
             </div>
-            <div>
-                  <label for="paired-flop">Paired Flop</label>
-                  <input type="checkbox" name="paired-flop" id="paired-flop" />
-            </div>
     <script>
         let currentDeck = [];
         let currentHand = [];
@@ -133,7 +129,6 @@
                 button.textContent = 'Deal Turn';
                 if (currentHand[0].rank == currentHand[1].rank || currentHand[0].rank == currentHand[2].rank || currentHand[1].rank == currentHand[2].rank) {
                 nuts.value = "quads";
-                paired-flop.checked = true;
                 }
                 
             } else if (dealStage === 1) {
@@ -155,7 +150,6 @@
                 dealStage = 0;
                 button.textContent = 'Deal Flop';
                 nuts.value = "";
-                paired-flop.checked = false;
                 dealNext();
             }
         }
