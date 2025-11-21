@@ -57,16 +57,62 @@ a:hover {
   text-decoration: red wavy underline; 
   cursor: pointer;  
   }
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  }  
+textarea {
+  width: 100%;
+  min-height: 450px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  resize: vertical;
+  transition: border-color 0.3s;
+  }  
+textarea:focus {
+  outline: none;
+  border-color: #00FFFF;
+  } 
+input[type="number"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  } 
+input[type="number"]:focus {
+  outline: none;
+  border-color: #00FFFF;
+  }
 button {
+  background-color: white;
   font-family: 'Courier New', monospace;
   border-style: none;
   border-radius: 5px;
   padding: 10px 20px;
+  cursor: pointer;
   }
 button:hover {
   background-color: yellow;
   color: black;
   text-decoration: red wavy underline;
+  }
+button:active {
+  background: yellow;
+  }
+.button-secondary {
+  background: #666;
+  }
+.button-secondary:hover {
+  background: #777;
   }
 table {
   margin-left:auto;
