@@ -141,8 +141,8 @@
                 return `__COMMENT_${comments.length - 1}__`;
             });
             
-            // Create pattern to match T, N, H, or D followed by the target number (with optional leading zeros) and a space or newline
-            const pattern = /([TNHD])0*(\d{1,2})(\s)/g;
+            // Create pattern to match T, N, H, or D followed by the target number (with optional leading zeros) and a space/newline or end of string
+            const pattern = /([TNHD])0*(\d{1,2})(\s|$)/g;
             
             const result = textWithoutComments.replace(pattern, (match, letter, capturedNum, whitespace) => {
                 // Compare the numeric values
