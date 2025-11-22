@@ -32,7 +32,7 @@
         }
         .parameters-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             gap: 20px;
             margin-bottom: 10px;
         }
@@ -97,40 +97,77 @@
         
         <div class="parameters-grid">
             <div class="parameter-column">
-                <Label>Old Tool Number</Label>
+                <Label>Old Zone</Label>
                 <div class="form-group">
-                    <input type="number" id="findNumber1" min="0" max="99">
+                    <input type="number" id="findZone1" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="findNumber2" min="0" max="99">
+                    <input type="number" id="findZone2" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="findNumber3" min="0" max="99">
+                    <input type="number" id="findZone3" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="findNumber4" min="0" max="99">
+                    <input type="number" id="findZone4" min="0" max="99">
                 </div>
             </div>
             
             <div class="parameter-column">
-                <Label>New Tool Number</Label>
+                <Label>New Zone</Label>
                 <div class="form-group">
-                    <input type="number" id="replaceNumber1" min="0" max="99">
+                    <input type="number" id="replaceZone1" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="replaceNumber2" min="0" max="99">
+                    <input type="number" id="replaceZone2" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="replaceNumber3" min="0" max="99">
+                    <input type="number" id="replaceZone3" min="0" max="99">
                 </div>
                 
                 <div class="form-group">
-                    <input type="number" id="replaceNumber4" min="0" max="99">
+                    <input type="number" id="replaceZone4" min="0" max="99">
+                </div>
+            </div>
+            <div class="parameter-column">
+                <Label>Old Tool</Label>
+                <div class="form-group">
+                    <input type="number" id="findTool1" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="findTool2" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="findTool3" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="findTool4" min="0" max="99">
+                </div>
+            </div>
+            
+            <div class="parameter-column">
+                <Label>New Tool</Label>
+                <div class="form-group">
+                    <input type="number" id="replaceTool1" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="replaceTool2" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="replaceTool3" min="0" max="99">
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" id="replaceTool4" min="0" max="99">
                 </div>
             </div>
             <div class="parameter-column">
@@ -165,17 +202,26 @@
             }
             
             // Collect all replacement pairs
-            const replacementPairs = [];
+            const zonePairs = [];
             for (let i = 1; i <= 4; i++) {
-                const findNum = document.getElementById(`findNumber${i}`).value;
-                const replaceNum = document.getElementById(`replaceNumber${i}`).value;
+                const findNum = document.getElementById(`findZone${i}`).value;
+                const replaceNum = document.getElementById(`replaceZone${i}`).value;
                 
                 if (findNum !== '' && replaceNum !== '') {
-                    replacementPairs.push({ find: findNum, replace: replaceNum });
+                    zonePairs.push({ find: findNum, replace: replaceNum });
                 }
             }
-            
-            if (replacementPairs.length === 0) {
+            const toolPairs = [];
+            for (let i = 1; i <= 4; i++) {
+                const findNum = document.getElementById(`findTool${i}`).value;
+                const replaceNum = document.getElementById(`replaceTool${i}`).value;
+                
+                if (findNum !== '' && replaceNum !== '') {
+                    toolPairs.push({ find: findNum, replace: replaceNum });
+                }
+            }
+
+            if (zonePairs.length === 0 && toolPairs.length === 0) {
                 alert('Please enter at least one find/replace pair.');
                 return;
             }
@@ -194,7 +240,31 @@
             let result = textWithoutComments;
             
             // Process each replacement pair
-            replacementPairs.forEach(pair => {
+            zonePairs.forEach(pair => {
+                const findNum = pair.find;
+                const replaceNum = pair.replace;
+                const replacements = { G: 0 };
+                
+                // Create pattern to match G followed by the target number (with optional leading zeros) and a space/newline or end of string
+                const pattern = /([G])0*(\d{1,2})(\s|$)/g;
+                
+                result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
+                    // Compare the numeric values
+                    if (parseInt(capturedNum, 10) === parseInt(findNum, 10)) {
+                        totalReplacements++;
+                        replacements[letter]++;
+                        const replaceFormatted = replaceNum.toString();
+                        return `${letter}${replaceFormatted}${whitespace}`;
+                    }
+                    return match;
+                });
+                
+                // Store replacements for this pair
+                if (totalReplacements > 0) {
+                    allReplacements[`${findNum}→${replaceNum}`] += replacements;
+                }
+            });
+            toolPairs.forEach(pair => {
                 const findNum = pair.find;
                 const replaceNum = pair.replace;
                 const replacements = { T: 0, N: 0, H: 0, D: 0 };
@@ -216,7 +286,7 @@
                 
                 // Store replacements for this pair
                 if (totalReplacements > 0) {
-                    allReplacements[`${findNum}→${replaceNum}`] = replacements;
+                    allReplacements[`${findNum}→${replaceNum}`] += replacements;
                 }
             });
             
