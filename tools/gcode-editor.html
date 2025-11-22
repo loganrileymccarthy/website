@@ -185,7 +185,7 @@
             
             // Remove comments (text within parentheses) temporarily
             const commentPattern = /\([^)]*\)/g;
-            const comments = [];
+            const comments = [ ];
             let textWithoutComments = text.replace(commentPattern, (match) => {
                 comments.push(match);
                 return `__COMMENT_${comments.length - 1}__`;
