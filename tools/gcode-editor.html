@@ -78,16 +78,16 @@
             <br>
             G-code Editor
         </h1>
-        <p class="description">
-            Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. 
-            Leading zeroes are handled (e.g., T1 and T01 are treated the same).
-        </p>
         
         <div class="text-areas-container">
             <div class="text-column">
                 <div class="form-group">
                     <label for="textInput">Input Text</label>
-                    <textarea id="textInput" placeholder="Example: T1 some text N05 more text (this is a comment with T1) H1 D01 final text"></textarea>
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."
+                        >
+                    </textarea>
                 </div>
             </div>
             
