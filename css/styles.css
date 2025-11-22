@@ -75,7 +75,7 @@ textarea {
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 4px;
-  color: dim-grey;
+  background-color: dim-grey;
   font-family: 'Courier New', monospace;
   font-size: 14px;
   resize: vertical;
