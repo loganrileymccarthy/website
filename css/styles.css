@@ -86,6 +86,7 @@ textarea:focus {
   } 
 input[type="number"] {
   width: 100%;
+  max-width: 25px;
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 4px;
