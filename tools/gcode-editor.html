@@ -44,7 +44,6 @@
             -webkit-appearance: none; /*Hide arrows on number inputs */
         }
         .stats {
-            width: 100%;
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 10px;
@@ -307,7 +306,7 @@
                         .map(([letter, count]) => `${letter}: ${count}`)
                         .join(', ');
                     if (details) {
-                        statsHTML += `&nbsp;&nbsp;${pair} - ${details}<br>`;
+                        statsHTML += `${pair} - ${details}<br>`;
                     }
                 }
             }
