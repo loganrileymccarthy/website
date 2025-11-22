@@ -9,30 +9,23 @@
         textarea {
             min-height: 450px;
         }
-        .text-areas-container {
+        .upper-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 10px;
         }
-        .text-column {
+        .upper-column {
             display: flex;
             flex-direction: column;
         }
-        .numbers-grid {
+        .lower-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
             margin-bottom: 10px;
         }
-        .numbers-zones {
-            border: 2px solid #ddd;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 20px;
-        }
-        .numbers-tools {
+        .lower-section {
             border: 2px solid #ddd;
             display: flex;
             flex-direction: row;
@@ -87,15 +80,15 @@
             <br>
         </h1>
         
-        <div class="text-areas-container">
-            <div class="text-column">
+        <div class="upper-container">
+            <div class="upper-column">
                 <div class="form-group">
                     <label for="textInput">Input Text</label>
                     <textarea id="textInput" placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."></textarea>
                 </div>
             </div>
             
-            <div class="text-column">
+            <div class="upper-column">
                 <div class="form-group">
                     <label for="outputText">Output Text</label>
                     <textarea id="outputText" readonly"></textarea>
@@ -103,8 +96,8 @@
             </div>
         </div>
         
-        <div class="numbers-grid">
-            <div class="numbers-zones">
+        <div class="lower-container">
+            <div class="lower-section">
             <div class="lower-column">
                 <Label>Old Zone</Label>
                 <div class="form-group">
@@ -137,7 +130,7 @@
             </div>
             </div>
 
-            <div class="numbers-tools">
+            <div class="lower-section">
             <div class="lower-column">
                 <Label>Old Tool</Label>
                 <div class="form-group">
@@ -170,7 +163,7 @@
             </div>
             </div>
             
-            <div class="lower-column">
+            <div class="lower-section">
                 <Label>Recap</Label>
                 <div class="stats" id="stats"></div>
             </div>
