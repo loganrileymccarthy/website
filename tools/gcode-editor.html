@@ -74,7 +74,10 @@
     <div class="wrapper-main">
         <my-header></my-header>
         <main>
-        <h1>G-code Editor</h1>
+        <h1>
+            <br>
+            G-code Editor
+        </h1>
         <p class="description">
             Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. 
             Leading zeroes are handled (e.g., T1 and T01 are treated the same).
@@ -231,7 +234,7 @@
             document.getElementById('outputText').value = finalResult;
             
             // Build stats display
-            let statsHTML = `<strong>Total replacements made:</strong> ${totalReplacements}<br>`;
+            let statsHTML = `<strong>Replacements made:</strong> ${totalReplacements}<br>`;
             
             if (totalReplacements > 0) {
                 statsHTML += '<strong>Breakdown:</strong><br>';
