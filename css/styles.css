@@ -92,6 +92,8 @@ input[type="number"] {
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 4px;
+  background-color: #2F2F2F;
+  color: white;
   font-size: 14px;
   transition: border-color 0.3s;
   } 
