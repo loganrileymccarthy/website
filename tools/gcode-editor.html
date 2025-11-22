@@ -67,6 +67,12 @@
             display: flex;
             flex-direction: column;
         }
+        .zone-section {
+            border: 2px solid #ddd;
+        }
+        .tool-section {
+            border: 2px solid #ddd;
+        }
         @media (max-width: 900px) {
             .text-areas-container {
                 grid-template-columns: 1fr;
@@ -101,6 +107,7 @@
         </div>
         
         <div class="parameters-grid">
+            <div class="zone-section">
             <div class="parameter-column">
                 <Label>Old Zone</Label>
                 <div class="form-group">
@@ -119,7 +126,6 @@
                     <input type="number" id="findZone4" min="0" max="99">
                 </div>
             </div>
-            
             <div class="parameter-column">
                 <Label>New Zone</Label>
                 <div class="form-group">
@@ -138,6 +144,9 @@
                     <input type="number" id="replaceZone4" min="0" max="99">
                 </div>
             </div>
+            </div>
+
+            <div class="tool-section">
             <div class="parameter-column">
                 <Label>Old Tool</Label>
                 <div class="form-group">
@@ -156,7 +165,6 @@
                     <input type="number" id="findTool4" min="0" max="99">
                 </div>
             </div>
-            
             <div class="parameter-column">
                 <Label>New Tool</Label>
                 <div class="form-group">
@@ -175,6 +183,8 @@
                     <input type="number" id="replaceTool4" min="0" max="99">
                 </div>
             </div>
+            </div>
+            
             <div class="parameter-column">
                 <Label>Recap</Label>
                 <div class="stats" id="stats"></div>
