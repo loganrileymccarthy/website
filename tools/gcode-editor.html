@@ -140,13 +140,15 @@
                     <input type="number" id="replaceNumber4" min="0" max="99">
                 </div>
             </div>
+            <div class="parameter-column">
+                <div class="stats" id="stats"></div>
+                <button class="button-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
         </div>
         
         <button onclick="processText()">Replace Numbers</button>
         
         <div class="output" id="output">
-            <div class="stats" id="stats"></div>
-            <button class="button-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
         </div>
         </main>
         <my-footer></my-footer>
