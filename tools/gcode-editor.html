@@ -10,9 +10,7 @@
             min-height: 400px;
         }
         input::-webkit-inner-spin-button {
-            /* display: none; <- Crashes Chrome on hover */
-            -webkit-appearance: none;
-            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+            -webkit-appearance: none; /*Hide arrows on number inputs */
         }
         .description {
             color: #666;
@@ -23,21 +21,9 @@
         .form-group {
             margin-bottom: 10px;
         }
-        
-        .output {
-            margin-top: 10px;
-            display: none;
-        }
-        .output.show {
-            display: block;
-        }
-        .output h2 {
-        }
-        .output textarea {
-        }
         .parameters-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 20px;
             margin-bottom: 10px;
         }
@@ -198,8 +184,6 @@
         
         <button onclick="processText()">Replace Numbers</button>
         
-        <div class="output" id="output">
-        </div>
         </main>
         <my-footer></my-footer>
     </div>
