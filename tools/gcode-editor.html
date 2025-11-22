@@ -304,7 +304,7 @@
                     const details = Object.entries(replacements)
                         .filter(([letter, count]) => count > 0)
                         .map(([letter, count]) => `${letter}:${count}`)
-                        .join(', ');
+                        .join(' ');
                     if (details) {
                         statsHTML += `${pair} ${details}<br>`;
                     }
