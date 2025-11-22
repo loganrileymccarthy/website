@@ -303,10 +303,10 @@
                 for (const [pair, replacements] of Object.entries(allReplacements)) {
                     const details = Object.entries(replacements)
                         .filter(([letter, count]) => count > 0)
-                        .map(([letter, count]) => `${letter}: ${count}`)
+                        .map(([letter, count]) => `${letter}:${count}`)
                         .join(', ');
                     if (details) {
-                        statsHTML += `${pair} - ${details}<br>`;
+                        statsHTML += `${pair} ${details}<br>`;
                     }
                 }
             }
