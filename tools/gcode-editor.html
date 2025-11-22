@@ -18,12 +18,7 @@
         .form-group {
             margin-bottom: 10px;
         }
-        .parameters-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+        
         .output {
             margin-top: 10px;
             display: none;
@@ -34,6 +29,17 @@
         .output h2 {
         }
         .output textarea {
+        }
+        .parameters-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .parameter-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
         .stats {
             padding: 10px;
@@ -56,18 +62,6 @@
             display: flex;
             flex-direction: column;
         }
-        .parameters-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        .parameter-column {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
         @media (max-width: 900px) {
             .text-areas-container {
                 grid-template-columns: 1fr;
