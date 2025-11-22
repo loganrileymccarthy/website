@@ -42,7 +42,7 @@
         .lower-column {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             gap: 8px;
             margin-top: 10px;
             margin-bottom: 10px;
@@ -167,11 +167,11 @@
             <div class="lower-column">
                 <Label>Recap</Label>
                 <div class="stats" id="stats"></div>
-                <button class="button-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
             </div>
         </div>
         
         <button onclick="processText()">Replace Numbers</button>
+        <button class="button-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
         
         </main>
         <my-footer></my-footer>
@@ -292,7 +292,7 @@
             document.getElementById('outputText').value = finalResult;
             
             // Build stats display
-            let statsHTML = `<strong>Replacements made:</strong> ${totalReplacements}<br>`;
+            let statsHTML = `<strong>Replacements:</strong> ${totalReplacements}<br>`;
             
             if (totalReplacements > 0) {
                 statsHTML += '<strong>Breakdown:</strong><br>';
