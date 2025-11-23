@@ -10,12 +10,14 @@
             min-height: 400px;
         }
         .upper-container {
+            height: 40%;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
         .lower-container {
+            height: 40%;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -31,6 +33,7 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
+            gap: 10px;
         }
         .form-column {
             display: flex;
@@ -90,6 +93,7 @@
                 <div class="page-section">
                     <div class="form-group">
                         <div class="form-column">
+                            <Label>Old Zone</Label>
                             <div class="form-element">
                                 <input type="number" id="findZone1" min="54" max="59"/>
                             </div>
@@ -107,6 +111,7 @@
                             </div>
                         </div>
                         <div class="form-column">
+                            <Label>New Zone</Label>
                             <div class="form-element">
                                 <input type="number" id="replaceZone1" min="54" max="59"/>
                             </div>
@@ -126,6 +131,7 @@
                     </div>
                     <div class="form-group">
                         <div class="form-column">
+                            <Label>Old Tool</Label>
                             <div class="form-element">
                                 <input type="number" id="findTool1" min="0" max="99"/>
                             </div>
@@ -143,6 +149,7 @@
                             </div>
                         </div>
                         <div class="form-column">
+                            <Label>New Tool</Label>
                             <div class="form-element">
                                 <input type="number" id="replaceTool1" min="0" max="99"/>
                             </div>
