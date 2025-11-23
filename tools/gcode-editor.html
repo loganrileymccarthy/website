@@ -15,30 +15,30 @@
             gap: 10px;
             margin-bottom: 10px;
         }
-        .upper-column {
-            display: flex;
-            flex-direction: column;
-        }
         .lower-container {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
-        .lower-section {
+        .page-section {
             border: 2px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .form-group {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 20px;
         }
-        .lower-column {
+        .form-column {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            gap: 8px;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            justify-content: center;
+        }
+        .form-element {
+
         }
         input::-webkit-inner-spin-button {
             -webkit-appearance: none; /*Hide arrows on number inputs */
@@ -61,8 +61,7 @@
             flex-direction: column;
             gap: 5px;
         }
-        .form-group {
-        }
+        
         @media (max-width: 900px) {
             .text-areas-container {
                 grid-template-columns: 1fr;
@@ -75,107 +74,115 @@
     <div class="wrapper-main">
         <my-header></my-header>
         <main>
-        <h1>
-            <br>
-            G-code Editor
-            <br>
-        </h1>
+            <h1>
+                <br>
+                G-code Editor
+                <br>
+            </h1>
         
-        <div class="upper-container">
-            <div class="upper-column">
-                <div class="form-group">
+            <div class="upper-container">
+                
+                <div class="page-section">
                     <label for="textInput">Input Text</label>
                     <textarea id="textInput" placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."></textarea>
                 </div>
-            </div>
-            
-            <div class="upper-column">
-                <div class="form-group">
-                    <label for="outputText">Output Text</label>
-                    <textarea id="outputText" readonly"></textarea>
+                
+                <div class="page-section">
+                    <div class="form-group">
+                        <div class="form-column">
+                            <div class="form-element">
+                                <input type="number" id="findZone1" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findZone2" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findZone3" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findZone4" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findZone5" min="54" max="59"/>
+                            </div>
+                        </div>
+                        <div class="form-column">
+                            <div class="form-element">
+                                <input type="number" id="replaceZone1" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceZone2" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceZone3" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceZone4" min="54" max="59"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceZone5" min="54" max="59"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-column">
+                            <div class="form-element">
+                                <input type="number" id="findTool1" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findTool2" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findTool3" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findTool4" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="findTool5" min="0" max="99"/>
+                            </div>
+                        </div>
+                        <div class="form-column">
+                            <div class="form-element">
+                                <input type="number" id="replaceTool1" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceTool2" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceTool3" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceTool4" min="0" max="99"/>
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="replaceTool5" min="0" max="99"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="processText()">Replace Numbers</button>
                 </div>
-            </div>
-        </div>
-        
-        <div class="lower-container">
-            <div class="lower-section">
-            <div class="lower-column">
-                <Label>Old Zone</Label>
-                <div class="form-group">
-                    <input type="number" id="findZone1" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findZone2" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findZone3" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findZone4" min="0" max="99">
-                </div>
-            </div>
-            <div class="lower-column">
-                <Label>New Zone</Label>
-                <div class="form-group">
-                    <input type="number" id="replaceZone1" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceZone2" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceZone3" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceZone4" min="0" max="99">
-                </div>
-            </div>
+
             </div>
 
-            <div class="lower-section">
-            <div class="lower-column">
-                <Label>Old Tool</Label>
-                <div class="form-group">
-                    <input type="number" id="findTool1" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findTool2" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findTool3" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="findTool4" min="0" max="99">
-                </div>
-            </div>
-            <div class="lower-column">
-                <Label>New Tool</Label>
-                <div class="form-group">
-                    <input type="number" id="replaceTool1" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceTool2" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceTool3" min="0" max="99">
-                </div>
-                <div class="form-group">
-                    <input type="number" id="replaceTool4" min="0" max="99">
-                </div>
-            </div>
-            </div>
+            <div class="lower-container">
             
-            <div class="lower-section">
-            <div class="lower-column">
-                <Label>Recap</Label>
-                <div class="stats" id="stats"></div>
+                <div class="page-section">
+                    <label for="outputText">Output Text</label>
+                    <textarea id="outputText" readonly></textarea>
+                </div>
+
+                <div class="page-section">
+                    <Label>Recap</Label>
+                    <div class="stats" id="stats"></div>
+                </div>
+
             </div>
-            </div>
-        </div>
+
             
-        <div class="button-panel">
-            <button onclick="processText()">Replace Numbers</button>
-            <button onclick="copyToClipboard()">Copy to Clipboard</button>
-        </div>
+            <div class="button-panel">
+                <button onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
             
         </main>
         <my-footer></my-footer>
