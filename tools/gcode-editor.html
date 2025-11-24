@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,10 @@
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         input::-webkit-inner-spin-button {
-            -webkit-appearance: none; /*Hide arrows on number inputs */
+            -webkit-appearance: none;
+            /*Hide arrows on number inputs */
         }
+
         .upper-container {
             height: 30%;
             display: grid;
@@ -16,6 +19,7 @@
             gap: 10px;
             margin-bottom: 10px;
         }
+
         .lower-container {
             height: 30%;
             display: grid;
@@ -23,6 +27,7 @@
             gap: 10px;
             margin-bottom: 10px;
         }
+
         .page-section {
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -31,19 +36,22 @@
             justify-content: flex-start;
             gap: 10px;
         }
+
         .form-group {
             display: flex;
             flex-direction: row;
             justify-content: center;
             gap: 25px;
         }
+
         .form-column {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        .form-element {
-        }
+
+        .form-element {}
+
         .stats {
             padding: 10px;
             border-radius: 4px;
@@ -53,22 +61,57 @@
             text-align: left;
             color: white;
         }
+
         .stats strong {
             color: #666;
         }
+
         .button-panel {
             width: auto;
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
+
         @media (max-width: 900px) {
             .text-areas-container {
                 grid-template-columns: 1fr;
             }
         }
+
+        .analysis-container {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        #analysisTable {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: white;
+        }
+
+        #analysisTable th,
+        #analysisTable td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #analysisTable th {
+            background-color: #333;
+            position: sticky;
+            top: 0;
+        }
+
+        #analysisTable tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
     </style>
 </head>
+
 <body>
     <script type=module src=../main.js></script>
     <div class="wrapper-main">
@@ -79,50 +122,51 @@
                 G-code Editor
                 <br>
             </h1>
-        
+
             <div class="upper-container">
-                
+
                 <div class="page-section">
                     <label for="textInput">Input Text</label>
-                    <textarea id="textInput" placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."></textarea>
+                    <textarea id="textInput"
+                        placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."></textarea>
                 </div>
-                
+
                 <div class="page-section">
                     <div class="form-group">
                         <div class="form-column">
                             <Label>Old Zone</Label>
                             <div class="form-element">
-                                <input type="number" id="findZone1" size="2" min="54" max="59"/>
+                                <input type="number" id="findZone1" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findZone2" size="2" min="54" max="59"/>
+                                <input type="number" id="findZone2" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findZone3" size="2" min="54" max="59"/>
+                                <input type="number" id="findZone3" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findZone4" size="2" min="54" max="59"/>
+                                <input type="number" id="findZone4" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findZone5" size="2" min="54" max="59"/>
+                                <input type="number" id="findZone5" size="2" min="54" max="59" />
                             </div>
                         </div>
                         <div class="form-column">
                             <Label>New Zone</Label>
                             <div class="form-element">
-                                <input type="number" id="replaceZone1" size="2" min="54" max="59"/>
+                                <input type="number" id="replaceZone1" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceZone2" size="2" min="54" max="59"/>
+                                <input type="number" id="replaceZone2" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceZone3" size="2" min="54" max="59"/>
+                                <input type="number" id="replaceZone3" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceZone4" size="2" min="54" max="59"/>
+                                <input type="number" id="replaceZone4" size="2" min="54" max="59" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceZone5" size="2" min="54" max="59"/>
+                                <input type="number" id="replaceZone5" size="2" min="54" max="59" />
                             </div>
                         </div>
                     </div>
@@ -130,37 +174,37 @@
                         <div class="form-column">
                             <Label>Old Tool</Label>
                             <div class="form-element">
-                                <input type="number" id="findTool1" size="2" min="0" max="99"/>
+                                <input type="number" id="findTool1" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findTool2" size="2" min="0" max="99"/>
+                                <input type="number" id="findTool2" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findTool3" size="2" min="0" max="99"/>
+                                <input type="number" id="findTool3" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findTool4" size="2" min="0" max="99"/>
+                                <input type="number" id="findTool4" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="findTool5" size="2" min="0" max="99"/>
+                                <input type="number" id="findTool5" size="2" min="0" max="99" />
                             </div>
                         </div>
                         <div class="form-column">
                             <Label>New Tool</Label>
                             <div class="form-element">
-                                <input type="number" id="replaceTool1" size="2" min="0" max="99"/>
+                                <input type="number" id="replaceTool1" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceTool2" size="2" min="0" max="99"/>
+                                <input type="number" id="replaceTool2" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceTool3" size="2" min="0" max="99"/>
+                                <input type="number" id="replaceTool3" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceTool4" size="2" min="0" max="99"/>
+                                <input type="number" id="replaceTool4" size="2" min="0" max="99" />
                             </div>
                             <div class="form-element">
-                                <input type="number" id="replaceTool5" size="2" min="0" max="99"/>
+                                <input type="number" id="replaceTool5" size="2" min="0" max="99" />
                             </div>
                         </div>
                     </div>
@@ -170,10 +214,24 @@
             </div>
 
             <div class="lower-container">
-            
-                <div class="page-section">
-                    <label for="outputText">Output Text</label>
-                    <textarea id="outputText" readonly></textarea>
+
+                <div class="page-section" style="flex: 1;">
+                    <Label>Operations</Label>
+                    <div class="analysis-container">
+                        <table id="analysisTable">
+                            <thead>
+                                <tr>
+                                    <th>N#</th>
+                                    <th>Comments</th>
+                                    <th>M0</th>
+                                    <th>M1</th>
+                                    <th>M8</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="page-section">
@@ -183,37 +241,120 @@
 
             </div>
 
-            
+
             <div class="button-panel">
                 <button onclick="copyToClipboard()">Copy to Clipboard</button>
             </div>
-            
+
         </main>
         <my-footer></my-footer>
     </div>
-    
+
     <script>
         // Prevent scroll wheel from changing number input values
-        document.addEventListener('wheel', function(e) {
+        document.addEventListener('wheel', function (e) {
             if (document.activeElement.type === 'number') {
                 document.activeElement.blur();
             }
         });
-        
+
+        // Add event listener for real-time analysis
+        document.getElementById('textInput').addEventListener('input', analyzeText);
+
+        function analyzeText() {
+            const text = document.getElementById('textInput').value;
+            const tableBody = document.querySelector('#analysisTable tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            if (!text) return;
+
+            // Find all N numbers and their positions
+            const nRegex = /N(\d+)/g;
+            let match;
+            const nMatches = [];
+
+            while ((match = nRegex.exec(text)) !== null) {
+                nMatches.push({
+                    fullMatch: match[0],
+                    number: match[1],
+                    index: match.index,
+                    endIndex: match.index + match[0].length
+                });
+            }
+
+            if (nMatches.length === 0) return;
+
+            // Process each N block
+            for (let i = 0; i < nMatches.length; i++) {
+                const currentN = nMatches[i];
+                const nextN = nMatches[i + 1];
+
+                // Define the block range: from current N start to next N start (or end of text)
+                const blockStart = currentN.index;
+                const blockEnd = nextN ? nextN.index : text.length;
+                const blockText = text.substring(blockStart, blockEnd);
+
+                // 1. Find comments on the SAME LINE as the N number
+                // We need to find the end of the line where N is found
+                const textAfterN = text.substring(currentN.endIndex);
+                const lineEndIndex = textAfterN.indexOf('\n');
+                const lineContent = text.substring(currentN.index, lineEndIndex === -1 ? undefined : currentN.endIndex + lineEndIndex);
+
+                const commentRegex = /\((.*?)\)/g;
+                let commentMatch;
+                const comments = [];
+                while ((commentMatch = commentRegex.exec(lineContent)) !== null) {
+                    comments.push(commentMatch[0]); // Push the full comment including parens
+                }
+
+                // 2. Check for M codes in the block
+                // We should strip comments from blockText before checking for M8.
+                let blockTextCleaned = blockText.replace(/\([^)]*\)/g, '');
+
+                const hasM0 = /M0?0\b/.test(blockTextCleaned);
+                const hasM1 = /M0?1\b/.test(blockTextCleaned);
+                const hasM8 = /M0?8\b/.test(blockTextCleaned);
+
+                // Create table row
+                const row = document.createElement('tr');
+
+                const cellN = document.createElement('td');
+                cellN.textContent = currentN.fullMatch;
+                row.appendChild(cellN);
+
+                const cellComments = document.createElement('td');
+                cellComments.textContent = comments.join(' ');
+                row.appendChild(cellComments);
+
+                const createStatusCell = (hasCode) => {
+                    const cell = document.createElement('td');
+                    cell.textContent = hasCode ? 'Yes' : 'No';
+                    cell.style.color = hasCode ? '#4caf50' : '#f44336';
+                    return cell;
+                };
+
+                row.appendChild(createStatusCell(hasM0));
+                row.appendChild(createStatusCell(hasM1));
+                row.appendChild(createStatusCell(hasM8));
+
+                tableBody.appendChild(row);
+            }
+        }
+
         function processText() {
             const text = document.getElementById('textInput').value;
-            
+
             if (!text) {
                 alert('Please enter some text to process.');
                 return;
             }
-            
+
             // Collect all replacement pairs
             const zonePairs = [];
             for (let i = 1; i <= 4; i++) {
                 const findNum = document.getElementById(`findZone${i}`).value;
                 const replaceNum = document.getElementById(`replaceZone${i}`).value;
-                
+
                 if (findNum !== '' && replaceNum !== '') {
                     zonePairs.push({ find: findNum, replace: replaceNum });
                 }
@@ -222,7 +363,7 @@
             for (let i = 1; i <= 4; i++) {
                 const findNum = document.getElementById(`findTool${i}`).value;
                 const replaceNum = document.getElementById(`replaceTool${i}`).value;
-                
+
                 if (findNum !== '' && replaceNum !== '') {
                     toolPairs.push({ find: findNum, replace: replaceNum });
                 }
@@ -232,10 +373,10 @@
                 alert('Please enter at least one find/replace pair.');
                 return;
             }
-            
+
             let totalReplacements = 0;
             const allReplacements = {};
-            
+
             // Remove comments (text within parentheses) temporarily
             const commentPattern = /\([^)]*\)/g;
             const comments = [];
@@ -243,18 +384,18 @@
                 comments.push(match);
                 return `__COMMENT_${comments.length - 1}__`;
             });
-            
+
             let result = textWithoutComments;
-            
+
             // Process each replacement pair
             zonePairs.forEach(pair => {
                 const findNum = pair.find;
                 const replaceNum = pair.replace;
                 const replacements = { G: 0 };
-                
+
                 // Create pattern to match G followed by the target number (with optional leading zeros) and a space/newline or end of string
                 const pattern = /([G])0*(\d{1,2})(\s|$)/g;
-                
+
                 result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
                     // Compare the numeric values
                     if (parseInt(capturedNum, 10) === parseInt(findNum, 10)) {
@@ -265,7 +406,7 @@
                     }
                     return match;
                 });
-                
+
                 // Store replacements for this pair
                 if (totalReplacements > 0) {
                     allReplacements[`${findNum}→${replaceNum}`] = replacements;
@@ -275,10 +416,10 @@
                 const findNum = pair.find;
                 const replaceNum = pair.replace;
                 const replacements = { T: 0, N: 0, H: 0, D: 0 };
-                
+
                 // Create pattern to match T, N, H, or D followed by the target number (with optional leading zeros) and a space/newline or end of string
                 const pattern = /([TNHD])0*(\d{1,2})(\s|$)/g;
-                
+
                 result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
                     // Compare the numeric values
                     if (parseInt(capturedNum, 10) === parseInt(findNum, 10)) {
@@ -290,25 +431,26 @@
                     }
                     return match;
                 });
-                
+
                 // Store replacements for this pair
                 if (totalReplacements > 0) {
                     allReplacements[`${findNum}→${replaceNum}`] = replacements;
                 }
             });
-            
+
             // Restore comments
             let finalResult = result;
             comments.forEach((comment, index) => {
                 finalResult = finalResult.replace(`__COMMENT_${index}__`, comment);
             });
-            
+
             // Display results
-            document.getElementById('outputText').value = finalResult;
-            
+            // Display results
+            document.getElementById('textInput').value = finalResult;
+
             // Build stats display
             let statsHTML = `<strong>Replacements:</strong> ${totalReplacements}<br>`;
-            
+
             if (totalReplacements > 0) {
                 statsHTML += '<strong>Breakdown:</strong><br>';
                 for (const [pair, replacements] of Object.entries(allReplacements)) {
@@ -321,16 +463,16 @@
                     }
                 }
             }
-            
+
             document.getElementById('stats').innerHTML = statsHTML;
             document.getElementById('output').classList.add('show');
         }
-        
+
         function copyToClipboard() {
-            const outputText = document.getElementById('outputText');
+            const outputText = document.getElementById('textInput');
             outputText.select();
             document.execCommand('copy');
-            
+
             const btn = event.target;
             const originalText = btn.textContent;
             btn.textContent = 'Copied!';
@@ -340,4 +482,5 @@
         }
     </script>
 </body>
+
 </html>
