@@ -221,8 +221,8 @@
                                     <th>M0</th>
                                     <th>M1</th>
                                     <th>M8</th>
-                                    <th>H Err</th>
-                                    <th>D Err</th>
+                                    <th>H</th>
+                                    <th>D</th>
                                     <th>Min Z</th>
                                 </tr>
                             </thead>
@@ -424,7 +424,7 @@
                 if (!hasH) {
                     cellHErr.textContent = '-';
                 } else {
-                    cellHErr.textContent = hError ? 'Yes' : 'No';
+                    cellHErr.textContent = hError ? 'Bad' : 'Good';
                     cellHErr.style.color = hError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
                 }
                 row.appendChild(cellHErr);
@@ -434,7 +434,7 @@
                 if (!hasD) {
                     cellDErr.textContent = '-';
                 } else {
-                    cellDErr.textContent = dError ? 'Yes' : 'No';
+                    cellDErr.textContent = dError ? 'Bad' : 'Good';
                     cellDErr.style.color = dError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
                 }
                 row.appendChild(cellDErr);
