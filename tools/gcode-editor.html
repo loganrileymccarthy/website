@@ -50,8 +50,6 @@
             justify-content: center;
         }
 
-        .form-element {}
-
         .stats {
             padding: 10px;
             border-radius: 4px;
@@ -222,6 +220,8 @@
                                     <th>M0</th>
                                     <th>M1</th>
                                     <th>M8</th>
+                                    <th>H Err</th>
+                                    <th>D Err</th>
                                     <th>Min Z</th>
                                 </tr>
                             </thead>
@@ -361,6 +361,41 @@
                     }
                 }
 
+                // 4. Check for T, H, D mismatches
+                // Extract all T numbers in the block
+                const tRegex = /T\s*(\d+)/gi;
+                const tNumbers = new Set();
+                let tMatch;
+                while ((tMatch = tRegex.exec(blockTextCleaned)) !== null) {
+                    tNumbers.add(parseInt(tMatch[1], 10));
+                }
+
+                // Check H codes
+                const hRegex = /H\s*(\d+)/gi;
+                let hMatch;
+                let hError = false; // True if mismatch found
+                let hasH = false;
+                while ((hMatch = hRegex.exec(blockTextCleaned)) !== null) {
+                    hasH = true;
+                    const hVal = parseInt(hMatch[1], 10);
+                    if (!tNumbers.has(hVal)) {
+                        hError = true;
+                    }
+                }
+
+                // Check D codes
+                const dRegex = /D\s*(\d+)/gi;
+                let dMatch;
+                let dError = false; // True if mismatch found
+                let hasD = false;
+                while ((dMatch = dRegex.exec(blockTextCleaned)) !== null) {
+                    hasD = true;
+                    const dVal = parseInt(dMatch[1], 10);
+                    if (!tNumbers.has(dVal)) {
+                        dError = true;
+                    }
+                }
+
                 // Create table row
                 const row = document.createElement('tr');
 
@@ -382,6 +417,26 @@
                 row.appendChild(createStatusCell(hasM0));
                 row.appendChild(createStatusCell(hasM1));
                 row.appendChild(createStatusCell(hasM8));
+
+                // H Err Cell
+                const cellHErr = document.createElement('td');
+                if (!hasH) {
+                    cellHErr.textContent = '-';
+                } else {
+                    cellHErr.textContent = hError ? 'Yes' : 'No';
+                    cellHErr.style.color = hError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
+                }
+                row.appendChild(cellHErr);
+
+                // D Err Cell
+                const cellDErr = document.createElement('td');
+                if (!hasD) {
+                    cellDErr.textContent = '-';
+                } else {
+                    cellDErr.textContent = dError ? 'Yes' : 'No';
+                    cellDErr.style.color = dError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
+                }
+                row.appendChild(cellDErr);
 
                 const cellMinZ = document.createElement('td');
                 cellMinZ.textContent = hasZ ? minZ : '-';
