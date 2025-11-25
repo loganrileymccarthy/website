@@ -29,7 +29,7 @@
         }
 
         .page-section {
-            border: 1px solid #ddd;
+            border: 1px solid #444;
             border-radius: 4px;
             display: flex;
             flex-direction: column;
@@ -82,32 +82,26 @@
         .analysis-container {
             overflow-y: auto;
             flex-grow: 1;
-            padding: 10px;
+            padding: 5px;
         }
 
-        #analysisTable {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: white;
+        .work-zones-container {
+            margin-bottom: 10px;
+
         }
 
-        #analysisTable th,
-        #analysisTable td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: left;
-        }
-
-        #analysisTable th {
-            background-color: #333;
-            position: sticky;
-            top: 0;
-        }
-
-        #analysisTable tr:nth-child(even) {
+        .zone-tag {
+            display: inline-block;
             background-color: #2a2a2a;
+            color: white;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 5px;
+            padding-bottom: 2px;
+            margin: 2px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'Courier New', monospace;
         }
     </style>
 </head>
@@ -216,6 +210,8 @@
             <div class="lower-container">
 
                 <div class="page-section" style="flex: 1;">
+                    <Label>Work Zones</Label>
+                    <div id="workZones" class="work-zones-container">None</div>
                     <Label>Operations</Label>
                     <div class="analysis-container">
                         <table id="analysisTable">
@@ -226,6 +222,7 @@
                                     <th>M0</th>
                                     <th>M1</th>
                                     <th>M8</th>
+                                    <th>Min Z</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -268,6 +265,39 @@
 
             if (!text) return;
 
+            // --- Work Zones Analysis ---
+            const workZonesContainer = document.getElementById('workZones');
+            // Remove comments for analysis
+            const textNoComments = text.replace(/\([^)]*\)/g, '');
+
+            const zoneCounts = {};
+            // Match G54-G59
+            const standardZones = textNoComments.match(/G5[4-9]\b/g) || [];
+            standardZones.forEach(zone => {
+                zoneCounts[zone] = (zoneCounts[zone] || 0) + 1;
+            });
+
+            // Match G154 P1-9 (with optional leading zero for P)
+            // User requested "G154 P1"-"G154 P9".
+            // Regex matches G154 followed by whitespace, then P, then optional 0, then 1-9.
+            const extendedZonesRegex = /G154\s+P0?([1-9])\b/gi;
+            let extendedMatch;
+            while ((extendedMatch = extendedZonesRegex.exec(textNoComments)) !== null) {
+                const zoneNum = extendedMatch[1];
+                const zoneLabel = `G154 P${zoneNum}`;
+                zoneCounts[zoneLabel] = (zoneCounts[zoneLabel] || 0) + 1;
+            }
+
+            if (Object.keys(zoneCounts).length > 0) {
+                const sortedZones = Object.keys(zoneCounts).sort();
+                workZonesContainer.innerHTML = sortedZones.map(zone =>
+                    `<span class="zone-tag">${zone}: ${zoneCounts[zone]}</span>`
+                ).join('');
+            } else {
+                workZonesContainer.textContent = 'None';
+            }
+
+            // --- N-Code Analysis ---
             // Find all N numbers and their positions
             const nRegex = /N(\d+)/g;
             let match;
@@ -315,6 +345,22 @@
                 const hasM1 = /M0?1\b/.test(blockTextCleaned);
                 const hasM8 = /M0?8\b/.test(blockTextCleaned);
 
+                // 3. Find lowest Z in the block
+                const zRegex = /Z\s*([-+]?\d*\.?\d+)/gi;
+                let zMatch;
+                let minZ = Infinity;
+                let hasZ = false;
+
+                while ((zMatch = zRegex.exec(blockTextCleaned)) !== null) {
+                    const zVal = parseFloat(zMatch[1]);
+                    if (!isNaN(zVal)) {
+                        if (zVal < minZ) {
+                            minZ = zVal;
+                        }
+                        hasZ = true;
+                    }
+                }
+
                 // Create table row
                 const row = document.createElement('tr');
 
@@ -336,6 +382,10 @@
                 row.appendChild(createStatusCell(hasM0));
                 row.appendChild(createStatusCell(hasM1));
                 row.appendChild(createStatusCell(hasM8));
+
+                const cellMinZ = document.createElement('td');
+                cellMinZ.textContent = hasZ ? minZ : '-';
+                row.appendChild(cellMinZ);
 
                 tableBody.appendChild(row);
             }
@@ -465,7 +515,7 @@
             }
 
             document.getElementById('stats').innerHTML = statsHTML;
-            document.getElementById('output').classList.add('show');
+            /*document.getElementById('output').classList.add('show');*/
         }
 
         function copyToClipboard() {
