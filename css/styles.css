@@ -1,9 +1,13 @@
+/*GLOBAL*/
 * {
   box-sizing: border-box;
 }
+
+/*MAIN SIZING*/
 html {
   height: 100%;
-  }
+}
+
 body {
   min-height: 100%;
   background-color: black;
@@ -14,28 +18,34 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  }
-header { 
+}
+
+header {
   margin: 0;
   padding: 0;
   height: 50px;
-  }
-main { 
+}
+
+main {
   margin: 0;
   padding: 0;
-  height: auto;    
-  }
-footer { 
+  height: auto;
+}
+
+footer {
   margin: 0;
   padding: 0;
-  height: 50px;    
-  }
+  height: 50px;
+}
+
+/*TEXT STYLES*/
 h1 {
   font-family: 'Courier New', monospace;
   font-weight: bold;
   font-size: 24px;
   color: white;
-  }
+}
+
 h2 {
   margin: 0 20px;
   padding: 0;
@@ -43,7 +53,8 @@ h2 {
   font-weight: normal;
   font-size: 10px;
   color: yellow;
-  }
+}
+
 p {
   margin: 0 20px;
   padding: 0;
@@ -51,15 +62,19 @@ p {
   font-weight: normal;
   font-size: 10px;
   color: white;
-  }
+}
+
 a {
   color: yellow;
   text-decoration: none;
-  }
+}
+
 a:hover {
-  text-decoration: red wavy underline; 
-  cursor: pointer;  
-  }
+  text-decoration: red wavy underline;
+  cursor: pointer;
+}
+
+/*FORM STYLES*/
 label {
   display: block;
   margin-bottom: 8px;
@@ -67,12 +82,13 @@ label {
   font-family: 'Courier New', monospace;
   font-weight: 600;
   font-size: 14px;
-  }  
+}
+
 textarea {
   height: 100%;
   width: 100%;
   padding: 10px;
-  border: 2px solid #ddd;
+  border: 1px solid #444;
   border-radius: 4px;
   background-color: #2F2F2F;
   color: white;
@@ -80,27 +96,37 @@ textarea {
   font-size: 14px;
   resize: vertical;
   transition: border-color 0.3s;
-  }  
+}
+
 textarea:focus {
   outline: none;
   border-color: #00FFFF;
-  } 
+}
+
 input[type="number"] {
   width: 100%;
   max-width: 50px;
   padding: 5px;
-  border: 2px solid #ddd;
+  border: 1px solid #444;
   border-radius: 4px;
-  background-color: #2F2F2F;
+  background-color: #2a2a2a;
   color: white;
   font-size: 14px;
   transition: border-color 0.3s;
-  } 
+}
+
 input[type="number"]:focus {
   outline: none;
   border-color: #00FFFF;
   pointer-events: none;
-  }
+}
+
+input[type="checkbox"] {
+  width: 2em;
+  height: 2em;
+  accent-color: yellow;
+}
+
 button {
   background-color: white;
   font-family: 'Courier New', monospace;
@@ -108,91 +134,128 @@ button {
   border-radius: 4px;
   padding: 10px 20px;
   cursor: pointer;
-  }
+}
+
 button:hover {
   background-color: yellow;
   color: black;
   text-decoration: red wavy underline;
-  }
+}
+
 button:active {
   background: yellow;
-  }
+}
+
 .button-secondary {
   background: #666;
-  }
-.button-secondary:hover {
-  }
-table {
-  margin-left:auto;
-  margin-right:auto;
-  width: 98%;
-  border: 1px solid yellow;
-  }
-img {
-  width: 100%;
-  max-width: 600px;    /* Desktop */
-  object-fit: contain; /* Adjust this value to change how images are displayed within their containers */
-  border-radius: 10px; /* Corners */
-  margin-bottom: 20px; /* Space between */
-  transition: box-shadow 0.3s ease-in-out;
-  &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-  }
+}
+
+.button-secondary:hover {}
+
 ::placeholder {
   color: LightGrey;
 }
 
-
-.wrapper-main {
-  max-width: 1000px; /* Set your desired maximum width */
+/*TABLE STYLES*/
+table {
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
-  }
-.homeButton {
+  width: 100%;
+  border: 1px solid #444;
+  border-radius: 4px;
+  border-collapse: collapse;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
   color: white;
-  }
-.homeButton:hover {
-  text-decoration: none;
-  }
- .image-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  }
+}
 
+table th,
+table td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #2a2a2a;
+  position: sticky;
+  top: 0;
+}
+
+table tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+/*IMAGE STYLES*/
+img {
+  width: 100%;
+  max-width: 600px;
+  /* Desktop */
+  object-fit: contain;
+  /* Adjust this value to change how images are displayed within their containers */
+  border-radius: 10px;
+  /* Corners */
+  margin-bottom: 20px;
+  /* Space between */
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
 
 iframe {
   display: block;
   max-width: 80%;
   width: auto;
   height: auto;
-  }
+}
+
+/*CUSTOM CLASSES*/
+.wrapper-main {
+  max-width: 1000px;
+  /* Sets max-width of page based on current structure */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.homeButton {
+  color: white;
+}
+
+.homeButton:hover {
+  text-decoration: none;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .numberGroup {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  }
+}
+
 .number {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  }
+}
+
 .rollButton {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: 'Courier New', monospace;
-  }
+}
+
 .diceNumber {
   font-size: 20px;
-  }
-input[type="checkbox"] {
-  width: 2em;
-  height: 2em;
-  accent-color: yellow;
-  }
+}
