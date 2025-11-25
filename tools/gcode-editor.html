@@ -50,7 +50,17 @@
             flex-direction: column;
             justify-content: center;
         }
-
+        
+        .work-zones-container {
+            margin-bottom: 10px;
+        }
+        
+        .analysis-container {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 5px;
+        }
+        
         .stats {
             padding: 10px;
             border-radius: 4px;
@@ -71,24 +81,7 @@
             flex-direction: column;
             gap: 5px;
         }
-
-        @media (max-width: 900px) {
-            .text-areas-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .analysis-container {
-            overflow-y: auto;
-            flex-grow: 1;
-            padding: 5px;
-        }
-
-        .work-zones-container {
-            margin-bottom: 10px;
-
-        }
-
+        
         .zone-tag {
             display: inline-block;
             background-color: #2a2a2a;
