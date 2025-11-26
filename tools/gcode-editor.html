@@ -50,11 +50,11 @@
             flex-direction: column;
             justify-content: center;
         }
-        
+
         .work-zones-container {
             margin-bottom: 10px;
         }
-        
+
         .zone-tag {
             display: inline-block;
             background-color: #2a2a2a;
@@ -68,13 +68,13 @@
             font-size: 12px;
             font-family: 'Courier New', monospace;
         }
-        
+
         .analysis-container {
             overflow-y: auto;
             flex-grow: 1;
             padding: 5px;
         }
-        
+
         .stats {
             padding: 10px;
             border-radius: 4px;
@@ -95,8 +95,6 @@
             flex-direction: column;
             gap: 5px;
         }
-        
-        
     </style>
 </head>
 
@@ -115,11 +113,9 @@
 
                 <div class="page-section">
                     <label for="textInput">Input Text</label>
-                    <textarea 
-                        id="textInput"
+                    <textarea id="textInput"
                         placeholder="Replace T, N, H, and D numbers in your text. Comments in parentheses () will be ignored. Leading zeroes are handled (e.g., T1 and T01 are treated the same)."
-                        style="resize: none;"
-                    ></textarea>
+                        style="resize: none;"></textarea>
                 </div>
 
                 <div class="page-section">
@@ -201,7 +197,7 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="processText()">Replace Numbers</button>
+                    <button onclick="replaceNumbers()">Replace Numbers</button>
                 </div>
 
             </div>
@@ -408,16 +404,28 @@
                 cellComments.textContent = comments.join(' ');
                 row.appendChild(cellComments);
 
-                const createStatusCell = (hasCode) => {
+                const createStatusCellWithButton = (hasCode, codeName) => {
                     const cell = document.createElement('td');
-                    cell.textContent = hasCode ? 'Yes' : 'No';
-                    cell.style.color = hasCode ? '#4caf50' : '#f44336';
+                    if (hasCode) {
+                        cell.textContent = 'Yes';
+                        cell.style.color = '#4caf50';
+                    } else {
+                        cell.textContent = 'No ';
+                        cell.style.color = '#f44336';
+                        const btn = document.createElement('button');
+                        btn.textContent = `Add`;
+                        btn.style.fontSize = '10px';
+                        btn.style.padding = '5px';
+                        btn.style.marginLeft = '5px';
+                        btn.onclick = () => addCode(currentN.index, nextN ? nextN.index : text.length, codeName);
+                        cell.appendChild(btn);
+                    }
                     return cell;
                 };
 
-                row.appendChild(createStatusCell(hasM0));
-                row.appendChild(createStatusCell(hasM1));
-                row.appendChild(createStatusCell(hasM8));
+                row.appendChild(createStatusCellWithButton(hasM0, 'M00'));
+                row.appendChild(createStatusCellWithButton(hasM1, 'M01'));
+                row.appendChild(createStatusCellWithButton(hasM8, 'M08'));
 
                 // H Err Cell
                 const cellHErr = document.createElement('td');
@@ -447,7 +455,38 @@
             }
         }
 
-        function processText() {
+        function addCode(start, end, codeToInsert) {
+            const textArea = document.getElementById('textInput');
+            const fullText = textArea.value;
+            const blockText = fullText.substring(start, end);
+
+            // Find M6 or M06
+            const m6Regex = /M0?6\b/g;
+            const match = m6Regex.exec(blockText);
+
+            if (!match) {
+                alert(`No tool change (M6) found in this block. Cannot automatically add ${codeToInsert}.`);
+                return;
+            }
+
+            // Find the end of the line where M6 is located
+            // match.index is relative to blockText
+            const m6IndexInBlock = match.index;
+            const textAfterM6 = blockText.substring(m6IndexInBlock);
+            const lineEndIndex = textAfterM6.indexOf('\n');
+
+            // Calculate insertion point relative to fullText
+            // If no newline found (end of block), append to end of block
+            const insertionOffsetInBlock = (lineEndIndex === -1) ? blockText.length : (m6IndexInBlock + lineEndIndex);
+            const insertionPoint = start + insertionOffsetInBlock;
+
+            const newText = fullText.substring(0, insertionPoint) + `\n${codeToInsert}` + fullText.substring(insertionPoint);
+
+            textArea.value = newText;
+            analyzeText(); // Refresh analysis
+        }
+
+        function replaceNumbers() {
             const text = document.getElementById('textInput').value;
 
             if (!text) {
@@ -572,6 +611,7 @@
 
             document.getElementById('stats').innerHTML = statsHTML;
             /*document.getElementById('output').classList.add('show');*/
+            analyzeText();
         }
 
         function copyToClipboard() {
