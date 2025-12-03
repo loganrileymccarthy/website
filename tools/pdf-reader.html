@@ -59,6 +59,31 @@
             color: #4caf50;
             margin-bottom: 5px;
         }
+
+        .tap-list {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .tap-list h4 {
+            margin: 0 0 5px 0;
+            color: #4caf50;
+            font-size: 0.9em;
+        }
+
+        .tap-list ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+            columns: 2;
+        }
+
+        .tap-list li {
+            font-size: 0.9em;
+            color: #aaa;
+        }
     </style>
 </head>
 
@@ -162,6 +187,18 @@
         }
         document.getElementById('nextPage').addEventListener('click', onNextPage);
 
+        function findTapSizes(text) {
+            // Regex for:
+            // Metric: M followed by digits, optional decimal (e.g., M3, M3.0, M12)
+            // Unified Numbered: 1-2 digits, hyphen, 2-3 digits (e.g., 0-80, 4-40)
+            // Unified Fractional: 1-2 digits, slash, 1-2 digits, hyphen, 2-3 digits (e.g., 1/4-20)
+            const regex = /(?:\bM\d+(?:\.\d+)?|\b\d{1,2}-\d{2,3}\b|\b\d{1,2}\/\d{1,2}-\d{2,3}\b)/gi;
+            const matches = text.match(regex);
+            if (!matches) return [];
+            // Return unique matches
+            return [...new Set(matches)];
+        }
+
         // Extract text from all pages
         async function extractText() {
             const textOutput = document.getElementById('text-output');
@@ -183,6 +220,26 @@
                 const content = document.createElement('p');
                 content.textContent = textItems;
                 pageTextDiv.appendChild(content);
+
+                // Find and display tap sizes
+                const tapSizes = findTapSizes(textItems);
+                if (tapSizes.length > 0) {
+                    const tapListDiv = document.createElement('div');
+                    tapListDiv.className = 'tap-list';
+
+                    const tapHeader = document.createElement('h4');
+                    tapHeader.textContent = 'Found Tap Sizes:';
+                    tapListDiv.appendChild(tapHeader);
+
+                    const ul = document.createElement('ul');
+                    tapSizes.forEach(size => {
+                        const li = document.createElement('li');
+                        li.textContent = size;
+                        ul.appendChild(li);
+                    });
+                    tapListDiv.appendChild(ul);
+                    pageTextDiv.appendChild(tapListDiv);
+                }
 
                 textOutput.appendChild(pageTextDiv);
             }
