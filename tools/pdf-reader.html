@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x2694LRM&#x2694</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <style>
+        .pdf-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 80vh;
+        }
+
+        .viewer-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #444;
+            padding: 10px;
+            overflow: auto;
+        }
+
+        .text-section {
+            border: 1px solid #444;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #2a2a2a;
+            color: #ddd;
+            font-family: 'Courier New', monospace;
+        }
+
+        canvas {
+            border: 1px solid #000;
+            max-width: 100%;
+        }
+
+        .controls {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .page-text {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #555;
+            padding-bottom: 10px;
+        }
+
+        .page-header {
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type=module src=../main.js></script>
+    <div class="wrapper-main">
+        <my-header></my-header>
+        <main>
+            <h1>
+                <br>
+                PDF Reader
+                <br>
+            </h1>
+
+            <div class="controls">
+                <input type="file" id="fileInput" accept=".pdf" />
+                <button id="prevPage">Previous</button>
+                <span id="pageInfo">Page <span id="pageNum">--</span> of <span id="pageCount">--</span></span>
+                <button id="nextPage">Next</button>
+            </div>
+
+            <div class="pdf-container">
+                <div class="viewer-section">
+                    <canvas id="pdf-render"></canvas>
+                </div>
+                <div class="text-section" id="text-output">
+                    <p>Upload a PDF to see extracted text here.</p>
+                </div>
+            </div>
+
+        </main>
+        <my-footer></my-footer>
+    </div>
+
+    <script>
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        const scale = 1.5;
+        const canvas = document.getElementById('pdf-render');
+        const ctx = canvas.getContext('2d');
+
+        // Render the page
+        function renderPage(num) {
+            pageRendering = true;
+
+            // Fetch page
+            pdfDoc.getPage(num).then(function (page) {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Render PDF page into canvas context
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                const renderTask = page.render(renderContext);
+
+                // Wait for render to finish
+                renderTask.promise.then(function () {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Update page counters
+            document.getElementById('pageNum').textContent = num;
+        }
+
+        // Queue rendering of the next page
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        // Previous page
+        function onPrevPage() {
+            if (pageNum <= 1) {
+                return;
+            }
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('prevPage').addEventListener('click', onPrevPage);
+
+        // Next page
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) {
+                return;
+            }
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+        document.getElementById('nextPage').addEventListener('click', onNextPage);
+
+        // Extract text from all pages
+        async function extractText() {
+            const textOutput = document.getElementById('text-output');
+            textOutput.innerHTML = ''; // Clear previous text
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const textContent = await page.getTextContent();
+
+                const pageTextDiv = document.createElement('div');
+                pageTextDiv.className = 'page-text';
+
+                const header = document.createElement('div');
+                header.className = 'page-header';
+                header.textContent = `Page ${i}`;
+                pageTextDiv.appendChild(header);
+
+                const textItems = textContent.items.map(item => item.str).join(' ');
+                const content = document.createElement('p');
+                content.textContent = textItems;
+                pageTextDiv.appendChild(content);
+
+                textOutput.appendChild(pageTextDiv);
+            }
+        }
+
+        // Handle file upload
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file.type !== 'application/pdf') {
+                alert('Please upload a PDF file.');
+                return;
+            }
+
+            const fileReader = new FileReader();
+            fileReader.onload = function () {
+                const typedarray = new Uint8Array(this.result);
+
+                pdfjsLib.getDocument(typedarray).promise.then(function (pdfDoc_) {
+                    pdfDoc = pdfDoc_;
+                    document.getElementById('pageCount').textContent = pdfDoc.numPages;
+
+                    // Initial/first page rendering
+                    pageNum = 1;
+                    renderPage(pageNum);
+
+                    // Extract text
+                    extractText();
+                });
+            };
+            fileReader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+
+</html>
