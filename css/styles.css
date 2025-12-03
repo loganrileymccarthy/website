@@ -183,7 +183,6 @@ table th {
 }
 
 table tr:nth-child(even) {
-  background-color: #2a2a2a;
 }
 
 /*IMAGE STYLES*/
