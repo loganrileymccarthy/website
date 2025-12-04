@@ -28,7 +28,16 @@
             margin-bottom: 10px;
         }
 
+        .right-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
         .page-section {
+            width: 100%;
             border: 1px solid #444;
             border-radius: 4px;
             display: flex;
@@ -40,7 +49,7 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 50px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
@@ -48,6 +57,17 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            width: 100%;
+        }
+
+        .stats {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-align: center;
+            color: white;
         }
 
         .work-zones-container {
@@ -68,31 +88,14 @@
             font-family: 'Courier New', monospace;
         }
 
-        .analysis-container {
+        .operations-container {
             overflow-y: auto;
             flex-grow: 1;
             padding: 5px;
         }
 
-        .stats {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            text-align: center;
-            color: white;
-        }
-
         .stats strong {
             color: #666;
-        }
-
-        .button-panel {
-            width: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
         }
     </style>
 </head>
@@ -111,60 +114,67 @@
             <div class="upper-container">
 
                 <div class="page-section">
-                    <label for="textInput">Input Text</label>
                     <textarea id="textInput" placeholder="<program text>" style="resize: none;"></textarea>
                     <button onclick="copyToClipboard()">Copy to Clipboard</button>
                 </div>
 
-                <div class="page-section">
-                    <Label>Change Work Zones</Label>
-                    <div class="form-group">
+                <div class="right-container">
+                    <div class="page-section">
                         <div class="form-column">
-                            <Label>Prev. #</Label>
-                            <div class="form-element">
-                                <input type="number" id="findZone" size="2" min="54" max="59" />
-                            </div>
-                        </div>
-                        <div class="form-column">
-                            <Label>New #</Label>
-                            <div class="form-element">
-                                <input type="number" id="replaceZone" size="2" min="54" max="59" />
-                            </div>
+                            <Label>Add Timestamped Comment</Label>
+                            <input type="text" id="timestampNote" placeholder="<comment>" style="width: 100%;">
+                            <button onclick="addTimestamp()">Add</button>
                         </div>
                     </div>
-                    <Label>Change Tool Numbers</Label>
-                    <div class="form-group">
-                        <div class="form-column">
-                            <Label>Prev. #</Label>
-                            <div class="form-element">
-                                <input type="number" id="findTool" size="2" min="0" max="99" />
+                    <div class="page-section">
+                        <Label>Change Work Zones</Label>
+                        <div class="form-group">
+                            <div class="form-column">
+                                <Label>Prev. #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="findZone" size="2" min="54" max="59" />
+                                </div>
+                            </div>
+                            <div class="form-column">
+                                <Label>New #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="replaceZone" size="2" min="54" max="59" />
+                                </div>
                             </div>
                         </div>
-                        <div class="form-column">
-                            <Label>New #</Label>
-                            <div class="form-element">
-                                <input type="number" id="replaceTool" size="2" min="0" max="99" />
+                        <Label>Change Tool Numbers</Label>
+                        <div class="form-group">
+                            <div class="form-column">
+                                <Label>Prev. #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="findTool" size="2" min="0" max="99" />
+                                </div>
+                            </div>
+                            <div class="form-column">
+                                <Label>New #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="replaceTool" size="2" min="0" max="99" />
+                                </div>
                             </div>
                         </div>
+                        <Label>Change Feed Rates</Label>
+                        <div class="form-group">
+                            <div class="form-column">
+                                <Label>Prev. #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="findFeed" size="2" min="0" />
+                                </div>
+                            </div>
+                            <div class="form-column">
+                                <Label>New #</Label>
+                                <div class="form-element">
+                                    <input type="number" id="replaceFeed" size="2" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats" id="stats"></div>
+                        <button onclick="replaceNumbers()">Replace Numbers</button>
                     </div>
-                    <Label>Change Feed Rates</Label>
-                    <div class="form-group">
-                        <div class="form-column">
-                            <Label>Prev. #</Label>
-                            <div class="form-element">
-                                <input type="number" id="findFeed" size="2" min="0" />
-                            </div>
-                        </div>
-                        <div class="form-column">
-                            <Label>New #</Label>
-                            <div class="form-element">
-                                <input type="number" id="replaceFeed" size="2" min="0" />
-                            </div>
-                        </div>
-                    </div>
-                    <Label>Recap</Label>
-                    <div class="stats" id="stats"></div>
-                    <button onclick="replaceNumbers()">Replace Numbers</button>
                 </div>
 
             </div>
@@ -174,8 +184,8 @@
                 <div class="page-section" style="flex: 1;">
                     <Label>Work Zones</Label>
                     <div id="workZones" class="work-zones-container">None</div>
-                    <Label>Operations</Label>
-                    <div class="analysis-container">
+                    <Label>Sequence of Operations</Label>
+                    <div class="operations-container">
                         <table id="operationsTable">
                             <thead>
                                 <tr>
@@ -501,6 +511,56 @@
 
             textArea.value = newText;
             analyzeText(); // Refresh analysis
+        }
+
+        function addTimestamp() {
+            const textArea = document.getElementById('textInput');
+            const text = textArea.value;
+
+            // Find O-code (e.g., O1234) at the start of a line
+            const oRegex = /^O\d+.*$/m;
+            const match = oRegex.exec(text);
+
+            if (!match) {
+                alert('No O-code found (e.g., O1234). Cannot add timestamp.');
+                return;
+            }
+
+            const now = new Date();
+            // Format: YYYY-MM-DD HH:MM:SS
+            const dateStr = now.getFullYear() + '-' +
+                String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                String(now.getDate()).padStart(2, '0');
+            const timeStr = String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+
+            const noteInput = document.getElementById('timestampNote');
+            const note = noteInput.value.trim();
+
+            let timestampComment;
+            if (note) {
+                timestampComment = `(Timestamp: ${dateStr} ${timeStr} - ${note})`;
+            } else {
+                timestampComment = `(Timestamp: ${dateStr} ${timeStr})`;
+            }
+
+            // Insert after the O-code line
+            const insertionIndex = match.index + match[0].length;
+
+            // Check if there's already a newline after O-code
+            const nextChar = text[insertionIndex];
+            let newText;
+
+            if (nextChar === '\n') {
+                newText = text.substring(0, insertionIndex) + `\n${timestampComment}` + text.substring(insertionIndex);
+            } else {
+                // If EOF or no newline, just append
+                newText = text.substring(0, insertionIndex) + `\n${timestampComment}` + text.substring(insertionIndex);
+            }
+
+            textArea.value = newText;
+            analyzeText();
         }
 
         function replaceNumbers() {
