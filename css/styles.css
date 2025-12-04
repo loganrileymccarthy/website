@@ -100,24 +100,43 @@ textarea {
 
 textarea:focus {
   outline: none;
-  border-color: #00FFFF;
+  border-color: yellow;
 }
 
 input[type="number"] {
   width: 100%;
-  max-width: 50px;
+  max-width: 75px;
   padding: 5px;
   border: 1px solid #444;
   border-radius: 4px;
   background-color: #2a2a2a;
   color: white;
+  font-family: 'Courier New', monospace;
   font-size: 14px;
   transition: border-color 0.3s;
 }
 
 input[type="number"]:focus {
   outline: none;
-  border-color: #00FFFF;
+  border-color: yellow;
+  pointer-events: none;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: yellow;
   pointer-events: none;
 }
 
@@ -128,7 +147,7 @@ input[type="checkbox"] {
 }
 
 button {
-  background-color: white;
+  background-color: #a1a1a1;
   font-family: 'Courier New', monospace;
   border-style: none;
   border-radius: 4px;
@@ -137,9 +156,9 @@ button {
 }
 
 button:hover {
-  background-color: yellow;
+  background-color: white;
   color: black;
-  text-decoration: red wavy underline;
+  /*text-decoration: red wavy underline;*/
 }
 
 button:active {
