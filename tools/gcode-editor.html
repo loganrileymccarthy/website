@@ -23,7 +23,7 @@
         .lower-container {
             height: 30%;
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 1fr;
             gap: 10px;
             margin-bottom: 10px;
         }
@@ -80,7 +80,7 @@
             margin-bottom: 10px;
             font-family: 'Courier New', monospace;
             font-size: 14px;
-            text-align: left;
+            text-align: center;
             color: white;
         }
 
@@ -162,6 +162,8 @@
                             </div>
                         </div>
                     </div>
+                    <Label>Recap</Label>
+                    <div class="stats" id="stats"></div>
                     <button onclick="replaceNumbers()">Replace Numbers</button>
                 </div>
 
@@ -174,11 +176,12 @@
                     <div id="workZones" class="work-zones-container">None</div>
                     <Label>Operations</Label>
                     <div class="analysis-container">
-                        <table id="analysisTable">
+                        <table id="operationsTable">
                             <thead>
                                 <tr>
                                     <th>N#</th>
                                     <th>Comments</th>
+                                    <th>T</th>
                                     <th>M0</th>
                                     <th>M1</th>
                                     <th>M8</th>
@@ -191,20 +194,25 @@
                             <tbody>
                             </tbody>
                         </table>
+                        <style>
+                            #operationsTable th,
+                            #operationsTable td {
+                                white-space: nowrap;
+                            }
+
+                            #operationsTable th:nth-child(2),
+                            #operationsTable td:nth-child(2) {
+                                white-space: normal;
+                                min-width: 100px;
+                                max-width: 200px;
+                                word-wrap: break-word;
+                            }
+                        </style>
                     </div>
                     <button onclick="printTable()" style="margin-top: 5px;">Print Table</button>
                 </div>
 
-                <div class="page-section">
-                    <Label>Recap</Label>
-                    <div class="stats" id="stats"></div>
-                </div>
-
             </div>
-
-
-
-
         </main>
         <my-footer></my-footer>
     </div>
@@ -222,7 +230,7 @@
 
         function analyzeText() {
             const text = document.getElementById('textInput').value;
-            const tableBody = document.querySelector('#analysisTable tbody');
+            const tableBody = document.querySelector('#operationsTable tbody');
             tableBody.innerHTML = ''; // Clear existing rows
 
             if (!text) return;
@@ -299,15 +307,61 @@
                     comments.push(commentMatch[0]); // Push the full comment including parens
                 }
 
-                // 2. Check for M codes in the block
-                // We should strip comments from blockText before checking for M8.
+                // 2. Check for M0/M1/M8
+                // We should strip comments from blockText before checking.
                 let blockTextCleaned = blockText.replace(/\([^)]*\)/g, '');
 
                 const hasM0 = /M0?0\b/.test(blockTextCleaned);
                 const hasM1 = /M0?1\b/.test(blockTextCleaned);
                 const hasM8 = /M0?8\b/.test(blockTextCleaned);
 
-                // 3. Find lowest Z in the block
+                // 3. Extract all T numbers in the block
+                const tRegex = /T\s*(\d+)/gi;
+                const tNumbers = new Set();
+                let tMatch;
+                while ((tMatch = tRegex.exec(blockTextCleaned)) !== null) {
+                    tNumbers.add(parseInt(tMatch[1], 10));
+                }
+
+                // 4. Extract all H numbers and check for mismatches
+                const hRegex = /H\s*(\d+)/gi;
+                let hMatch;
+                let hError = false; // True if mismatch found
+                const hCounts = {};
+                while ((hMatch = hRegex.exec(blockTextCleaned)) !== null) {
+                    const hVal = parseInt(hMatch[1], 10);
+                    hCounts[hVal] = (hCounts[hVal] || 0) + 1;
+                    if (!tNumbers.has(hVal)) {
+                        hError = true;
+                    }
+                }
+
+                // 5. Extract all D numbers and check for mismatches
+                const dRegex = /D\s*(\d+)/gi;
+                let dMatch;
+                let dError = false; // True if mismatch found
+                const dCounts = {};
+                while ((dMatch = dRegex.exec(blockTextCleaned)) !== null) {
+                    const dVal = parseInt(dMatch[1], 10);
+                    dCounts[dVal] = (dCounts[dVal] || 0) + 1;
+                    if (!tNumbers.has(dVal)) {
+                        dError = true;
+                    }
+                }
+
+                // 6. Extract all F numbers in the block
+                const fRegex = /F(\d*\.?\d+)/g;
+                let fMatch;
+                const fCounts = {};
+                while ((fMatch = fRegex.exec(blockTextCleaned)) !== null) {
+                    const fVal = fMatch[1]; // Keep as string to preserve formatting if needed, or parse if strictly numeric comparison desired.
+                    // Usually F values are integers or simple floats. Let's keep them as found but maybe strip leading zeros if they are integers?
+                    // For now, just use the captured string.
+                    const fNum = parseFloat(fVal); // Normalize 100.00 to 100
+                    fCounts[fNum] = (fCounts[fNum] || 0) + 1;
+                }
+
+                // 7. Find lowest Z coordinate in the block
                 const zRegex = /Z\s*([-+]?\d*\.?\d+)/gi;
                 let zMatch;
                 let minZ = Infinity;
@@ -323,59 +377,36 @@
                     }
                 }
 
-                // 4. Check for T, H, D mismatches
-                // Extract all T numbers in the block
-                const tRegex = /T\s*(\d+)/gi;
-                const tNumbers = new Set();
-                let tMatch;
-                while ((tMatch = tRegex.exec(blockTextCleaned)) !== null) {
-                    tNumbers.add(parseInt(tMatch[1], 10));
-                }
-
-                // Check H codes
-                const hRegex = /H\s*(\d+)/gi;
-                let hMatch;
-                let hError = false; // True if mismatch found
-                const hCounts = {};
-                while ((hMatch = hRegex.exec(blockTextCleaned)) !== null) {
-                    const hVal = parseInt(hMatch[1], 10);
-                    hCounts[hVal] = (hCounts[hVal] || 0) + 1;
-                    if (!tNumbers.has(hVal)) {
-                        hError = true;
-                    }
-                }
-
-                // Check D codes
-                const dRegex = /D\s*(\d+)/gi;
-                let dMatch;
-                let dError = false; // True if mismatch found
-                const dCounts = {};
-                while ((dMatch = dRegex.exec(blockTextCleaned)) !== null) {
-                    const dVal = parseInt(dMatch[1], 10);
-                    dCounts[dVal] = (dCounts[dVal] || 0) + 1;
-                    if (!tNumbers.has(dVal)) {
-                        dError = true;
-                    }
-                }
-
-                // Create table row
+                // 8. Create table
                 const row = document.createElement('tr');
 
+                // N cell
                 const cellN = document.createElement('td');
                 cellN.textContent = currentN.fullMatch;
                 row.appendChild(cellN);
 
+                // Comments cell
                 const cellComments = document.createElement('td');
                 cellComments.textContent = comments.join(' ');
                 row.appendChild(cellComments);
 
+                // T cell
+                const cellT = document.createElement('td');
+                if (tNumbers.size > 0) {
+                    cellT.textContent = Array.from(tNumbers).join(', ');
+                } else {
+                    cellT.textContent = '-';
+                }
+                row.appendChild(cellT);
+
+                // M code cells
                 const createStatusCellWithButton = (hasCode, codeName) => {
                     const cell = document.createElement('td');
                     if (hasCode) {
                         cell.textContent = 'Yes';
                         cell.style.color = '#4caf50';
                     } else {
-                        cell.textContent = 'No ';
+                        cell.textContent = '';
                         cell.style.color = '#f44336';
                         const btn = document.createElement('button');
                         btn.textContent = `Add`;
@@ -387,7 +418,6 @@
                     }
                     return cell;
                 };
-
                 row.appendChild(createStatusCellWithButton(hasM0, 'M00'));
                 row.appendChild(createStatusCellWithButton(hasM1, 'M01'));
                 row.appendChild(createStatusCellWithButton(hasM8, 'M08'));
@@ -399,7 +429,7 @@
                 } else {
                     const hParts = [];
                     for (const [val, count] of Object.entries(hCounts)) {
-                        hParts.push(`${val}: ${count}`);
+                        hParts.push(`H${val}: ${count}`);
                     }
                     cellHErr.innerHTML = hParts.join('<br>');
                     cellHErr.style.color = hError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
@@ -413,25 +443,14 @@
                 } else {
                     const dParts = [];
                     for (const [val, count] of Object.entries(dCounts)) {
-                        dParts.push(`${val}: ${count}`);
+                        dParts.push(`D${val}: ${count}`);
                     }
                     cellDErr.innerHTML = dParts.join('<br>');
                     cellDErr.style.color = dError ? '#f44336' : '#4caf50'; // Red if error, Green if OK
                 }
                 row.appendChild(cellDErr);
 
-                // Feed Rates Analysis
-                const fRegex = /F(\d*\.?\d+)/g;
-                let fMatch;
-                const fCounts = {};
-                while ((fMatch = fRegex.exec(blockTextCleaned)) !== null) {
-                    const fVal = fMatch[1]; // Keep as string to preserve formatting if needed, or parse if strictly numeric comparison desired.
-                    // Usually F values are integers or simple floats. Let's keep them as found but maybe strip leading zeros if they are integers?
-                    // For now, just use the captured string.
-                    const fNum = parseFloat(fVal); // Normalize 100.00 to 100
-                    fCounts[fNum] = (fCounts[fNum] || 0) + 1;
-                }
-
+                // Feed Rates Cell
                 const cellFeed = document.createElement('td');
                 if (Object.keys(fCounts).length > 0) {
                     const fParts = [];
@@ -444,6 +463,7 @@
                 }
                 row.appendChild(cellFeed);
 
+                // Min Z Cell
                 const cellMinZ = document.createElement('td');
                 cellMinZ.textContent = hasZ ? minZ : '-';
                 row.appendChild(cellMinZ);
@@ -576,6 +596,7 @@
                     allReplacements[`${findNum}→${replaceNum}`] = replacements;
                 }
             });
+
             toolPairs.forEach(pair => {
                 const findNum = pair.find;
                 const replaceNum = pair.replace;
@@ -635,21 +656,20 @@
             });
 
             // Display results
-            // Display results
             document.getElementById('textInput').value = finalResult;
 
             // Build stats display
-            let statsHTML = `<strong>Replacements:</strong> ${totalReplacements}<br>`;
-
+            //let statsHTML = `<strong>Total Replacements:</strong><br>${totalReplacements}<br>`;
+            let statsHTML = '';
             if (totalReplacements > 0) {
-                statsHTML += '<strong>Breakdown:</strong><br>';
+                //statsHTML += '<strong>Breakdown:</strong><br>';
                 for (const [pair, replacements] of Object.entries(allReplacements)) {
                     const details = Object.entries(replacements)
                         .filter(([letter, count]) => count > 0)
                         .map(([letter, count]) => `${letter}:${count}`)
                         .join(' ');
                     if (details) {
-                        statsHTML += `${pair} ${details}<br>`;
+                        statsHTML += `${details} ${pair}<br>`;
                     }
                 }
             }
@@ -673,12 +693,12 @@
         }
 
         function printTable() {
-            const table = document.getElementById('analysisTable');
+            const table = document.getElementById('operationsTable');
             if (!table) return;
 
             const newWin = window.open('', 'Print-Window');
             newWin.document.open();
-            newWin.document.write('<html><head><title>Analysis Table</title>');
+            newWin.document.write('<html><head><title>Operations Summary</title>');
             newWin.document.write('<style>');
             newWin.document.write('table { border-collapse: collapse; width: 100%; font-family: "Courier New", monospace; }');
             newWin.document.write('th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }');
