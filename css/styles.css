@@ -150,8 +150,6 @@ button:active {
   background: #666;
 }
 
-.button-secondary:hover {}
-
 ::placeholder {
   color: LightGrey;
 }
@@ -180,9 +178,6 @@ table th {
   background-color: #2a2a2a;
   position: sticky;
   top: 0;
-}
-
-table tr:nth-child(even) {
 }
 
 /*IMAGE STYLES*/
