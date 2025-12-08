@@ -12,7 +12,6 @@ class MyHeader extends HTMLElement {
 				<a href="../fungi.html">fungi</a> //
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a>
-				
     		</p>
 			<br><br><br><br>
     	</header>
@@ -33,4 +32,3 @@ class MyFooter extends HTMLElement {
 }
 
 customElements.define('my-footer', MyFooter)
-
