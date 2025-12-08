@@ -13,7 +13,6 @@ class MyHeader extends HTMLElement {
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a>
     		</p>
-			<br><br><br><br>
     	</header>
 	`
 	}
