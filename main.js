@@ -12,8 +12,9 @@ class MyHeader extends HTMLElement {
 				<a href="../fungi.html">fungi</a> //
 				<a href="../music.html">music</a> // 
 				<a href="../artwork.html">artwork</a>
-				<br><br><br><br>
+				
     		</p>
+			<br><br><br><br>
     	</header>
 	`
 	}
