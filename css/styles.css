@@ -63,7 +63,7 @@ p {
 
 a {
   color: yellow;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a:hover {
