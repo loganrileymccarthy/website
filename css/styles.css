@@ -223,7 +223,7 @@ iframe {
 
 /*CUSTOM CLASSES*/
 .wrapper-main {
-  max-width: 1000px;
+  max-width: 600px;
   /* Sets max-width of page based on current structure */
   margin-left: auto;
   margin-right: auto;
