@@ -232,6 +232,7 @@ iframe {
 
 .homeButton {
   color: white;
+  text-decoration: none;
 }
 
 .homeButton:hover {
