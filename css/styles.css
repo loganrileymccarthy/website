@@ -245,6 +245,13 @@ iframe {
   align-items: center;
 }
 
+.image-container-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .numberGroup {
   display: flex;
   flex-direction: row;
