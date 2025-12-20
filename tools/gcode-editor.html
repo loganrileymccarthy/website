@@ -552,11 +552,11 @@
 
         function jumpToCode(index) {
             const textArea = document.getElementById('textInput');
-            textArea.focus();
+            
             
             // Set cursor position
             textArea.setSelectionRange(index, index);
-            
+            textArea.focus();
             // Attempt to scroll to the line. 
             // setSelectionRange usually scrolls to view in modern browsers,
             // but we can try blur/focus trick if needed, or stick to this standard method first.
