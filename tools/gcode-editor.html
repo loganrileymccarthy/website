@@ -15,10 +15,14 @@
             max-width: 90vw;
         }
         .editor-container {
-            height: 75vh;
-            max-height: 75vh;
-            display: grid;
-            grid-template-columns: 2fr 3fr;
+            height: 78vh;
+            max-height: 78vh;
+            /*display: grid;*/
+            /*grid-template-columns: 2fr 3fr;*/
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
             gap: 10px;
         }
         .container-horizontal {
@@ -35,6 +39,7 @@
             align-items: center;
             gap: 10px;
             height: 100%;
+            width: 100%;
             min-height: 0;
             overflow: auto; /*Scrolls the container instead of the page*/
         }
@@ -149,7 +154,7 @@
 
             <div class="editor-container">
 
-                <div class="container-vertical">
+                <div class="container-vertical" style="resize: horizontal;">
                     <div class="page-section flex-fill">
                         <textarea id="textInput" placeholder="<program text>" style="resize: none;"></textarea>
                         <button onclick="copyToClipboard()" style="flex: 0 0 auto; margin: 5px;">Copy to Clipboard</button>

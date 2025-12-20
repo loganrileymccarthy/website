@@ -91,6 +91,7 @@ textarea {
   font-family: 'Courier New', monospace;
   font-size: 14px;
   resize: vertical;
+  text-wrap: nowrap;
   transition: border-color 0.3s;
 }
 
