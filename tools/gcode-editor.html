@@ -11,35 +11,33 @@
             -webkit-appearance: none;
             /*Hide arrows on number inputs */
         }
-
         .wrapper-main {
-            max-width: 1000px;
+            max-width: 90vw;
         }
-
-        .upper-container {
-            height: 30%;
+        .editor-container {
+            height: 90vh;
+            max-height: 90vh;
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 2fr 3fr;
             gap: 10px;
-            margin-bottom: 10px;
         }
-
-        .lower-container {
-            height: 30%;
-            display: grid;
-            grid-template-columns: 1fr;
+        .container-horizontal {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
         }
-
-        .right-container {
+        .container-vertical {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 10px;
+            height: 100%;
+            min-height: 0;
+            overflow: auto; /*Scrolls the container instead of the page*/
         }
-
         .page-section {
             width: 100%;
             border: 1px solid #444;
@@ -47,23 +45,50 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            overflow: auto; /*Scrolls the container instead of the page*/
         }
-
+        /* Specific scrolling for operations table */
+        .operations-container {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            border-top: 1px solid #333; /* Visual separator */
+        }
+        /* Utility classes for flex sizing */
+        .flex-fixed {
+            flex: 0 0 auto;
+        }
+        .flex-fill {
+            flex: 1;
+            min-height: 0;
+        }
         .form-group {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 10px;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
+            width: 100%;
         }
-
         .form-column {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             width: 100%;
         }
-
+        .form-element {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .form-element input[type="number"], 
+        .form-element input[type="text"] {
+            width: 80px; /* Consistent width */
+            padding: 5px;
+        }
+        .form-element.wide-input input[type="text"] {
+             width: 300px;
+        }
         .stats {
             padding: 10px;
             border-radius: 4px;
@@ -72,12 +97,16 @@
             font-size: 14px;
             text-align: center;
             color: white;
+            flex: 0 0 auto; /* Ensure stats don't shrink/grow unexpectedly */
         }
-
+        .stats strong {
+            color: #666;
+        }
         .work-zones-container {
             margin-bottom: 10px;
+            flex: 0 0 auto;
+            padding: 5px;
         }
-
         .zone-tag {
             display: inline-block;
             background-color: #2a2a2a;
@@ -88,18 +117,22 @@
             padding-bottom: 2px;
             margin: 2px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 20px;
             font-family: 'Courier New', monospace;
         }
-
-        .operations-container {
-            overflow-y: auto;
-            flex-grow: 1;
-            padding: 5px;
+        .jump-btn {
+            background: none;
+            border: none;
+            color: yellow;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
+            font-size: inherit;
         }
-
-        .stats strong {
-            color: #666;
+        .jump-btn:hover {
+            background: none;
+            color: white;
         }
     </style>
 </head>
@@ -114,83 +147,81 @@
                 <br>
             </h1>
 
-            <div class="upper-container">
+            <div class="editor-container">
 
-                <div class="page-section">
-                    <textarea id="textInput" placeholder="<program text>" style="resize: none;"></textarea>
-                    <button onclick="copyToClipboard()">Copy to Clipboard</button>
-                </div>
-
-                <div class="right-container">
-                    <div class="page-section">
-                        <div class="form-column">
-                            <Label>Add Timestamped Comment</Label>
-                            <input type="text" id="timestampNote" placeholder="<comment>" style="width: 100%;">
-                            <button onclick="addTimestamp()">Add</button>
-                        </div>
+                <div class="container-vertical">
+                    <div class="page-section flex-fill">
+                        <textarea id="textInput" placeholder="<program text>" style="resize: none;"></textarea>
+                        <button onclick="copyToClipboard()" style="flex: 0 0 auto; margin: 5px;">Copy to Clipboard</button>
                     </div>
-                    <div class="page-section">
-                        <Label>Change Work Zones</Label>
+                </div>
+                
+                <div class="container-vertical">
+                    <div class="page-section flex-fill">
+                        <Label>Add Timestamped Comment</Label>
                         <div class="form-group">
-                            <div class="form-column">
-                                <Label>Prev. #</Label>
+                            <div class="form-element wide-input">
+                                <input type="text" id="timestampNote" placeholder="optional note" />
+                            </div>
+                            <div class="form-element">
+                                <button onclick="addTimestamp()">Add</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-column">
+                            <Label>Change Work Zones</Label>
+                            <div class="form-group">
                                 <div class="form-element">
+                                    <Label>Prev. #</Label>
                                     <input type="number" id="findZone" size="2" min="54" max="59" />
                                 </div>
-                            </div>
-                            <div class="form-column">
-                                <Label>New #</Label>
                                 <div class="form-element">
+                                    <Label>New #</Label>
                                     <input type="number" id="replaceZone" size="2" min="54" max="59" />
                                 </div>
-                            </div>
-                        </div>
-                        <Label>Change Tool Numbers</Label>
-                        <div class="form-group">
-                            <div class="form-column">
-                                <Label>Prev. #</Label>
                                 <div class="form-element">
+                                    <button onclick="changeWorkZones()">Change</button>
+                                </div>
+                            </div>
+                            <Label>Change Tool Numbers</Label>
+                            <div class="form-group">
+                                <div class="form-element">
+                                    <Label>Prev. #</Label>
                                     <input type="number" id="findTool" size="2" min="0" max="99" />
                                 </div>
-                            </div>
-                            <div class="form-column">
-                                <Label>New #</Label>
                                 <div class="form-element">
+                                    <Label>New #</Label>
                                     <input type="number" id="replaceTool" size="2" min="0" max="99" />
                                 </div>
-                            </div>
-                        </div>
-                        <Label>Change Feed Rates</Label>
-                        <div class="form-group">
-                            <div class="form-column">
-                                <Label>Prev. #</Label>
                                 <div class="form-element">
+                                    <button onclick="changeToolNumbers()">Change</button>
+                                </div>
+                            </div>
+                            <Label>Change Feed Rates</Label>
+                            <div class="form-group">
+                                <div class="form-element">
+                                    <Label>Prev. #</Label>
                                     <input type="number" id="findFeed" size="2" min="0" />
                                 </div>
-                            </div>
-                            <div class="form-column">
-                                <Label>New #</Label>
                                 <div class="form-element">
+                                    <Label>New #</Label>
                                     <input type="number" id="replaceFeed" size="2" min="0" />
                                 </div>
+                                <div class="form-element">
+                                    <button onclick="changeFeedRates()">Change</button>
+                                </div>
                             </div>
-                        </div>
+                        </div> 
                         <div class="stats" id="stats"></div>
-                        <button onclick="replaceNumbers()">Replace Numbers</button>
                     </div>
-                </div>
 
-            </div>
-
-            <div class="lower-container">
-
-                <div class="page-section" style="flex: 1;">
-                    <Label>Work Zones</Label>
-                    <div id="workZones" class="work-zones-container">None</div>
-                    <Label>Sequence of Operations</Label>
-                    <div class="operations-container">
-                        <table id="operationsTable">
-                            <thead>
+                    <div class="page-section flex-fill">
+                        <Label class="flex-fixed">Work Zones</Label>
+                        <div id="workZones" class="work-zones-container"></div>
+                        <Label class="flex-fixed">Sequence of Operations</Label>
+                        <div class="operations-container">
+                            <table id="operationsTable">
+                                <thead>
                                 <tr>
                                     <th>N#</th>
                                     <th>Comments</th>
@@ -200,31 +231,33 @@
                                     <th>M8</th>
                                     <th>H</th>
                                     <th>D</th>
+                                    <th>S</th>
                                     <th>F</th>
                                     <th>Min Z</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <style>
-                            #operationsTable th,
-                            #operationsTable td {
-                                white-space: nowrap;
-                            }
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <style>
+                                #operationsTable th,
+                                #operationsTable td {
+                                    white-space: nowrap;
+                                }
 
-                            #operationsTable th:nth-child(2),
-                            #operationsTable td:nth-child(2) {
-                                white-space: normal;
-                                min-width: 100px;
-                                max-width: 200px;
-                                word-wrap: break-word;
-                            }
-                        </style>
+                                #operationsTable th:nth-child(2),
+                                #operationsTable td:nth-child(2) {
+                                    white-space: normal;
+                                    min-width: 100px;
+                                    max-width: 200px;
+                                    word-wrap: break-word;
+                                }
+                            </style>
+                        </div>
+                        <button onclick="printTable()" style="flex: 0 0 auto; margin: 5px;">Print Table</button>
                     </div>
-                    <button onclick="printTable()" style="margin-top: 5px;">Print Table</button>
-                </div>
 
+                </div>
             </div>
         </main>
         <my-footer></my-footer>
@@ -374,7 +407,16 @@
                     fCounts[fNum] = (fCounts[fNum] || 0) + 1;
                 }
 
-                // 7. Find lowest Z coordinate in the block
+                // 7. Extract all S (Spindle) numbers in the block
+                const sRegex = /S\s*(\d+)/gi;
+                let sMatch;
+                const sCounts = {};
+                while ((sMatch = sRegex.exec(blockTextCleaned)) !== null) {
+                    const sVal = parseInt(sMatch[1], 10);
+                    sCounts[sVal] = (sCounts[sVal] || 0) + 1;
+                }
+
+                // 8. Find lowest Z coordinate in the block
                 const zRegex = /Z\s*([-+]?\d*\.?\d+)/gi;
                 let zMatch;
                 let minZ = Infinity;
@@ -390,12 +432,17 @@
                     }
                 }
 
-                // 8. Create table
+                // 9. Create table
                 const row = document.createElement('tr');
 
                 // N cell
                 const cellN = document.createElement('td');
-                cellN.textContent = currentN.fullMatch;
+                // Create a button-link for the N code
+                const jumpBtn = document.createElement('button');
+                jumpBtn.textContent = currentN.fullMatch;
+                jumpBtn.className = 'jump-btn';
+                jumpBtn.onclick = () => jumpToCode(currentN.index);
+                cellN.appendChild(jumpBtn);
                 row.appendChild(cellN);
 
                 // Comments cell
@@ -463,6 +510,19 @@
                 }
                 row.appendChild(cellDErr);
 
+                // S (Spindle) Cell
+                const cellS = document.createElement('td');
+                if (Object.keys(sCounts).length > 0) {
+                    const sParts = [];
+                    for (const [val, count] of Object.entries(sCounts)) {
+                        sParts.push(`${val}: ${count}`);
+                    }
+                    cellS.innerHTML = sParts.join('<br>');
+                } else {
+                    cellS.textContent = '-';
+                }
+                row.appendChild(cellS);
+
                 // Feed Rates Cell
                 const cellFeed = document.createElement('td');
                 if (Object.keys(fCounts).length > 0) {
@@ -483,6 +543,22 @@
 
                 tableBody.appendChild(row);
             }
+        }
+
+        function jumpToCode(index) {
+            const textArea = document.getElementById('textInput');
+            textArea.focus();
+            
+            // Set cursor position
+            textArea.setSelectionRange(index, index);
+            
+            // Attempt to scroll to the line. 
+            // setSelectionRange usually scrolls to view in modern browsers,
+            // but we can try blur/focus trick if needed, or stick to this standard method first.
+            // A smoother scrollIntoView would require finding the pixel height of lines which is complex in a textarea.
+            // Standard focus + selection is usually sufficient.
+            
+            // Optional: highlight visually? (Complex for textarea)
         }
 
         function addCode(start, end, codeToInsert) {
@@ -566,45 +642,135 @@
             analyzeText();
         }
 
-        function replaceNumbers() {
-            const text = document.getElementById('textInput').value;
+        function changeWorkZones() {
+            const findZone = document.getElementById('findZone').value;
+            const replaceZone = document.getElementById('replaceZone').value;
+
+            if (findZone === '' || replaceZone === '') {
+                alert('Please enter both "Prev." and "New" work zone numbers.');
+                return;
+            }
+
+            applyReplacement((text) => {
+                let replacementsCount = 0;
+                let result = text;
+                const replacements = { G: 0 };
+                
+                 // Check if we are dealing with extended work offsets (decimals)
+                if (findZone.includes('.')) {
+                    // Extended work offsets (e.g. 154.1 -> G154 P1)
+                    const [findG, findP] = findZone.split('.');
+                    const [replaceG, replaceP] = replaceZone.split('.');
+
+                    // Regex for G154 Px
+                    // Matches G<findG> (whitespace) P<findP>
+                    const pattern = new RegExp(`(G)${findG}(\\s+)P0?${findP}(\\b)`, 'gi');
+
+                    result = result.replace(pattern, (match, letter, whitespace, boundary) => {
+                        replacementsCount++;
+                        replacements[letter]++;
+                        return `${letter}${replaceG}${whitespace}P${replaceP}${boundary}`;
+                    });
+
+                } else {
+                    // Standard work offsets (e.g. 54 -> G54)
+                    const pattern = /([G])0*(\d{1,3})(\s|$)/g;
+
+                    result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
+                        if (parseInt(capturedNum, 10) === parseInt(findZone, 10)) {
+                            replacementsCount++;
+                             replacements[letter]++;
+                            const replaceFormatted = replaceZone.toString();
+                            return `${letter}${replaceFormatted}${whitespace}`;
+                        }
+                        return match;
+                    });
+                }
+                
+                return { 
+                    newText: result, 
+                    count: replacementsCount, 
+                    details: replacementsCount > 0 ? { [`${findZone}→${replaceZone}`]: replacements } : {}
+                };
+            });
+        }
+
+        function changeToolNumbers() {
+            const findTool = document.getElementById('findTool').value;
+            const replaceTool = document.getElementById('replaceTool').value;
+
+            if (findTool === '' || replaceTool === '') {
+                alert('Please enter both "Prev." and "New" tool numbers.');
+                return;
+            }
+
+            applyReplacement((text) => {
+                let replacementsCount = 0;
+                 const replacements = { T: 0, N: 0, H: 0, D: 0 };
+                
+                const pattern = /([TNHD])0*(\d{1,2})(\s|$)/g;
+
+                const result = text.replace(pattern, (match, letter, capturedNum, whitespace) => {
+                    if (parseInt(capturedNum, 10) === parseInt(findTool, 10)) {
+                        replacementsCount++;
+                        replacements[letter]++;
+                        const replaceFormatted = replaceTool.toString().padStart(2, '0');
+                        return `${letter}${replaceFormatted}${whitespace}`;
+                    }
+                    return match;
+                });
+
+                 return { 
+                    newText: result, 
+                    count: replacementsCount, 
+                    details: replacementsCount > 0 ? { [`${findTool}→${replaceTool}`]: replacements } : {}
+                };
+            });
+        }
+
+        function changeFeedRates() {
+            const findFeed = document.getElementById('findFeed').value;
+            const replaceFeed = document.getElementById('replaceFeed').value;
+
+            if (findFeed === '' || replaceFeed === '') {
+                alert('Please enter both "Prev." and "New" feed rates.');
+                return;
+            }
+
+            applyReplacement((text) => {
+                let replacementsCount = 0;
+                 const replacements = { F: 0 };
+
+                // Regex: F followed by number.
+                const pattern = /F(\d*\.?\d+)(\s|$)/g;
+
+                const result = text.replace(pattern, (match, capturedNum, whitespace) => {
+                    if (parseFloat(capturedNum) === parseFloat(findFeed)) {
+                        replacementsCount++;
+                        replacements['F']++;
+                        return `F${replaceFeed}${whitespace}`;
+                    }
+                    return match;
+                });
+
+                return { 
+                    newText: result, 
+                    count: replacementsCount, 
+                    details: replacementsCount > 0 ? { [`${findFeed}→${replaceFeed}`]: replacements } : {}
+                };
+            });
+        }
+
+        function applyReplacement(replacementLogic) {
+            const textArea = document.getElementById('textInput');
+            const text = textArea.value;
 
             if (!text) {
                 alert('Please enter some text to process.');
                 return;
             }
 
-            // Collect all replacement pairs
-            const zonePairs = [];
-            const findZone = document.getElementById('findZone').value;
-            const replaceZone = document.getElementById('replaceZone').value;
-            if (findZone !== '' && replaceZone !== '') {
-                zonePairs.push({ find: findZone, replace: replaceZone });
-            }
-
-            const toolPairs = [];
-            const findTool = document.getElementById('findTool').value;
-            const replaceTool = document.getElementById('replaceTool').value;
-            if (findTool !== '' && replaceTool !== '') {
-                toolPairs.push({ find: findTool, replace: replaceTool });
-            }
-
-            const feedPairs = [];
-            const findFeed = document.getElementById('findFeed').value;
-            const replaceFeed = document.getElementById('replaceFeed').value;
-            if (findFeed !== '' && replaceFeed !== '') {
-                feedPairs.push({ find: findFeed, replace: replaceFeed });
-            }
-
-            if (zonePairs.length === 0 && toolPairs.length === 0 && feedPairs.length === 0) {
-                alert('Please enter at least one find/replace pair.');
-                return;
-            }
-
-            let totalReplacements = 0;
-            const allReplacements = {};
-
-            // Remove comments (text within parentheses) temporarily
+            // Remove comments temporarily
             const commentPattern = /\([^)]*\)/g;
             const comments = [];
             let textWithoutComments = text.replace(commentPattern, (match) => {
@@ -612,133 +778,33 @@
                 return `__COMMENT_${comments.length - 1}__`;
             });
 
-            let result = textWithoutComments;
-
-            // Process each replacement pair
-            zonePairs.forEach(pair => {
-                const findNum = pair.find;
-                const replaceNum = pair.replace;
-                const replacements = { G: 0 };
-
-                // Check if we are dealing with extended work offsets (decimals)
-                if (findNum.includes('.')) {
-                    // Extended work offsets (e.g. 154.1 -> G154 P1)
-                    const [findG, findP] = findNum.split('.');
-                    const [replaceG, replaceP] = replaceNum.split('.');
-
-                    // Regex for G154 Px
-                    // Matches G<findG> (whitespace) P<findP>
-                    const pattern = new RegExp(`(G)${findG}(\\s+)P0?${findP}(\\b)`, 'gi');
-
-                    result = result.replace(pattern, (match, letter, whitespace, boundary) => {
-                        totalReplacements++;
-                        replacements[letter]++;
-                        return `${letter}${replaceG}${whitespace}P${replaceP}${boundary}`;
-                    });
-
-                } else {
-                    // Standard work offsets (e.g. 54 -> G54)
-                    // Create pattern to match G followed by the target number (with optional leading zeros)
-                    // Updated to allow 3 digits to be safe, though standard is usually 2.
-                    const pattern = /([G])0*(\d{1,3})(\s|$)/g;
-
-                    result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
-                        // Compare the numeric values
-                        if (parseInt(capturedNum, 10) === parseInt(findNum, 10)) {
-                            totalReplacements++;
-                            replacements[letter]++;
-                            const replaceFormatted = replaceNum.toString();
-                            return `${letter}${replaceFormatted}${whitespace}`;
-                        }
-                        return match;
-                    });
-                }
-
-                // Store replacements for this pair
-                if (totalReplacements > 0) {
-                    allReplacements[`${findNum}→${replaceNum}`] = replacements;
-                }
-            });
-
-            toolPairs.forEach(pair => {
-                const findNum = pair.find;
-                const replaceNum = pair.replace;
-                const replacements = { T: 0, N: 0, H: 0, D: 0 };
-
-                // Create pattern to match T, N, H, or D followed by the target number (with optional leading zeros) and a space/newline or end of string
-                const pattern = /([TNHD])0*(\d{1,2})(\s|$)/g;
-
-                result = result.replace(pattern, (match, letter, capturedNum, whitespace) => {
-                    // Compare the numeric values
-                    if (parseInt(capturedNum, 10) === parseInt(findNum, 10)) {
-                        totalReplacements++;
-                        replacements[letter]++;
-                        // Always format with leading zero for single digit numbers
-                        const replaceFormatted = replaceNum.toString().padStart(2, '0');
-                        return `${letter}${replaceFormatted}${whitespace}`;
-                    }
-                    return match;
-                });
-
-                // Store replacements for this pair
-                if (totalReplacements > 0) {
-                    allReplacements[`${findNum}→${replaceNum}`] = replacements;
-                }
-            });
-
-            feedPairs.forEach(pair => {
-                const findNum = pair.find;
-                const replaceNum = pair.replace;
-                const replacements = { F: 0 };
-
-                // Create pattern to match F followed by the target number (handling decimals)
-                // We need to be careful with decimals. F100 should match F100.0?
-                // For simplicity, let's match the exact number string or number value.
-                // Regex: F followed by number.
-                const pattern = /F(\d*\.?\d+)(\s|$)/g;
-
-                result = result.replace(pattern, (match, capturedNum, whitespace) => {
-                    // Compare numeric values
-                    if (parseFloat(capturedNum) === parseFloat(findNum)) {
-                        totalReplacements++;
-                        replacements['F']++;
-                        return `F${replaceNum}${whitespace}`;
-                    }
-                    return match;
-                });
-
-                if (totalReplacements > 0) {
-                    allReplacements[`${findNum}→${replaceNum}`] = replacements;
-                }
-            });
+            // Apply specific replacement logic
+            const { newText, count, details } = replacementLogic(textWithoutComments);
 
             // Restore comments
-            let finalResult = result;
+            let finalResult = newText;
             comments.forEach((comment, index) => {
                 finalResult = finalResult.replace(`__COMMENT_${index}__`, comment);
             });
 
-            // Display results
-            document.getElementById('textInput').value = finalResult;
+            textArea.value = finalResult;
 
-            // Build stats display
-            //let statsHTML = `<strong>Total Replacements:</strong><br>${totalReplacements}<br>`;
+            // Stats
             let statsHTML = '';
-            if (totalReplacements > 0) {
-                //statsHTML += '<strong>Breakdown:</strong><br>';
-                for (const [pair, replacements] of Object.entries(allReplacements)) {
-                    const details = Object.entries(replacements)
-                        .filter(([letter, count]) => count > 0)
-                        .map(([letter, count]) => `${letter}:${count}`)
+            if (count > 0 && details) {
+                 for (const [pair, replacements] of Object.entries(details)) {
+                    const detailStr = Object.entries(replacements)
+                        .filter(([letter, c]) => c > 0)
+                        .map(([letter, c]) => `${letter}:${c}`)
                         .join(' ');
-                    if (details) {
-                        statsHTML += `${details} ${pair}<br>`;
+                    if (detailStr) {
+                        statsHTML += `${detailStr} ${pair}<br>`;
                     }
                 }
+            } else {
+                statsHTML = 'No replacements made.';
             }
-
             document.getElementById('stats').innerHTML = statsHTML;
-            /*document.getElementById('output').classList.add('show');*/
             analyzeText();
         }
 
