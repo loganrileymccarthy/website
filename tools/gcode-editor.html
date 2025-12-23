@@ -15,10 +15,8 @@
             max-width: 90vw;
         }
         .editor-container {
-            height: 78vh;
-            max-height: 78vh;
-            /*display: grid;*/
-            /*grid-template-columns: 2fr 3fr;*/
+            height: 75vh;
+            max-height: 75vh;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -35,7 +33,7 @@
         .container-vertical {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             gap: 10px;
             height: 100%;
@@ -50,14 +48,20 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            overflow: auto; /*Scrolls the container instead of the page*/
+            overflow: auto; /*Scrolls the page-section before the vertical container*/
         }
-        /* Specific scrolling for operations table */
+        .work-zones-container {
+            margin-bottom: 10px;
+            flex: 0 0 auto;
+            padding: 5px;
+            color: red;
+            font-family: 'Courier New', monospace;
+        }
         .operations-container {
             flex: 1;
             min-height: 0;
-            overflow-y: auto;
-            border-top: 1px solid #333; /* Visual separator */
+            overflow-y: auto; /*Scrolls the table before the page-section*/
+            /*border-top: 1px solid #333; /* Visual separator */
         }
         /* Utility classes for flex sizing */
         .flex-fixed {
@@ -66,6 +70,7 @@
         .flex-fill {
             flex: 1;
             min-height: 0;
+            min-width: 0;
         }
         .form-group {
             display: flex;
@@ -86,9 +91,9 @@
             flex-direction: column;
             justify-content: center;
         }
-        .form-element input[type="number"], 
-        .form-element input[type="text"] {
-            width: 80px; /* Consistent width */
+        input[type="number"], 
+        input[type="text"] {
+            width: 70px; /* Consistent width */
             padding: 5px;
         }
         .form-element.wide-input input[type="text"] {
@@ -107,22 +112,13 @@
         .stats strong {
             color: #666;
         }
-        .work-zones-container {
-            margin-bottom: 10px;
-            flex: 0 0 auto;
-            padding: 5px;
-        }
-        .zone-tag {
+        
+        .work-zone-item {
             display: inline-block;
-            background-color: #2a2a2a;
-            color: white;
-            padding-left: 5px;
-            padding-right: 5px;
-            padding-top: 5px;
-            padding-bottom: 2px;
-            margin: 2px;
+            background-color: #000000;
+            color: #aaa;
             border-radius: 4px;
-            font-size: 20px;
+            font-size: 16px;
             font-family: 'Courier New', monospace;
         }
         .jump-btn {
@@ -154,16 +150,16 @@
 
             <div class="editor-container">
 
-                <div class="container-vertical" style="resize: horizontal;">
+                <div class="container-vertical" style="width: 40%;">
                     <div class="page-section flex-fill">
                         <textarea id="textInput" placeholder="<program text>" style="resize: none;"></textarea>
-                        <button onclick="copyToClipboard()" style="flex: 0 0 auto; margin: 5px;">Copy to Clipboard</button>
+                        <button onclick="copyToClipboard()">Copy to Clipboard</button>
                     </div>
                 </div>
-                
-                <div class="container-vertical">
-                    <div class="page-section flex-fill">
-                        <Label>Add Timestamped Comment</Label>
+
+                <div class="container-vertical" style="width: 60%;">
+                    <div class="page-section" style="height: 30%;">
+                        <Label><br>Add Timestamped Comment</Label>
                         <div class="form-group">
                             <div class="form-element wide-input">
                                 <input type="text" id="timestampNote" placeholder="optional note" />
@@ -174,21 +170,7 @@
                         </div>
                         
                         <div class="form-column">
-                            <Label>Change Work Zones</Label>
-                            <div class="form-group">
-                                <div class="form-element">
-                                    <Label>Prev. #</Label>
-                                    <input type="number" id="findZone" size="2" min="54" max="59" />
-                                </div>
-                                <div class="form-element">
-                                    <Label>New #</Label>
-                                    <input type="number" id="replaceZone" size="2" min="54" max="59" />
-                                </div>
-                                <div class="form-element">
-                                    <button onclick="changeWorkZones()">Change</button>
-                                </div>
-                            </div>
-                            <Label>Change Tool Numbers</Label>
+                            <Label>Change Tool Number</Label>
                             <div class="form-group">
                                 <div class="form-element">
                                     <Label>Prev. #</Label>
@@ -202,28 +184,14 @@
                                     <button onclick="changeToolNumbers()">Change</button>
                                 </div>
                             </div>
-                            <Label>Change Feed Rates</Label>
-                            <div class="form-group">
-                                <div class="form-element">
-                                    <Label>Prev. #</Label>
-                                    <input type="number" id="findFeed" size="2" min="0" />
-                                </div>
-                                <div class="form-element">
-                                    <Label>New #</Label>
-                                    <input type="number" id="replaceFeed" size="2" min="0" />
-                                </div>
-                                <div class="form-element">
-                                    <button onclick="changeFeedRates()">Change</button>
-                                </div>
-                            </div>
                         </div> 
                         <div class="stats" id="stats"></div>
                     </div>
 
-                    <div class="page-section flex-fill">
-                        <Label class="flex-fixed">Work Zones</Label>
+                    <div class="page-section" style="height: 70%;">
+                        <Label><br>Work Zones</Label>
                         <div id="workZones" class="work-zones-container"></div>
-                        <Label class="flex-fixed">Sequence of Operations</Label>
+                        <Label>Sequence of Operations</Label>
                         <div class="operations-container">
                             <table id="operationsTable">
                                 <thead>
@@ -245,6 +213,7 @@
                                 </tbody>
                             </table>
                             <style>
+                                /* Style for cells behavior */
                                 #operationsTable th,
                                 #operationsTable td {
                                     white-space: nowrap;
@@ -259,7 +228,7 @@
                                 }
                             </style>
                         </div>
-                        <button onclick="printTable()" style="flex: 0 0 auto; margin: 5px;">Print Table</button>
+                        <button onclick="printTable()">Print Table</button>
                     </div>
 
                 </div>
@@ -311,11 +280,30 @@
 
             if (Object.keys(zoneCounts).length > 0) {
                 const sortedZones = Object.keys(zoneCounts).sort();
-                workZonesContainer.innerHTML = sortedZones.map(zone =>
-                    `<span class="zone-tag">${zone}: ${zoneCounts[zone]}</span>`
-                ).join('');
+                workZonesContainer.innerHTML = sortedZones.map(zone => {
+                    // Extract just the number/identifier part for the input
+                    // G54 -> 54
+                    // G154 P1 -> 154.1
+                    let inputVal = '';
+                    if (zone.startsWith('G5')) {
+                        inputVal = zone.substring(1);
+                    } else if (zone.startsWith('G154')) {
+                        const pVal = zone.split('P')[1];
+                        inputVal = `154.${pVal}`;
+                    }
+                    
+                    return `<div class="work-zone-item">
+                        <input type="number" 
+                               class="work-zone-input" 
+                               value="${inputVal}" 
+                               data-original="${inputVal}"
+                               onchange="updateWorkZone(this)" 
+                        />
+                        <span style="font-size: 0.8em; color: #888;">(${zoneCounts[zone]})</span>
+                    </div>`;
+                }).join('');
             } else {
-                workZonesContainer.textContent = 'None';
+                workZonesContainer.textContent = '*NO ZONES FOUND*';
             }
 
             // --- N-Code Analysis ---
@@ -520,9 +508,32 @@
                 if (Object.keys(sCounts).length > 0) {
                     const sParts = [];
                     for (const [val, count] of Object.entries(sCounts)) {
-                        sParts.push(`${val}: ${count}`);
+                         // Create input for each S code
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'feed-rate-item'; // Reuse class if suitable, or just inline
+                        //wrapper.style.display = 'inline-block';
+                        //wrapper.style.margin = '2px';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'number';
+                        input.className = 'feed-rate-input'; // Reuse styling
+                        input.value = val;
+                        input.dataset.original = val;
+                        input.dataset.start = blockStart;
+                        input.dataset.end = blockEnd;
+                        input.onchange = function() { updateSpindleSpeed(this); };
+                        
+                        const countSpan = document.createElement('span');
+                        countSpan.style.fontSize = '0.8em';
+                        countSpan.style.color = '#888';
+                        countSpan.textContent = ` (${count})`;
+                        
+                        wrapper.appendChild(input);
+                        wrapper.appendChild(countSpan);
+                        sParts.push(wrapper);
                     }
-                    cellS.innerHTML = sParts.join('<br>');
+                    // Append all wrappers
+                    sParts.forEach(el => cellS.appendChild(el));
                 } else {
                     cellS.textContent = '-';
                 }
@@ -533,9 +544,30 @@
                 if (Object.keys(fCounts).length > 0) {
                     const fParts = [];
                     for (const [val, count] of Object.entries(fCounts)) {
-                        fParts.push(`${val}: ${count}`);
+                        // Create input for each feed rate
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'feed-rate-item';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'number';
+                        input.className = 'feed-rate-input';
+                        input.value = val;
+                        input.dataset.original = val;
+                        input.dataset.start = blockStart;
+                        input.dataset.end = blockEnd;
+                        input.onchange = function() { updateFeedRate(this); };
+                        
+                        const countSpan = document.createElement('span');
+                        countSpan.style.fontSize = '0.8em';
+                        countSpan.style.color = '#888';
+                        countSpan.textContent = ` (${count})`;
+                        
+                        wrapper.appendChild(input);
+                        wrapper.appendChild(countSpan);
+                        fParts.push(wrapper);
                     }
-                    cellFeed.innerHTML = fParts.join('<br>');
+                    // Append all wrappers
+                    fParts.forEach(el => cellFeed.appendChild(el));
                 } else {
                     cellFeed.textContent = '-';
                 }
@@ -647,12 +679,14 @@
             analyzeText();
         }
 
-        function changeWorkZones() {
-            const findZone = document.getElementById('findZone').value;
-            const replaceZone = document.getElementById('replaceZone').value;
+        function updateWorkZone(input) {
+            const oldVal = input.dataset.original;
+            const newVal = input.value;
+            changeWorkZones(oldVal, newVal);
+        }
 
-            if (findZone === '' || replaceZone === '') {
-                alert('Please enter both "Prev." and "New" work zone numbers.');
+        function changeWorkZones(findZone, replaceZone) {
+            if (!findZone || !replaceZone) {
                 return;
             }
 
@@ -665,7 +699,40 @@
                 if (findZone.includes('.')) {
                     // Extended work offsets (e.g. 154.1 -> G154 P1)
                     const [findG, findP] = findZone.split('.');
-                    const [replaceG, replaceP] = replaceZone.split('.');
+                    // Allow replaceZone to be decimal or just number if user typed "154" for example. 
+                    // But if it's G154 logic, likely expecting input like 154.2
+                    
+                    let replaceG = '154', replaceP = '1';
+                    if(replaceZone.includes('.')) {
+                        [replaceG, replaceP] = replaceZone.split('.');
+                    } else {
+                        // slightly ambiguous if they just type 154 or 54. 
+                        // Let's assume input format "154.XX" for consistency with existing logic or "54"
+                        // If they type 54, maybe they want to switch to G54? 
+                        
+                        // IF we are replacing TO a standard G code (54-59)
+                        if (parseInt(replaceZone) >= 54 && parseInt(replaceZone) <= 59 && !replaceZone.includes('.')) {
+                             // SPECIAL CASE: Convert G154 Px -> G5y
+                             // Regex for G154 P<findP>
+                             const pattern = new RegExp(`(G)${findG}(\\s+)P0?${findP}(\\b)`, 'gi');
+                             result = result.replace(pattern, (match, letter, whitespace, boundary) => {
+                                replacementsCount++;
+                                replacements[letter]++;
+                                return `${letter}${replaceZone}${boundary}`; // Removes P and P-value
+                            });
+                            
+                             return { 
+                                newText: result, 
+                                count: replacementsCount, 
+                                details: replacementsCount > 0 ? { [`${findZone}→${replaceZone}`]: replacements } : {}
+                            };
+                        }
+                        
+                        // Fallback/Default assumption: They just typed the P number or something? 
+                        // Let's stick to the previous implementation logic but handle string split safely.
+                        replaceG = '154'; // default
+                        replaceP = replaceZone; // treat whole input as P if no dot?
+                    }
 
                     // Regex for G154 Px
                     // Matches G<findG> (whitespace) P<findP>
@@ -685,6 +752,13 @@
                         if (parseInt(capturedNum, 10) === parseInt(findZone, 10)) {
                             replacementsCount++;
                              replacements[letter]++;
+                            
+                            // Check if replacing with extended (e.g. swapping 54 -> 154.1)
+                            if (replaceZone.includes('.')) {
+                                const [rG, rP] = replaceZone.split('.');
+                                return `${letter}${rG} P${rP}${whitespace}`;
+                            }
+
                             const replaceFormatted = replaceZone.toString();
                             return `${letter}${replaceFormatted}${whitespace}`;
                         }
@@ -733,15 +807,61 @@
             });
         }
 
-        function changeFeedRates() {
-            const findFeed = document.getElementById('findFeed').value;
-            const replaceFeed = document.getElementById('replaceFeed').value;
+        function updateFeedRate(input) {
+            const oldVal = input.dataset.original;
+            const newVal = input.value;
+            const start = parseInt(input.dataset.start, 10);
+            const end = parseInt(input.dataset.end, 10);
+            changeFeedRates(oldVal, newVal, start, end);
+        }
 
-            if (findFeed === '' || replaceFeed === '') {
-                alert('Please enter both "Prev." and "New" feed rates.');
+        function changeFeedRates(findFeed, replaceFeed, start, end) {
+            if (!findFeed || !replaceFeed) {
                 return;
             }
 
+            // Scoped replacement if start/end provided
+            if (start !== undefined && !isNaN(start) && end !== undefined && !isNaN(end)) {
+                const textArea = document.getElementById('textInput');
+                const fullText = textArea.value;
+                const blockText = fullText.substring(start, end);
+
+                // Temporarily mask comments in the block to avoid replacing inside them
+                const commentPattern = /\([^)]*\)/g;
+                const comments = [];
+                const blockTextNoComments = blockText.replace(commentPattern, (match) => {
+                    comments.push(match);
+                    return `__COMMENT_${comments.length - 1}__`;
+                });
+
+                // Regex: F followed by number.
+                const pattern = /F(\d*\.?\d+)(\s|$)/g;
+                let replaced = false;
+
+                const newBlockNoComments = blockTextNoComments.replace(pattern, (match, capturedNum, whitespace) => {
+                    if (parseFloat(capturedNum) === parseFloat(findFeed)) {
+                        replaced = true;
+                        return `F${replaceFeed}${whitespace}`;
+                    }
+                    return match;
+                });
+
+                if (replaced) {
+                    // Restore comments
+                    let finalBlock = newBlockNoComments;
+                    comments.forEach((comment, index) => {
+                        finalBlock = finalBlock.replace(`__COMMENT_${index}__`, comment);
+                    });
+
+                    // Reconstruct full text
+                    const newFullText = fullText.substring(0, start) + finalBlock + fullText.substring(end);
+                    textArea.value = newFullText;
+                    analyzeText();
+                }
+                return;
+            }
+
+            // Fallback for global replacement (unused for feed rates now?)
             applyReplacement((text) => {
                 let replacementsCount = 0;
                  const replacements = { F: 0 };
@@ -764,6 +884,58 @@
                     details: replacementsCount > 0 ? { [`${findFeed}→${replaceFeed}`]: replacements } : {}
                 };
             });
+        }
+
+        function updateSpindleSpeed(input) {
+            const oldVal = input.dataset.original;
+            const newVal = input.value;
+            const start = parseInt(input.dataset.start, 10);
+            const end = parseInt(input.dataset.end, 10);
+            changeSpindleSpeeds(oldVal, newVal, start, end);
+        }
+
+        function changeSpindleSpeeds(findSpeed, replaceSpeed, start, end) {
+            if (!findSpeed || !replaceSpeed) {
+                return;
+            }
+
+             if (start !== undefined && !isNaN(start) && end !== undefined && !isNaN(end)) {
+                const textArea = document.getElementById('textInput');
+                const fullText = textArea.value;
+                const blockText = fullText.substring(start, end);
+
+                const commentPattern = /\([^)]*\)/g;
+                const comments = [];
+                const blockTextNoComments = blockText.replace(commentPattern, (match) => {
+                    comments.push(match);
+                    return `__COMMENT_${comments.length - 1}__`;
+                });
+
+                // Regex: S followed by number.
+                const pattern = /S\s*(\d+)(\s|$)/g; 
+                let replaced = false;
+
+                const newBlockNoComments = blockTextNoComments.replace(pattern, (match, capturedNum, whitespace) => {
+                    // S values are typically integers
+                    if (parseInt(capturedNum, 10) === parseInt(findSpeed, 10)) {
+                        replaced = true;
+                        return `S${replaceSpeed}${whitespace}`;
+                    }
+                    return match;
+                });
+
+                if (replaced) {
+                    let finalBlock = newBlockNoComments;
+                    comments.forEach((comment, index) => {
+                        finalBlock = finalBlock.replace(`__COMMENT_${index}__`, comment);
+                    });
+
+                    const newFullText = fullText.substring(0, start) + finalBlock + fullText.substring(end);
+                    textArea.value = newFullText;
+                    analyzeText();
+                }
+                return;
+            }
         }
 
         function applyReplacement(replacementLogic) {
