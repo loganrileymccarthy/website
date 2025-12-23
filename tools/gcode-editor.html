@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="container-vertical" style="width: 60%;">
-                    <div class="page-section" style="height: 30%;">
+                    <div class="page-section" style="height: 25%;">
                         <Label><br>Add Timestamped Comment</Label>
                         <div class="form-group">
                             <div class="form-element wide-input">
@@ -185,10 +185,10 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="stats" id="stats"></div>
+                        <!--<div class="stats" id="stats"></div>-->
                     </div>
 
-                    <div class="page-section" style="height: 70%;">
+                    <div class="page-section" style="height: 75%;">
                         <Label><br>Work Zones</Label>
                         <div id="workZones" class="work-zones-container"></div>
                         <Label>Sequence of Operations</Label>
@@ -981,7 +981,7 @@
             } else {
                 statsHTML = 'No replacements made.';
             }
-            document.getElementById('stats').innerHTML = statsHTML;
+            //document.getElementById('stats').innerHTML = statsHTML; /*Disabled stats readout*/
             analyzeText();
         }
 
