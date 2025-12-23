@@ -11,10 +11,10 @@
             -webkit-appearance: none;
             /*Hide arrows on number inputs */
         }
-        .wrapper-main {
+        .wrapper-main { /* wider page than normal */
             max-width: 90vw;
         }
-        .editor-container {
+        .editor-container { /* everything below 'G-code Editor' text */
             height: 75vh;
             max-height: 75vh;
             display: flex;
@@ -23,37 +23,8 @@
             align-items: center;
             gap: 10px;
         }
-        .container-horizontal {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        .container-vertical {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 10px;
-            height: 100%;
-            width: 100%;
-            min-height: 0;
-            overflow: auto; /*Scrolls the container instead of the page*/
-        }
-        .page-section {
-            width: 100%;
-            border: 1px solid #444;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            overflow: auto; /*Scrolls the page-section before the vertical container*/
-        }
         .work-zones-container {
-            margin-bottom: 10px;
-            flex: 0 0 auto;
-            padding: 5px;
+            margin-bottom: 20px;
             color: red;
             font-family: 'Courier New', monospace;
         }
@@ -63,77 +34,14 @@
             overflow-y: auto; /*Scrolls the table before the page-section*/
             /*border-top: 1px solid #333; /* Visual separator */
         }
-        /* Utility classes for flex sizing */
-        .flex-fixed {
-            flex: 0 0 auto;
-        }
-        .flex-fill {
-            flex: 1;
-            min-height: 0;
-            min-width: 0;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .form-column {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .form-element {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        input[type="number"], 
-        input[type="text"] {
-            width: 70px; /* Consistent width */
-            padding: 5px;
-        }
-        .form-element.wide-input input[type="text"] {
-             width: 300px;
-        }
-        .stats {
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            text-align: center;
-            color: white;
-            flex: 0 0 auto; /* Ensure stats don't shrink/grow unexpectedly */
-        }
-        .stats strong {
-            color: #666;
-        }
-        
         .work-zone-item {
             display: inline-block;
+            margin: 10px;
             background-color: #000000;
             color: #aaa;
             border-radius: 4px;
             font-size: 16px;
             font-family: 'Courier New', monospace;
-        }
-        .jump-btn {
-            background: none;
-            border: none;
-            color: yellow;
-            text-decoration: underline;
-            cursor: pointer;
-            padding: 0;
-            font-family: inherit;
-            font-size: inherit;
-        }
-        .jump-btn:hover {
-            background: none;
-            color: white;
         }
     </style>
 </head>
@@ -161,30 +69,25 @@
                     <div class="page-section" style="height: 30%;">
                         <Label><br>Add Timestamped Comment</Label>
                         <div class="form-group">
-                            <div class="form-element wide-input">
-                                <input type="text" id="timestampNote" placeholder="optional note" />
+                            <div class="form-element">
+                                <input type="text" id="timestampNote" style="width: 300px;" placeholder="optional note" />
                             </div>
                             <div class="form-element">
                                 <button onclick="addTimestamp()">Add</button>
                             </div>
                         </div>
-                        
-                        <div class="form-column">
-                            <Label>Change Tool Number</Label>
-                            <div class="form-group">
-                                <div class="form-element">
-                                    <Label>Prev. #</Label>
-                                    <input type="number" id="findTool" size="2" min="0" max="99" />
-                                </div>
-                                <div class="form-element">
-                                    <Label>New #</Label>
-                                    <input type="number" id="replaceTool" size="2" min="0" max="99" />
-                                </div>
-                                <div class="form-element">
-                                    <button onclick="changeToolNumbers()">Change</button>
-                                </div>
+                        <Label>Change Tool Number (N/T/H/D)</Label>
+                        <div class="form-group">
+                            <div class="form-element">
+                                <input type="number" id="findTool" size="2" min="0" max="99" placeholder="old #" />
                             </div>
-                        </div> 
+                            <div class="form-element">
+                                <input type="number" id="replaceTool" size="2" min="0" max="99" placeholder="new #" />
+                            </div>
+                            <div class="form-element">
+                                <button onclick="changeToolNumbers()">Change</button>
+                            </div>
+                        </div>
                         <!--<div class="stats" id="stats"></div>-->
                     </div>
 
@@ -213,12 +116,12 @@
                                 </tbody>
                             </table>
                             <style>
-                                /* Style for cells behavior */
+                                /* Style for all cells */
                                 #operationsTable th,
                                 #operationsTable td {
                                     white-space: nowrap;
                                 }
-
+                                /* Style for cells in the second column */
                                 #operationsTable th:nth-child(2),
                                 #operationsTable td:nth-child(2) {
                                     white-space: normal;
@@ -433,7 +336,7 @@
                 // Create a button-link for the N code
                 const jumpBtn = document.createElement('button');
                 jumpBtn.textContent = currentN.fullMatch;
-                jumpBtn.className = 'jump-btn';
+                jumpBtn.className = 'text-btn';
                 jumpBtn.onclick = () => jumpToCode(currentN.index);
                 cellN.appendChild(jumpBtn);
                 row.appendChild(cellN);
@@ -508,11 +411,9 @@
                 if (Object.keys(sCounts).length > 0) {
                     const sParts = [];
                     for (const [val, count] of Object.entries(sCounts)) {
-                         // Create input for each S code
+                        // Create input for each S code
                         const wrapper = document.createElement('div');
                         wrapper.className = 'feed-rate-item'; // Reuse class if suitable, or just inline
-                        //wrapper.style.display = 'inline-block';
-                        //wrapper.style.margin = '2px';
                         
                         const input = document.createElement('input');
                         input.type = 'number';

@@ -1,0 +1,7 @@
+to fix:
+tool number change also changing D and H on other blocks than the target block.
+
+to add:
+probe cycle
+M0 comments
+change comments in operations table
