@@ -686,22 +686,51 @@
 
             applyReplacement((text) => {
                 let replacementsCount = 0;
-                 const replacements = { T: 0, N: 0, H: 0, D: 0 };
-                
-                const pattern = /([TNHD])0*(\d{1,2})(\s|$)/g;
+                const replacements = { T: 0, N: 0, H: 0, D: 0 };
+                const replaceToolFormatted = replaceTool.toString().padStart(2, '0');
 
-                const result = text.replace(pattern, (match, letter, capturedNum, whitespace) => {
-                    if (parseInt(capturedNum, 10) === parseInt(findTool, 10)) {
-                        replacementsCount++;
-                        replacements[letter]++;
-                        const replaceFormatted = replaceTool.toString().padStart(2, '0');
-                        return `${letter}${replaceFormatted}${whitespace}`;
+                // Regex for finding the tool in the block (e.g. T1, T01)
+                // Using \D|$ to ensure we don't match T10 when looking for T1
+                const tPattern = new RegExp(`T\\s*0*${findTool}(\\D|$)`, 'i');
+
+                // Regex for replacing N/T/H/D in the valid block
+                const replacePattern = /([TNHD])0*(\d{1,2})(\s|$)/gi;
+
+                let newText = "";
+                let lastIndex = 0;
+                const nRegex = /N(\d+)/g;
+                let match;
+
+                const processChunk = (chunk) => {
+                    // Only process this chunk if it contains the target Tool code
+                    if (tPattern.test(chunk)) {
+                        return chunk.replace(replacePattern, (m, letter, capturedNum, whitespace) => {
+                            if (parseInt(capturedNum, 10) === parseInt(findTool, 10)) {
+                                replacementsCount++;
+                                const key = letter.toUpperCase();
+                                if (replacements[key] !== undefined) {
+                                    replacements[key]++;
+                                }
+                                return `${letter}${replaceToolFormatted}${whitespace}`;
+                            }
+                            return m;
+                        });
                     }
-                    return match;
-                });
+                    return chunk;
+                };
+
+                while ((match = nRegex.exec(text)) !== null) {
+                    // Extract text from end of last known position up to start of current N-code
+                    const chunk = text.substring(lastIndex, match.index);
+                    newText += processChunk(chunk);
+                    lastIndex = match.index;
+                }
+                // Process the final block (from last N to end of file)
+                const lastChunk = text.substring(lastIndex);
+                newText += processChunk(lastChunk);
 
                  return { 
-                    newText: result, 
+                    newText: newText, 
                     count: replacementsCount, 
                     details: replacementsCount > 0 ? { [`${findTool}→${replaceTool}`]: replacements } : {}
                 };
@@ -903,6 +932,29 @@
             const table = document.getElementById('operationsTable');
             if (!table) return;
 
+            // Clone the table to avoid modifying the displayed one
+            const tableClone = table.cloneNode(true);
+            
+            // The clone does not copy user-entered values in inputs. We need to copy them manually.
+            const originalInputs = table.querySelectorAll('input');
+            const cloneInputs = tableClone.querySelectorAll('input');
+            
+            for (let i = 0; i < originalInputs.length; i++) {
+               cloneInputs[i].value = originalInputs[i].value;
+            }
+
+            // Replace inputs with simple text/spans in the clone for printing
+            const finalInputs = tableClone.querySelectorAll('input');
+            finalInputs.forEach(input => {
+                const span = document.createElement('span');
+                span.textContent = input.value;
+                input.parentNode.replaceChild(span, input);
+            });
+            // Also remove the "count" spans if desired, or keep them. 
+            // The logic above keeps "count" spans as they are siblings to the input.
+            // But we might want to clean up formatting.  The parent usually has [input][span].
+            // Replacement leaves [span][span]. This is acceptable.
+
             const newWin = window.open('', 'Print-Window');
             newWin.document.open();
             newWin.document.write('<html><head><title>Operations Summary</title>');
@@ -910,9 +962,11 @@
             newWin.document.write('table { border-collapse: collapse; width: 100%; font-family: "Courier New", monospace; }');
             newWin.document.write('th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }');
             newWin.document.write('th { background-color: #f2f2f2; }');
+            // Hide buttons in print view if any were cloned (e.g. jump buttons, add buttons)
+            //newWin.document.write('button { display: none; }');
             newWin.document.write('</style>');
             newWin.document.write('</head><body onload="window.print()">');
-            newWin.document.write(table.outerHTML);
+            newWin.document.write(tableClone.outerHTML);
             newWin.document.write('</body></html>');
             newWin.document.close();
             setTimeout(function () { newWin.close(); }, 10);
