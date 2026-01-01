@@ -38,6 +38,39 @@
             height: 100%;
             object-fit: cover;
         }
+        .practice-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .street-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.5;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .street-input.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .validation-icon {
+            font-size: 24px;
+            height: 30px;
+            visibility: hidden;
+        }
+        .validation-icon.correct {
+            visibility: visible;
+            color: #4CAF50;
+        }
+        .validation-icon.incorrect {
+            visibility: visible;
+            color: #f44336;
+        }
     </style>
 </head>
 
@@ -53,20 +86,46 @@
             <div>
                 <button onclick="dealNext()" id="dealButton">Deal Flop</button>
             </div>
-            <div>
-                <br>
-                <label for="nuts">Nuts:</label>
-                <input list="hand-types" id="nuts" name="nuts" />
-                <datalist id="hand-types">
-                    <option value="sflush"></option>
-                    <option value="quads"></option>
-                    <option value="boat"></option>
-                    <option value="flush"></option>
-                    <option value="straight"></option>
-                    <option value="trips"></option>
-                    <option value=""></option>
-                </datalist>
+            
+            <datalist id="hand-types">
+                <option value="Straight Flush"></option>
+                <option value="Quads"></option>
+                <option value="Full House"></option>
+                <option value="Flush"></option>
+                <option value="Straight"></option>
+                <option value="Trips"></option>
+                <option value="Two Pair"></option>
+                <option value="Pair"></option>
+                <option value="High Card"></option>
+            </datalist>
+
+            <div class="practice-section">
+                <!-- Flop Input -->
+                <div class="street-input" id="flopSection">
+                    <label for="nutsFlop">Flop Nuts:</label>
+                    <input list="hand-types" id="nutsFlop" onchange="checkAnswer('flop')" placeholder="Select..." />
+                    <div class="validation-icon" id="iconFlop"></div>
+                    <!-- Hidden field to store correct answer -->
+                    <input type="hidden" id="answerFlop">
+                </div>
+
+                <!-- Turn Input -->
+                <div class="street-input" id="turnSection">
+                    <label for="nutsTurn">Turn Nuts:</label>
+                    <input list="hand-types" id="nutsTurn" onchange="checkAnswer('turn')" placeholder="Select..." />
+                    <div class="validation-icon" id="iconTurn"></div>
+                    <input type="hidden" id="answerTurn">
+                </div>
+
+                <!-- River Input -->
+                <div class="street-input" id="riverSection">
+                    <label for="nutsRiver">River Nuts:</label>
+                    <input list="hand-types" id="nutsRiver" onchange="checkAnswer('river')" placeholder="Select..." />
+                    <div class="validation-icon" id="iconRiver"></div>
+                    <input type="hidden" id="answerRiver">
+                </div>
             </div>
+
     <script>
         let currentDeck = [];
         let currentHand = [];
@@ -98,12 +157,53 @@
             return shuffled;
         }
         
+        function resetInputs() {
+            ['Flop', 'Turn', 'River'].forEach(street => {
+                const input = document.getElementById(`nuts${street}`);
+                const icon = document.getElementById(`icon${street}`);
+                const section = document.getElementById(`${street.toLowerCase()}Section`);
+                const answer = document.getElementById(`answer${street}`);
+
+                input.value = '';
+                input.disabled = false;
+                icon.className = 'validation-icon';
+                icon.textContent = '';
+                section.classList.remove('active');
+                answer.value = '';
+            });
+        }
+
+        function activateSection(street, correctCuts) {
+            const section = document.getElementById(`${street.toLowerCase()}Section`);
+            const answer = document.getElementById(`answer${street}`);
+            section.classList.add('active');
+            answer.value = correctCuts;
+        }
+
+        function checkAnswer(street) {
+            const streetCap = street.charAt(0).toUpperCase() + street.slice(1);
+            const input = document.getElementById(`nuts${streetCap}`);
+            const answer = document.getElementById(`answer${streetCap}`);
+            const icon = document.getElementById(`icon${streetCap}`);
+            
+            if (!input.value) return;
+
+            if (input.value === answer.value) {
+                icon.textContent = '✅';
+                icon.className = 'validation-icon correct';
+            } else {
+                icon.textContent = '❌';
+                icon.className = 'validation-icon incorrect';
+            }
+        }
+
         function dealNext() {
             const button = document.getElementById('dealButton');
             const container = document.getElementById('cardsContainer');
             
             if (dealStage === 0) {
                 // Deal flop (3 cards)
+                resetInputs(); // Clear previous game
                 const deck = createDeck();
                 const shuffled = shuffleArray(deck);
                 currentHand = shuffled.slice(0, 5);
@@ -127,9 +227,9 @@
                 
                 dealStage = 1;
                 button.textContent = 'Deal Turn';
-                if (currentHand[0].rank == currentHand[1].rank || currentHand[0].rank == currentHand[2].rank || currentHand[1].rank == currentHand[2].rank) {
-                nuts.value = "quads";
-                }
+                
+                const nuts = identifyNuts(currentHand.slice(0, 3));
+                activateSection('Flop', nuts);
                 
             } else if (dealStage === 1) {
                 // Deal turn (4th card)
@@ -138,6 +238,9 @@
                 dealStage = 2;
                 button.textContent = 'Deal River';
                 
+                const nuts = identifyNuts(currentHand.slice(0, 4));
+                activateSection('Turn', nuts);
+                
             } else if (dealStage === 2) {
                 // Deal river (5th card)
                 const cards = container.querySelectorAll('.card');
@@ -145,17 +248,109 @@
                 dealStage = 3;
                 button.textContent = 'New Hand';
                 
+                const nuts = identifyNuts(currentHand.slice(0, 5));
+                activateSection('River', nuts);
+                
             } else {
                 // Reset for new hand
                 dealStage = 0;
                 button.textContent = 'Deal Flop';
-                nuts.value = "";
                 dealNext();
             }
         }
         
         // Start with button ready
         dealStage = 0;
+
+        function getCardRank(rankStr) {
+            const map = {
+                'A': 14,
+                'K': 13,
+                'Q': 12,
+                'J': 11,
+                '0': 10
+            };
+            return map[rankStr] || parseInt(rankStr);
+        }
+
+        // Checks if 3+ unique ranks fit within a window of 5 (e.g. max-min <= 4)
+        function checkStraightPotential(ranks) {
+            // Handle unique ranks only
+            const unique = [...new Set(ranks)].sort((a, b) => a - b);
+            
+            // Handle Wheel case: if A (14) is present, add 1
+            if (unique.includes(14)) {
+                unique.unshift(1);
+            }
+
+            // Iterate through every combination of 3 cards
+            
+            for (let i = 0; i < unique.length; i++) {
+                for (let j = i + 1; j < unique.length; j++) {
+                    for (let k = j + 1; k < unique.length; k++) {
+                        const sub = [unique[i], unique[j], unique[k]];
+                        const max = Math.max(...sub);
+                        const min = Math.min(...sub);
+                        if (max - min <= 4) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function identifyNuts(board) {
+            // 1. Parse board
+            const suitsCount = {};
+            const ranks = [];
+            const cardsBySuit = {};
+
+            board.forEach(c => {
+                const r = getCardRank(c.rank);
+                ranks.push(r);
+                
+                suitsCount[c.suit] = (suitsCount[c.suit] || 0) + 1;
+                
+                if (!cardsBySuit[c.suit]) cardsBySuit[c.suit] = [];
+                cardsBySuit[c.suit].push(r);
+            });
+
+            // 2. Check Straight Flush
+            // If any suit has >= 3 cards, check if those cards have straight potential
+            for (const suit in cardsBySuit) {
+                if (cardsBySuit[suit].length >= 3) {
+                    if (checkStraightPotential(cardsBySuit[suit])) {
+                        return "Straight Flush";
+                    }
+                }
+            }
+
+            // 3. Check Quads (Pair on board)
+            const rankCounts = {};
+            let hasPair = false;
+            ranks.forEach(r => {
+                rankCounts[r] = (rankCounts[r] || 0) + 1;
+                if (rankCounts[r] >= 2) hasPair = true;
+            });
+
+            if (hasPair) {
+                return "Quads";
+            }
+
+            // 4. Check Flush
+            // If any suit has >= 3 cards (and SF check failed)
+            const maxSuitCount = Math.max(...Object.values(suitsCount));
+            if (maxSuitCount >= 3) {
+                return "Flush";
+            }
+
+            // 5. Check Straight
+            if (checkStraightPotential(ranks)) {
+                return "Straight";
+            }
+
+            // 6. Default to Trips
+            return "Trips";
+        }
     </script>
   
         </main>
