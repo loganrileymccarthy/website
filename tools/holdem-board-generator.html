@@ -87,23 +87,22 @@
                 <button onclick="dealNext()" id="dealButton">Deal Flop</button>
             </div>
             
-            <datalist id="hand-types">
-                <option value="Straight Flush"></option>
-                <option value="Quads"></option>
-                <option value="Full House"></option>
-                <option value="Flush"></option>
-                <option value="Straight"></option>
-                <option value="Trips"></option>
-                <option value="Two Pair"></option>
-                <option value="Pair"></option>
-                <option value="High Card"></option>
-            </datalist>
-
             <div class="practice-section">
                 <!-- Flop Input -->
                 <div class="street-input" id="flopSection">
                     <label for="nutsFlop">Flop Nuts:</label>
-                    <input list="hand-types" id="nutsFlop" onchange="checkAnswer('flop')" placeholder="Select..." />
+                    <select id="nutsFlop" onchange="checkAnswer('flop')">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Straight Flush">Straight Flush</option>
+                        <option value="Quads">Quads</option>
+                        <option value="Full House">Full House</option>
+                        <option value="Flush">Flush</option>
+                        <option value="Straight">Straight</option>
+                        <option value="Trips">Trips</option>
+                        <option value="Two Pair">Two Pair</option>
+                        <option value="Pair">Pair</option>
+                        <option value="High Card">High Card</option>
+                    </select>
                     <div class="validation-icon" id="iconFlop"></div>
                     <!-- Hidden field to store correct answer -->
                     <input type="hidden" id="answerFlop">
@@ -112,7 +111,18 @@
                 <!-- Turn Input -->
                 <div class="street-input" id="turnSection">
                     <label for="nutsTurn">Turn Nuts:</label>
-                    <input list="hand-types" id="nutsTurn" onchange="checkAnswer('turn')" placeholder="Select..." />
+                    <select id="nutsTurn" onchange="checkAnswer('turn')">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Straight Flush">Straight Flush</option>
+                        <option value="Quads">Quads</option>
+                        <option value="Full House">Full House</option>
+                        <option value="Flush">Flush</option>
+                        <option value="Straight">Straight</option>
+                        <option value="Trips">Trips</option>
+                        <option value="Two Pair">Two Pair</option>
+                        <option value="Pair">Pair</option>
+                        <option value="High Card">High Card</option>
+                    </select>
                     <div class="validation-icon" id="iconTurn"></div>
                     <input type="hidden" id="answerTurn">
                 </div>
@@ -120,7 +130,18 @@
                 <!-- River Input -->
                 <div class="street-input" id="riverSection">
                     <label for="nutsRiver">River Nuts:</label>
-                    <input list="hand-types" id="nutsRiver" onchange="checkAnswer('river')" placeholder="Select..." />
+                    <select id="nutsRiver" onchange="checkAnswer('river')">
+                        <option value="" disabled selected>Select...</option>
+                        <option value="Straight Flush">Straight Flush</option>
+                        <option value="Quads">Quads</option>
+                        <option value="Full House">Full House</option>
+                        <option value="Flush">Flush</option>
+                        <option value="Straight">Straight</option>
+                        <option value="Trips">Trips</option>
+                        <option value="Two Pair">Two Pair</option>
+                        <option value="Pair">Pair</option>
+                        <option value="High Card">High Card</option>
+                    </select>
                     <div class="validation-icon" id="iconRiver"></div>
                     <input type="hidden" id="answerRiver">
                 </div>
