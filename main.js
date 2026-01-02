@@ -6,7 +6,7 @@ class MyHeader extends HTMLElement {
 				<a href="../index.html" class="homeButton">&#x2694 LRM &#x2694</a>
 			</h1>
 			<p>
-   				<br>
+   				
 				<a href="../about.html">about</a> // 
 				<a href="../tools.html">tools</a> //
 				<a href="../fungi.html">fungi</a> //
