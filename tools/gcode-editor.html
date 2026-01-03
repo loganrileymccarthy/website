@@ -88,6 +88,27 @@
                                 <button onclick="changeToolNumbers()">Change</button>
                             </div>
                         </div>
+                        <Label>Add Z Surface Probing</Label>
+                        <div class="form-group">
+                            <div class="form-element">
+                                <input type="number" id="nb1" placeholder="tool #" />
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="nb2" placeholder="zone #" />
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="nb3" placeholder="X" />
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="nb4" placeholder="Y" />
+                            </div>
+                            <div class="form-element">
+                                <input type="number" id="nb5" placeholder="Z" />
+                            </div>
+                            <div class="form-element">
+                                <button onclick="addNumberBlock()">Add</button>
+                            </div>
+                        </div>
                         <!--<div class="stats" id="stats"></div>-->
                     </div>
 
@@ -539,7 +560,7 @@
             const match = oRegex.exec(text);
 
             if (!match) {
-                alert('No O-code found (e.g., O1234). Cannot add timestamp.');
+                alert('No O-code found. Cannot add timestamp.');
                 return;
             }
 
@@ -577,6 +598,172 @@
             }
 
             textArea.value = newText;
+            analyzeText();
+        }
+
+        function addNumberBlock() {
+            const textArea = document.getElementById('textInput');
+            const text = textArea.value;
+
+            // 1. Get input values
+            const v1 = parseInt(document.getElementById('nb1').value);
+            const v2 = parseFloat(document.getElementById('nb2').value);
+            const v3 = parseFloat(document.getElementById('nb3').value);
+            const v4 = parseFloat(document.getElementById('nb4').value);
+            const v5 = parseFloat(document.getElementById('nb5').value);
+
+            if (v1==null || v2==null || v3==null || v4==null || v5==null) {
+                alert('Please enter parameters.');
+                return;
+            }
+
+            // Handle zone number syntax
+            let sVal = v2;
+            let zoneVal = v2;
+            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
+                sVal = v2 - 53;
+            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
+                const parts = v2.toString().split(".");
+                const integerPart = parseInt(parts[0]);
+                const decimalPart = parseInt(parts[1]);
+                zoneVal = integerPart + " P" + decimalPart;
+            } else {
+                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
+                return;
+            }
+
+            // Calculate Z heights
+            let safeVal1 = (v5+0.1);
+            let safeVal2 = (v5+3.0);
+
+            // Construct the block
+            const lines = [];
+            lines.push("\nG20");
+            lines.push("G0 G17 G40 G49 G80 G90");
+            lines.push("\n");
+            lines.push("N" + v1 + " (PROBE)");
+            lines.push('T' + v1 + " M6\n");
+            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
+            lines.push("G43 H"+ v1 + " Z" + safeVal2.toFixed(1));
+            lines.push("G65 P9832");
+            lines.push("G65 P9810 Z" + safeVal1.toFixed(1) + " F100.");
+            lines.push("G65 P9811 Z" + v5.toFixed(1) + " S" + (sVal));
+            lines.push("G65 P9833");
+            lines.push("G00 Z" + safeVal2.toFixed(1));
+            lines.push("G53 Z0");
+            lines.push("\n");
+            
+            if (lines.length === 0) return;
+            const blockContent = lines.join('\n');
+
+            // 2. Find Insertion Point
+            // "After any lines that are just comments at the beginning, but before any other codes."
+            // Assuming "at the beginning" means after the O-number (program start).
+            
+            const oRegex = /^O\d+.*$/m;
+            const oMatch = oRegex.exec(text);
+
+            if (!oMatch) {
+                alert('No O-code found. Cannot automatically place block.');
+                return;
+            }
+
+            // Start scanning after the O-line
+            const oLineEndIndex = oMatch.index + oMatch[0].length;
+            const textPostO = text.substring(oLineEndIndex);
+            
+            // Split into lines to find the first non-comment line
+            const postOLines = textPostO.split('\n');
+            
+            let insertionLineIndex = 0; // Relative to postOLines
+            
+            // We need to keep track of character index to reconstruct
+            let relativeCharIndex = 0;
+            
+            for (let i = 0; i < postOLines.length; i++) {
+                const line = postOLines[i].trim();
+                
+                // If line is empty, skip
+                if (line.length === 0) {
+                    relativeCharIndex += postOLines[i].length + 1; // +1 for newline
+                    continue;
+                }
+                
+                // If line is a comment (starts with '(')
+                if (line.startsWith('(')) {
+                    relativeCharIndex += postOLines[i].length + 1;
+                    continue; // Skip comment lines
+                }
+                
+                // Found a non-empty, non-comment line. Insert BEFORE this line.
+                // relativeCharIndex is pointing to the start of this line (including previous newlines)
+                break;
+            }
+            
+            // If we reached the end (loop finished without break), 
+            // it means everything after O-code is comments or empty. Append at end.
+            
+            // Identify insertion point in full text
+            let insertionPoint = oLineEndIndex + relativeCharIndex;
+            
+            // Ensure we insert on a new line
+            // Check content before insertion point (if it's a newline)
+            // But we calculated insertionPoint as start of a line (after previous newlines).
+            // However, after O-code, if there's no newline immediately, we need one.
+            
+            // Let's handle the splice carefully.
+            const prefix = text.substring(0, insertionPoint);
+            const suffix = text.substring(insertionPoint);
+            
+            // If prefix doesn't end in newline, add one (shouldn't happen if we split by newline correctly, 
+            // except if O-line had no newline and we are appending immediately? 
+            // oRegex match includes the text on the line, but regex `$` matches end of line (before newline char usually?). 
+            // `.` doesn't match newline. So oMatch[0] is just the characters. 
+            // So text[oLineEndIndex] is likely '\n'.
+            
+            // Since we split valid lines, relativeCharIndex includes the newlines of scanned lines.
+            // But checking connection:
+            // "O1000\n(Comm)\nG21"
+            // oMatch="O1000". oLineEnd=5.
+            // textPostO="\n(Comm)\nG21"
+            // split('\n') -> ["", "(Comm)", "G21"] (if scanned correctly? No textPostO starts with \n usually if O1000 is followed by \n)
+            
+            // Let's re-evaluate scan logic slightly safer with index.
+            
+            let currentIdx = oLineEndIndex;
+            if (text[currentIdx] === '\n') currentIdx++; // Skip the newline after O-line immediately
+            
+            // Now scan line by line from currentIdx
+            while (currentIdx < text.length) {
+                const nextNewline = text.indexOf('\n', currentIdx);
+                const lineEnd = (nextNewline === -1) ? text.length : nextNewline;
+                const line = text.substring(currentIdx, lineEnd).trim();
+                
+                if (line.length === 0 || line.startsWith('(')) {
+                    // Skip this line
+                    currentIdx = (nextNewline === -1) ? text.length : nextNewline + 1;
+                } else {
+                    // Found code!
+                    break;
+                }
+            }
+            
+            // Insert at currentIdx
+            const before = text.substring(0, currentIdx);
+            const after = text.substring(currentIdx);
+            
+            // We want to insert `${blockContent}\n` 
+            // If we are inserting at the start of a line, we just prepend `blockContent\n`.
+            // If we are at EOF, we might need a preceding newline if `before` doesn't end with one?
+            // Actually `before` usually ends with `\n` because we incremented past it in the loop.
+            
+            // Edge case: O1000 (no newline). currentIdx would be end.
+            if (before.length > 0 && before[before.length - 1] !== '\n') {
+                 textArea.value = before + '\n' + blockContent + '\n' + after;
+            } else {
+                 textArea.value = before + blockContent + '\n' + after;
+            }
+            
             analyzeText();
         }
 
