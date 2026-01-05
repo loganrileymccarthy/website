@@ -392,3 +392,7 @@ body.light-mode {
     border: 1px solid #ccc;
     color: black;
 }
+
+.light-mode ::placeholder {
+    color: gray;
+}
