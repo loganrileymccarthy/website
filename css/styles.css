@@ -145,9 +145,26 @@ input[type="text"]:focus {
 }
 
 input[type="checkbox"] {
-  width: .5em;
-  height: .5em;
+  width: .75em;
+  height: .75em;
   accent-color: yellow;
+}
+
+select {
+  padding: 5px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  outline: none;
+  border-color: yellow;
+  pointer-events: none;
 }
 
 button {
@@ -343,8 +360,7 @@ body.light-mode {
 .light-mode h2,
 .light-mode p,
 .light-mode label,
-.light-mode table,
-.light-mode .work-zones-container {
+.light-mode table {
   color: black;
 }
 
@@ -366,7 +382,7 @@ body.light-mode {
 .light-mode input[type="number"],
 .light-mode select,
 .light-mode option {
-    background-color: #f0f0f0;
+    background-color: antiquewhite;
     color: black;
     border: 1px solid #ccc;
 }
