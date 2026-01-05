@@ -30,6 +30,8 @@ main {
   padding: 0;
   height: auto;
   min-height: calc(100vh - 175px);
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
@@ -236,9 +238,9 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   gap: 10px;
-  height: 100%;
+  flex: 1;
   width: 100%;
 }
 
@@ -248,7 +250,7 @@ img {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
-  height: 100%;
+  flex: 1;
   width: 100%;
   min-height: 0;
   overflow: auto; /*Scrolls the container instead of the page*/
