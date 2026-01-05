@@ -29,6 +29,7 @@ main {
   margin: 0;
   padding: 0;
   height: auto;
+  min-height: calc(100vh - 175px);
 }
 
 footer {
