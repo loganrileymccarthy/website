@@ -28,7 +28,7 @@ header {
 main {
   margin: 0;
   padding: 0;
-  height: auto;
+  height: calc(100vh - 130px);
 }
 
 footer {
@@ -116,6 +116,11 @@ input[type="number"]:focus {
   outline: none;
   border-color: yellow;
   pointer-events: none;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  /*Hide arrows on number inputs */
 }
 
 input[type="text"] {
@@ -219,12 +224,21 @@ img {
   text-align: center;
 }
 
+.wrapper-wide {
+  max-width: 90vw; /* Sets max-width of page based on current structure */
+  margin-left: auto; /* Centers page */
+  margin-right: auto;
+  text-align: center;
+}
+
 .container-horizontal { /* General layout containers */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  height: 100%;
+  width: 100%;
 }
 
 .container-vertical {
@@ -315,3 +329,33 @@ img {
 }
 
 /*.form-element {}*/
+
+/* LIGHT MODE OVERRIDES */
+body.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.light-mode h1,
+.light-mode h2,
+.light-mode p,
+.light-mode label,
+.light-mode table,
+.light-mode .work-zones-container {
+  color: black;
+}
+
+.light-mode textarea,
+.light-mode input[type="text"],
+.light-mode input[type="number"],
+.light-mode select {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.light-mode table th,
+.light-mode table td {
+    border: 1px solid #ccc;
+    color: black;
+}

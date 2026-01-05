@@ -1,7 +1,7 @@
 to fix:
-tool number change also changing D and H on other blocks than the target block.
+work zones display shows G154 P01 as 154.1 instead of 154.01
+number rounding in probing blocks
 
 to add:
-probe cycle
 M0 comments
 change comments in operations table
