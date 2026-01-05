@@ -29,7 +29,7 @@ main {
   margin: 0;
   padding: 0;
   height: auto;
-  min-height: 75vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
 }
