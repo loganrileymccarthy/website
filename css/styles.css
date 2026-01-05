@@ -145,8 +145,8 @@ input[type="text"]:focus {
 }
 
 input[type="checkbox"] {
-  width: 2em;
-  height: 2em;
+  width: .5em;
+  height: .5em;
   accent-color: yellow;
 }
 
@@ -335,7 +335,7 @@ img {
 
 /* LIGHT MODE OVERRIDES */
 body.light-mode {
-  background-color: white;
+  background-color: lightslategray;
   color: black;
 }
 
@@ -348,10 +348,24 @@ body.light-mode {
   color: black;
 }
 
+.light-mode a {
+    color: blue;
+}
+
+.light-mode a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.light-mode .homeButton {
+    color: black;
+}
+
 .light-mode textarea,
 .light-mode input[type="text"],
 .light-mode input[type="number"],
-.light-mode select {
+.light-mode select,
+.light-mode option {
     background-color: #f0f0f0;
     color: black;
     border: 1px solid #ccc;
