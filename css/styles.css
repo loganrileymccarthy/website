@@ -349,8 +349,6 @@ img {
   width: 100%;
 }
 
-/*.form-element {}*/
-
 /* LIGHT MODE OVERRIDES */
 body.light-mode {
   background-color: lightslategray;

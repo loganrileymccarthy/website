@@ -1,6 +1,7 @@
 to fix:
 work zones display shows G154 P01 as 154.1 instead of 154.01
 number rounding in probing blocks
+feed rates with decimals are not changed with input box
 
 to add:
 M0 comments
