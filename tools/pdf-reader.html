@@ -11,52 +11,23 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
     <style>
-        .pdf-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            height: 80vh;
-        }
-
-        .viewer-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #444;
-            padding: 10px;
-            overflow: auto;
-        }
-
-        .text-section {
-            border: 1px solid #444;
-            padding: 10px;
-            overflow-y: auto;
-            background-color: #2a2a2a;
-            color: #ddd;
-            font-family: 'Courier New', monospace;
-        }
-
         canvas {
             border: 1px solid #000;
             max-width: 100%;
         }
 
-        .controls {
-            margin-bottom: 10px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
         .page-text {
-            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            margin-bottom: 5px;
             border-bottom: 1px solid #555;
-            padding-bottom: 10px;
         }
 
         .page-header {
+            font-family: 'Courier New', monospace;
             font-weight: bold;
-            color: #4caf50;
+            color: darkgrey;
+            text-align: left;
             margin-bottom: 5px;
         }
 
@@ -69,7 +40,7 @@
 
         .tap-list h4 {
             margin: 0 0 5px 0;
-            color: #4caf50;
+            color: darkgrey;
             font-size: 0.9em;
         }
 
@@ -82,34 +53,37 @@
 
         .tap-list li {
             font-size: 0.9em;
-            color: #aaa;
+            color: darkgrey;
         }
     </style>
 </head>
 
 <body>
     <script type=module src=../main.js></script>
-    <div class="wrapper-main">
-        <my-header></my-header>
+    <div class="wrapper-wide">
         <main>
+            
             <h1>
                 PDF Reader
                 <br>
             </h1>
 
-            <div class="controls">
-                <input type="file" id="fileInput" accept=".pdf" />
-                <button id="prevPage">Previous</button>
-                <span id="pageInfo">Page <span id="pageNum">--</span> of <span id="pageCount">--</span></span>
-                <button id="nextPage">Next</button>
-            </div>
-
-            <div class="pdf-container">
-                <div class="viewer-section">
-                    <canvas id="pdf-render"></canvas>
+            <div class="container-horizontal" style="min-height: 90vh; max-height: 90vh;">
+                <div class="container-vertical">
+                    <div class="page-section flex-fill">
+                        <input type="file" id="fileInput" accept=".pdf" />
+                        <canvas id="pdf-render"></canvas>
+                        <div class="form-group">
+                            <button id="prevPage">Previous</button>
+                            <span id="pageInfo">Page <span id="pageNum">--</span> of <span id="pageCount">--</span></span>
+                            <button id="nextPage">Next</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="text-section" id="text-output">
-                    <p>Upload a PDF to see extracted text here.</p>
+                <div class="container-vertical">
+                    <div class="page-section flex-fill" id="text-output">
+                        <p>Upload a PDF to see extracted text here.</p>
+                    </div>
                 </div>
             </div>
 
