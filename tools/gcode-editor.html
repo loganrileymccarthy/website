@@ -53,9 +53,9 @@
                             <button onclick="changeToolNumbers()">Change</button>
                         </div>
                         <Label>Add Probing Cycle</Label>
-                        <div class="form-group" style="margin-bottom: 5px;">
-                            <select id="probingSelect" onchange="updateProbingVisibility()" style="width: 100px;">
-                                <option value="surface">Surface</option>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <select id="probingSelect" onchange="updateProbingVisibility()" style="width: 120px;">
+                                <option value="surface">Z Surface</option>
                                 <option value="bore">Bore</option>
                                 <option value="boss">Boss</option>
                                 <option value="gap-x">Gap X</option>
@@ -63,6 +63,7 @@
                                 <option value="gap-y">Gap Y</option>
                                 <option value="web-y">Web Y</option>
                             </select>
+                            <button onclick="probeDecider()">Add</button>
                         </div>
                         <div id="probing-surface">
                             <div class="form-group">
@@ -71,7 +72,6 @@
                                 <input type="number" id="nb1.3" placeholder="X" />
                                 <input type="number" id="nb1.4" placeholder="Y" />
                                 <input type="number" id="nb1.5" placeholder="Z" />
-                                <button onclick="addSurfaceProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-bore" style="display:none;">
@@ -82,7 +82,6 @@
                                 <input type="number" id="nb2.4" placeholder="Y" />
                                 <input type="number" id="nb2.5" placeholder="Z" />
                                 <input type="number" id="nb2.6" placeholder="D" />
-                                <button onclick="addBoreProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-boss" style="display:none;">
@@ -94,7 +93,6 @@
                                 <input type="number" id="nb3.5" placeholder="surface" />
                                 <input type="number" id="nb3.6" placeholder="depth" />
                                 <input type="number" id="nb3.7" placeholder="D" />
-                                <button onclick="addBossProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-gap-x" style="display:none;">
@@ -105,7 +103,6 @@
                                 <input type="number" id="nb4.4" placeholder="Y" />
                                 <input type="number" id="nb4.5" placeholder="Z" />
                                 <input type="number" id="nb4.6" placeholder="width" />
-                                <button onclick="addGapXProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-web-x" style="display:none;">
@@ -117,7 +114,6 @@
                                 <input type="number" id="nb5.5" placeholder="surface" />
                                 <input type="number" id="nb5.6" placeholder="depth" />
                                 <input type="number" id="nb5.7" placeholder="width" />
-                                <button onclick="addWebXProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-gap-y" style="display:none;">
@@ -128,7 +124,6 @@
                                 <input type="number" id="nb6.4" placeholder="Y" />
                                 <input type="number" id="nb6.5" placeholder="Z" />
                                 <input type="number" id="nb6.6" placeholder="width" />
-                                <button onclick="addGapYProbe()">Add</button>
                             </div>
                         </div>
                         <div id="probing-web-y" style="display:none;">
@@ -140,7 +135,6 @@
                                 <input type="number" id="nb7.5" placeholder="surface" />
                                 <input type="number" id="nb7.6" placeholder="depth" />
                                 <input type="number" id="nb7.7" placeholder="width" />
-                                <button onclick="addWebYProbe()">Add</button>
                             </div>
                         </div>
                         <!--<div class="stats" id="stats"></div>-->
@@ -241,13 +235,13 @@
                 workZonesContainer.innerHTML = sortedZones.map(zone => {
                     // Extract just the number/identifier part for the input
                     // G54 -> 54
-                    // G154 P1 -> 154.1
+                    // G154 P1 -> 154.01
                     let inputVal = '';
                     if (zone.startsWith('G5')) {
                         inputVal = zone.substring(1);
                     } else if (zone.startsWith('G154')) {
                         const pVal = zone.split('P')[1];
-                        inputVal = `154.${pVal}`;
+                        inputVal = `154.${pVal.padStart(2, '0')}`;
                     }
                     
                     return `
@@ -413,7 +407,7 @@
                 row.appendChild(cellT);
 
                 // M code cells
-                const createStatusCellWithButton = (hasCode, codeName) => {
+                const createStatusCellWithButton = (hasCode, codeName, allowComment = false) => {
                     const cell = document.createElement('td');
                     if (hasCode) {
                         cell.textContent = 'Yes';
@@ -421,17 +415,34 @@
                     } else {
                         cell.textContent = '';
                         cell.style.color = '#f44336';
+                        
+                        let commentInput = null;
+                        if (allowComment) {
+                             commentInput = document.createElement('input');
+                             commentInput.type = 'text';
+                             commentInput.placeholder = 'comment';
+                             commentInput.style.width = '80px';
+                             commentInput.style.marginRight = '5px';
+                             cell.appendChild(commentInput);
+                        }
+
                         const btn = document.createElement('button');
                         btn.textContent = `Add`;
                         btn.style.fontSize = '10px';
                         btn.style.padding = '5px';
                         btn.style.marginLeft = '5px';
-                        btn.onclick = () => addCode(currentN.index, nextN ? nextN.index : text.length, codeName);
+                        btn.onclick = () => {
+                            let comment = null;
+                            if (commentInput && commentInput.value.trim() !== "") {
+                                comment = commentInput.value.trim();
+                            }
+                            addCode(currentN.index, nextN ? nextN.index : text.length, codeName, comment);
+                        };
                         cell.appendChild(btn);
                     }
                     return cell;
                 };
-                row.appendChild(createStatusCellWithButton(hasM0, 'M00'));
+                row.appendChild(createStatusCellWithButton(hasM0, 'M00', true));
                 row.appendChild(createStatusCellWithButton(hasM1, 'M01'));
                 row.appendChild(createStatusCellWithButton(hasM8, 'M08'));
 
@@ -556,7 +567,7 @@
             // Optional: highlight visually? (Complex for textarea)
         }
 
-        function addCode(start, end, codeToInsert) {
+        function addCode(start, end, codeToInsert, optionalComment = null) {
             const textArea = document.getElementById('textInput');
             const fullText = textArea.value;
             const blockText = fullText.substring(start, end);
@@ -581,7 +592,12 @@
             const insertionOffsetInBlock = (lineEndIndex === -1) ? blockText.length : (m6IndexInBlock + lineEndIndex);
             const insertionPoint = start + insertionOffsetInBlock;
 
-            const newText = fullText.substring(0, insertionPoint) + `\n${codeToInsert}` + fullText.substring(insertionPoint);
+            let insertStr = `\n${codeToInsert}`;
+            if (optionalComment) {
+                insertStr += `\n(${optionalComment})`;
+            }
+
+            const newText = fullText.substring(0, insertionPoint) + insertStr + fullText.substring(insertionPoint);
 
             textArea.value = newText;
             analyzeText(); // Refresh analysis
@@ -691,87 +707,73 @@
             analyzeText();
         }
 
-        function addSurfaceProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb1.1').value);
-            const v2 = parseFloat(document.getElementById('nb1.2').value);
-            const v3 = parseFloat(document.getElementById('nb1.3').value);
-            const v4 = parseFloat(document.getElementById('nb1.4').value);
-            const v5 = parseFloat(document.getElementById('nb1.5').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
-            } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
-            }
-
-            // Calculate Z heights
-            let safeVal1 = (v5+0.1);
-            let safeVal2 = (v5+3.0);
-
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal2.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + safeVal1.toFixed(1) + " F100.");
-            lines.push("G65 P9811 Z" + v5.toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal2.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
+        function probeDecider() {
+            const select = document.getElementById('probingSelect');
+            const value = select.value;
             
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
+            let config = { type: value };
+            
+            switch(value) {
+                case 'surface': config.prefix = 'nb1'; config.count = 5; break;
+                case 'bore':    config.prefix = 'nb2'; config.count = 6; break;
+                case 'boss':    config.prefix = 'nb3'; config.count = 7; break;
+                case 'gap-x':   config.prefix = 'nb4'; config.count = 6; break;
+                case 'web-x':   config.prefix = 'nb5'; config.count = 7; break;
+                case 'gap-y':   config.prefix = 'nb6'; config.count = 6; break;
+                case 'web-y':   config.prefix = 'nb7'; config.count = 7; break;
+                default: return;
+            }
+            
+            addProbeGeneric(config);
         }
 
-        function addBoreProbe() {
+        function addProbeGeneric(config) {
             const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
+            
             // Get input values
-            const v1 = parseInt(document.getElementById('nb2.1').value);
-            const v2 = parseFloat(document.getElementById('nb2.2').value);
-            const v3 = parseFloat(document.getElementById('nb2.3').value);
-            const v4 = parseFloat(document.getElementById('nb2.4').value);
-            const v5 = parseFloat(document.getElementById('nb2.5').value);
-            const v6 = parseFloat(document.getElementById('nb2.6').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6)) {
-                alert('Please enter parameters.');
-                return;
+            const values = [];
+            for (let i = 1; i <= config.count; i++) {
+                const id = `${config.prefix}.${i}`;
+                const el = document.getElementById(id);
+                if (!el) {
+                    console.error(`Element ${id} not found`);
+                    return;
+                }
+                const val = (i === 1) ? parseInt(el.value) : parseFloat(el.value);
+                if (isNaN(val)) {
+                    alert('Please enter parameters.');
+                    return;
+                }
+                values.push(val);
             }
+
+            // Map values for clarity
+            // v1: Tool/N, v2: Work Offset, v3: X, v4: Y, v5: Z, v6: Width/Dia(internal) or Depth(external), v7: Width/Dia(external)
+            const v1 = values[0]; // N/Tool
+            const v2 = values[1]; // Offset
+            const v3 = values[2]; // X
+            const v4 = values[3]; // Y
+            const v5 = values[4]; // Z
+            const v6 = values[5]; // varies
+            const v7 = values[6]; // varies
 
             // Handle zone number syntax
             let sVal = v2;
             let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
+
+            const v2Str = document.getElementById(`${config.prefix}.2`).value;
+            // Strict 2-decimal check for 154 range
+            if (v2 >= 154 && v2 < 155) {
+                if (!/^\d+\.\d{2}$/.test(v2Str)) {
+                    alert('Invalid zone number. For 154 range, you must use 2 decimal places (e.g. 154.01).');
+                    return;
+                }
+            }
+
+            if (54 <= v2 && v2 < 60) {
                 sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
+            } else if (154.01 <= v2 && v2 < 155) {
+                const parts = v2Str.split(".");
                 const integerPart = parseInt(parts[0]);
                 const decimalPart = parseInt(parts[1]);
                 zoneVal = integerPart + " P" + decimalPart;
@@ -780,67 +782,38 @@
                 return;
             }
 
-            // Calculate Z heights
-            let safeVal1 = (v5+3.0);
+            // Determine Z heights and Macro Logic
+            let safeZ = v5 + 3.0; // Retract height
+            let approachZ;
+            let macroLine;
 
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal1.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + v5.toFixed(1) + " F100.");
-            lines.push("G65 P9814 D" + v6.toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal1.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
+            const type = config.type;
+            const isExternal = ['surface', 'boss', 'web-x', 'web-y'].includes(type);
             
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
-        }
-
-        function addBossProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb3.1').value);
-            const v2 = parseFloat(document.getElementById('nb3.2').value);
-            const v3 = parseFloat(document.getElementById('nb3.3').value);
-            const v4 = parseFloat(document.getElementById('nb3.4').value);
-            const v5 = parseFloat(document.getElementById('nb3.5').value);
-            const v6 = parseFloat(document.getElementById('nb3.6').value);
-            const v7 = parseFloat(document.getElementById('nb3.7').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6) || isNaN(v7)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
+            // Approach Z calculation
+            if (isExternal) {
+                approachZ = v5 + 0.1;
             } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
+                // bore, gap-x, gap-y
+                approachZ = v5;
             }
 
-            // Calculate Z heights
-            let safeVal1 = (v5+0.1);
-            let safeVal2 = (v5+3.0);
+            // Macro Line calculation
+            if (type === 'surface') {
+                macroLine = `G65 P9811 Z${v5.toFixed(2)} S${sVal}`;
+            } else if (type === 'bore') {
+                macroLine = `G65 P9814 D${v6.toFixed(2)} S${sVal}`;
+            } else if (type === 'boss') {
+                macroLine = `G65 P9814 D${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
+            } else if (type === 'gap-x') {
+                macroLine = `G65 P9812 X${v6.toFixed(2)} S${sVal}`;
+            } else if (type === 'web-x') {
+                macroLine = `G65 P9812 X${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
+            } else if (type === 'gap-y') {
+                macroLine = `G65 P9812 Y${v6.toFixed(2)} S${sVal}`;
+            } else if (type === 'web-y') {
+                macroLine = `G65 P9812 Y${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
+            }
 
             // Construct the block
             const lines = [];
@@ -848,251 +821,17 @@
             lines.push("");
             lines.push("N" + v1 + " (PROBE)");
             lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal2.toFixed(1));
+            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(2) + " Y" + v4.toFixed(2));
+            lines.push("G43 H"+ v1 + " Z" + safeZ.toFixed(2));
             lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + safeVal1.toFixed(1) + " F100.");
-            lines.push("G65 P9814 D" + v7.toFixed(1) + " Z-" + Math.abs(v6).toFixed(1) + " S" + (sVal));
+            lines.push("G65 P9810 Z" + approachZ.toFixed(2) + " F100.");
+            lines.push(macroLine);
             lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal2.toFixed(1));
+            lines.push("G00 Z" + safeZ.toFixed(2));
             lines.push("G53 Z0");
             lines.push("");
             
-            if (lines.length === 0) return;
             const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
-        }
-
-        function addGapXProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb4.1').value);
-            const v2 = parseFloat(document.getElementById('nb4.2').value);
-            const v3 = parseFloat(document.getElementById('nb4.3').value);
-            const v4 = parseFloat(document.getElementById('nb4.4').value);
-            const v5 = parseFloat(document.getElementById('nb4.5').value);
-            const v6 = parseFloat(document.getElementById('nb4.6').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
-            } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
-            }
-
-            // Calculate Z heights
-            let safeVal1 = (v5+3.0);
-
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal1.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + v5.toFixed(1) + " F100.");
-            lines.push("G65 P9812 X" + v6.toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal1.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
-            
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
-        }
-
-        function addWebXProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb5.1').value);
-            const v2 = parseFloat(document.getElementById('nb5.2').value);
-            const v3 = parseFloat(document.getElementById('nb5.3').value);
-            const v4 = parseFloat(document.getElementById('nb5.4').value);
-            const v5 = parseFloat(document.getElementById('nb5.5').value);
-            const v6 = parseFloat(document.getElementById('nb5.6').value);
-            const v7 = parseFloat(document.getElementById('nb5.7').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6) || isNaN(v7)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
-            } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
-            }
-
-            // Calculate Z heights
-            let safeVal1 = (v5+0.1);
-            let safeVal2 = (v5+3.0);
-
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal2.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + safeVal1.toFixed(1) + " F100.");
-            lines.push("G65 P9812 X" + v7.toFixed(1) + " Z-" + Math.abs(v6).toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal2.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
-            
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
-        }
-
-        function addGapYProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb6.1').value);
-            const v2 = parseFloat(document.getElementById('nb6.2').value);
-            const v3 = parseFloat(document.getElementById('nb6.3').value);
-            const v4 = parseFloat(document.getElementById('nb6.4').value);
-            const v5 = parseFloat(document.getElementById('nb6.5').value);
-            const v6 = parseFloat(document.getElementById('nb6.6').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
-            } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
-            }
-
-            // Calculate Z heights
-            let safeVal1 = (v5+3.0);
-
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal1.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + v5.toFixed(1) + " F100.");
-            lines.push("G65 P9812 Y" + v6.toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal1.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
-            
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
-            insertBlockAfterHeader(blockContent);
-        }
-
-        function addWebYProbe() {
-            const textArea = document.getElementById('textInput');
-            const text = textArea.value;
-
-            // Get input values
-            const v1 = parseInt(document.getElementById('nb7.1').value);
-            const v2 = parseFloat(document.getElementById('nb7.2').value);
-            const v3 = parseFloat(document.getElementById('nb7.3').value);
-            const v4 = parseFloat(document.getElementById('nb7.4').value);
-            const v5 = parseFloat(document.getElementById('nb7.5').value);
-            const v6 = parseFloat(document.getElementById('nb7.6').value);
-            const v7 = parseFloat(document.getElementById('nb7.7').value);
-
-            if (isNaN(v1) || isNaN(v2) || isNaN(v3) || isNaN(v4) || isNaN(v5) || isNaN(v6) || isNaN(v7)) {
-                alert('Please enter parameters.');
-                return;
-            }
-
-            // Handle zone number syntax
-            let sVal = v2;
-            let zoneVal = v2;
-            if (54 <= v2 && v2 < 60) {      //if G54-59, convert to S1-S6
-                sVal = v2 - 53;
-            } else if (154.01 <= v2 && v2 < 155) {      //if G154.01, convert to G154 P1
-                const parts = v2.toString().split(".");
-                const integerPart = parseInt(parts[0]);
-                const decimalPart = parseInt(parts[1]);
-                zoneVal = integerPart + " P" + decimalPart;
-            } else {
-                alert('Invalid zone number. Must be 54-59 or 154.01-154.99');
-                return;
-            }
-
-            // Calculate Z heights
-            let safeVal1 = (v5+0.1);
-            let safeVal2 = (v5+3.0);
-
-            // Construct the block
-            const lines = [];
-            lines.push("G0 G17 G20 G40 G49 G80 G90");
-            lines.push("");
-            lines.push("N" + v1 + " (PROBE)");
-            lines.push('T' + v1 + " M6");
-            lines.push("G00 G90 G" + zoneVal + " X" + v3.toFixed(1) + " Y" + v4.toFixed(1));
-            lines.push("G43 H"+ v1 + " Z" + safeVal2.toFixed(1));
-            lines.push("G65 P9832");
-            lines.push("G65 P9810 Z" + safeVal1.toFixed(1) + " F100.");
-            lines.push("G65 P9812 Y" + v7.toFixed(1) + " Z-" + Math.abs(v6).toFixed(1) + " S" + (sVal));
-            lines.push("G65 P9833");
-            lines.push("G00 Z" + safeVal2.toFixed(1));
-            lines.push("G53 Z0");
-            lines.push("");
-            
-            if (lines.length === 0) return;
-            const blockContent = lines.join('\n');
-
             insertBlockAfterHeader(blockContent);
         }
 
