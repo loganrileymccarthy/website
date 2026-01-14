@@ -394,7 +394,11 @@
 
                 // Comments cell
                 const cellComments = document.createElement('td');
-                cellComments.textContent = comments.join(' ');
+                const commentInput = document.createElement('input');
+                commentInput.type = 'text';
+                commentInput.value = comments.join(' ');
+                commentInput.placeholder = 'comment';
+                cellComments.appendChild(commentInput);
                 row.appendChild(cellComments);
 
                 // T cell
@@ -442,7 +446,96 @@
                     }
                     return cell;
                 };
-                row.appendChild(createStatusCellWithButton(hasM0, 'M00', true));
+
+                // Special handling for M0
+                const cellM0 = document.createElement('td');
+                
+                // Extract unique instances of M0 in the block
+                const m0Regex = /M0?0\b/g;
+                let m0Match;
+                const m0Matches = [];
+                // Search in blockText (which is raw from text)
+                while ((m0Match = m0Regex.exec(blockText)) !== null) {
+                    m0Matches.push({
+                        startInBlock: m0Match.index,
+                        endInBlock: m0Match.index + m0Match[0].length,
+                        text: m0Match[0]
+                    });
+                }
+
+                if (m0Matches.length > 0) {
+                    m0Matches.forEach((m0, idx) => {
+                        const m0AbsStart = blockStart + m0.startInBlock;
+                        const m0AbsEnd = blockStart + m0.endInBlock;
+                        
+                        // Find the end of the line containing M0
+                        const restOfText = text.substring(m0AbsEnd);
+                        const lineBreakIndex = restOfText.indexOf('\n');
+                        const endOfLineIndex = (lineBreakIndex === -1) ? text.length : m0AbsEnd + lineBreakIndex;
+                        
+                        // Look at the VERY NEXT line for a comment
+                        let commentValue = "";
+                        
+                        if (endOfLineIndex < text.length) {
+                             const nextLineStart = endOfLineIndex + 1;
+                             const nextLineEndMatch = text.substring(nextLineStart).indexOf('\n');
+                             const nextLineEnd = (nextLineEndMatch === -1) ? text.length : nextLineStart + nextLineEndMatch;
+                             const nextLine = text.substring(nextLineStart, nextLineEnd).trim();
+                             
+                             if (nextLine.startsWith('(') && nextLine.endsWith(')')) {
+                                 commentValue = nextLine.substring(1, nextLine.length - 1);
+                             }
+                        }
+
+                        const wrapper = document.createElement('div');
+                        if (idx > 0) wrapper.style.marginTop = '5px';
+
+                        const label = document.createElement('span');
+                        label.textContent = (idx + 1) + ". ";
+                        label.style.fontWeight = 'bold';
+                        
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = commentValue;
+                        input.placeholder = 'comment';
+                        input.style.width = '120px';
+                        
+                        // Store data for updating
+                        input.dataset.m0Index = m0AbsStart; 
+                        input.onchange = function() { updateM0Comment(this); };
+
+                        wrapper.appendChild(label);
+                        wrapper.appendChild(input);
+                        cellM0.appendChild(wrapper);
+                    });
+                } else {
+                     // No M0 found, fallback to Add button
+                     cellM0.textContent = '';
+                     cellM0.style.color = '#f44336';
+                     
+                     const commentInput = document.createElement('input');
+                     commentInput.type = 'text';
+                     commentInput.placeholder = 'comment';
+                     commentInput.style.width = '80px';
+                     commentInput.style.marginRight = '5px';
+                     cellM0.appendChild(commentInput);
+
+                     const btn = document.createElement('button');
+                     btn.textContent = `Add`;
+                     btn.style.fontSize = '10px';
+                     btn.style.padding = '5px';
+                     btn.style.marginLeft = '5px';
+                     btn.onclick = () => {
+                        let comment = null;
+                        if (commentInput && commentInput.value.trim() !== "") {
+                            comment = commentInput.value.trim();
+                        }
+                         addCode(currentN.index, nextN ? nextN.index : text.length, 'M00', comment);
+                     };
+                     cellM0.appendChild(btn);
+                }
+                row.appendChild(cellM0);
+
                 row.appendChild(createStatusCellWithButton(hasM1, 'M01'));
                 row.appendChild(createStatusCellWithButton(hasM8, 'M08'));
 
@@ -474,7 +567,7 @@
                 }
                 row.appendChild(cellDErr);
 
-                // S (Spindle) Cell
+                // S (spindle RPM) Cell
                 const cellS = document.createElement('td');
                 if (Object.keys(sCounts).length > 0) {
                     const sParts = [];
@@ -508,7 +601,7 @@
                 }
                 row.appendChild(cellS);
 
-                // Feed Rates Cell
+                // F (feed rates) Cell
                 const cellFeed = document.createElement('td');
                 if (Object.keys(fCounts).length > 0) {
                     const fParts = [];
@@ -1225,6 +1318,70 @@
             newWin.document.write('</body></html>');
             newWin.document.close();
             setTimeout(function () { newWin.close(); }, 10);
+        }
+
+        function updateM0Comment(inputElement) {
+            const textArea = document.getElementById('textInput');
+            const text = textArea.value;
+            const m0Index = parseInt(inputElement.dataset.m0Index);
+            
+            if (isNaN(m0Index)) return;
+
+            // Find the end of the line containing this M0
+            const restOfText = text.substring(m0Index);
+            const lineBreakIndex = restOfText.indexOf('\n');
+            const endOfLineIndex = (lineBreakIndex === -1) ? text.length : m0Index + lineBreakIndex;
+            
+            const newComment = inputElement.value.trim();
+            const commentBlock = newComment ? `(${newComment})` : '';
+
+            // Check next line
+            let nextLineStart = -1;
+            let nextLineEnd = -1;
+            let hasComment = false;
+
+            if (endOfLineIndex < text.length) {
+                nextLineStart = endOfLineIndex + 1;
+                const nextLineEndMatch = text.substring(nextLineStart).indexOf('\n');
+                nextLineEnd = (nextLineEndMatch === -1) ? text.length : nextLineStart + nextLineEndMatch;
+                const currentNextLine = text.substring(nextLineStart, nextLineEnd).trim();
+                
+                if (currentNextLine.startsWith('(') && currentNextLine.endsWith(')')) {
+                    hasComment = true;
+                }
+            }
+            
+            let newText;
+            
+            if (hasComment) {
+                // Replace existing comment line
+                const prefix = text.substring(0, nextLineStart);
+                const suffix = text.substring(nextLineEnd);
+                
+                if (commentBlock) {
+                    newText = prefix + commentBlock + suffix;
+                } else {
+                    // Remove the line entirely (including the preceding newline)
+                    newText = text.substring(0, endOfLineIndex) + text.substring(nextLineEnd);
+                }
+            } else {
+                // Insert new comment line
+                if (commentBlock) {
+                    const prefix = text.substring(0, endOfLineIndex);
+                    const suffix = text.substring(endOfLineIndex);
+                    
+                    if (suffix.startsWith('\n')) {
+                         newText = prefix + '\n' + commentBlock + suffix;
+                    } else {
+                        newText = prefix + '\n' + commentBlock;
+                    }
+                } else {
+                     return;
+                }
+            }
+
+            textArea.value = newText;
+            analyzeText();
         }
 
         function updateProbingVisibility() {
