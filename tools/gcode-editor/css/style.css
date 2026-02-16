@@ -1,0 +1,27 @@
+.work-zones-container {
+    margin-bottom: 15px;
+    color: red;
+    font-family: 'Courier New', monospace;
+}
+
+.operations-container {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto; /*Scrolls the table before the page-section*/
+    /*border-top: 1px solid #333; /* Visual separator */
+}
+
+/* Style for all cells */
+#operationsTable th,
+#operationsTable td {
+    white-space: nowrap;
+}
+
+/* Style for cells in the second column */
+#operationsTable th:nth-child(2),
+#operationsTable td:nth-child(2) {
+    white-space: normal;
+    min-width: 100px;
+    max-width: 200px;
+    word-wrap: break-word;
+}

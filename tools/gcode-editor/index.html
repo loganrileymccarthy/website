@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x2694LRM&#x2694</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <script type=module src=../../main.js></script>
+    <div class="wrapper-wide">
+        
+        <main>
+            <h1>
+                G-code Editor
+            </h1>
+            
+            <div class="container-horizontal" style="min-height: 90vh; max-height: 90vh;">
+
+                <div class="container-vertical" style="max-width: 30%;">
+                    <div class="page-section flex-fill">
+                        <textarea id="textInput" placeholder="program text" style="resize: none;"></textarea>
+                        <button onclick="copyToClipboard()">Copy to Clipboard</button>
+                    </div>
+                </div>
+
+                <div class="container-vertical" style="max-width: 70%;">
+                    <div class="page-section flex-fixed">
+                        <Label><br>Add Timestamped Comment</Label>
+                        <div class="form-group">
+                            <input type="text" id="timestampNote" style="width: 300px;" placeholder="optional note" />
+                            <button onclick="addTimestamp()">Add</button>
+                        </div>
+                        <Label>Change Tool Number (N/T/H/D)</Label>
+                        <div class="form-group">
+                            <input type="number" id="findTool" size="2" min="0" max="99" placeholder="old #" />
+                            <input type="number" id="replaceTool" size="2" min="0" max="99" placeholder="new #" />
+                            <button onclick="changeToolNumbers()">Change</button>
+                        </div>
+                        <Label>Add Probing Cycle</Label>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <select id="probingSelect" onchange="updateProbingVisibility()" style="width: 120px;">
+                                <option value="surface">Z Surface</option>
+                                <option value="bore">Bore</option>
+                                <option value="boss">Boss</option>
+                                <option value="gap-x">Gap X</option>
+                                <option value="web-x">Web X</option>
+                                <option value="gap-y">Gap Y</option>
+                                <option value="web-y">Web Y</option>
+                            </select>
+                            <button onclick="probeDecider()">Add</button>
+                        </div>
+                        <div id="probing-surface">
+                            <div class="form-group">
+                                <input type="number" id="nb1.1" placeholder="tool #" />
+                                <input type="number" id="nb1.2" placeholder="zone #" />
+                                <input type="number" id="nb1.3" placeholder="X" />
+                                <input type="number" id="nb1.4" placeholder="Y" />
+                                <input type="number" id="nb1.5" placeholder="Z" />
+                            </div>
+                        </div>
+                        <div id="probing-bore" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb2.1" placeholder="tool #" />
+                                <input type="number" id="nb2.2" placeholder="zone #" />
+                                <input type="number" id="nb2.3" placeholder="X" />
+                                <input type="number" id="nb2.4" placeholder="Y" />
+                                <input type="number" id="nb2.5" placeholder="Z" />
+                                <input type="number" id="nb2.6" placeholder="D" />
+                            </div>
+                        </div>
+                        <div id="probing-boss" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb3.1" placeholder="tool #" />
+                                <input type="number" id="nb3.2" placeholder="zone #" />
+                                <input type="number" id="nb3.3" placeholder="X" />
+                                <input type="number" id="nb3.4" placeholder="Y" />
+                                <input type="number" id="nb3.5" placeholder="surface" />
+                                <input type="number" id="nb3.6" placeholder="depth" />
+                                <input type="number" id="nb3.7" placeholder="D" />
+                            </div>
+                        </div>
+                        <div id="probing-gap-x" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb4.1" placeholder="tool #" />
+                                <input type="number" id="nb4.2" placeholder="zone #" />
+                                <input type="number" id="nb4.3" placeholder="X" />
+                                <input type="number" id="nb4.4" placeholder="Y" />
+                                <input type="number" id="nb4.5" placeholder="Z" />
+                                <input type="number" id="nb4.6" placeholder="width" />
+                            </div>
+                        </div>
+                        <div id="probing-web-x" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb5.1" placeholder="tool #" />
+                                <input type="number" id="nb5.2" placeholder="zone #" />
+                                <input type="number" id="nb5.3" placeholder="X" />
+                                <input type="number" id="nb5.4" placeholder="Y" />
+                                <input type="number" id="nb5.5" placeholder="surface" />
+                                <input type="number" id="nb5.6" placeholder="depth" />
+                                <input type="number" id="nb5.7" placeholder="width" />
+                            </div>
+                        </div>
+                        <div id="probing-gap-y" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb6.1" placeholder="tool #" />
+                                <input type="number" id="nb6.2" placeholder="zone #" />
+                                <input type="number" id="nb6.3" placeholder="X" />
+                                <input type="number" id="nb6.4" placeholder="Y" />
+                                <input type="number" id="nb6.5" placeholder="Z" />
+                                <input type="number" id="nb6.6" placeholder="width" />
+                            </div>
+                        </div>
+                        <div id="probing-web-y" style="display:none;">
+                            <div class="form-group">
+                                <input type="number" id="nb7.1" placeholder="tool #" />
+                                <input type="number" id="nb7.2" placeholder="zone #" />
+                                <input type="number" id="nb7.3" placeholder="X" />
+                                <input type="number" id="nb7.4" placeholder="Y" />
+                                <input type="number" id="nb7.5" placeholder="surface" />
+                                <input type="number" id="nb7.6" placeholder="depth" />
+                                <input type="number" id="nb7.7" placeholder="width" />
+                            </div>
+                        </div>
+                        <!--<div class="stats" id="stats"></div>-->
+                    </div>
+
+                    <div class="page-section" style="flex-grow: 1;">
+                        <Label><br>Work Zones</Label>
+                        <div id="workZones" class="work-zones-container"></div>
+                        <Label>Sequence of Operations</Label>
+                        <div class="operations-container">
+                            <table id="operationsTable">
+                                <thead>
+                                <tr>
+                                    <th>N#</th>
+                                    <th>Comments</th>
+                                    <th>T</th>
+                                    <th>M0</th>
+                                    <th>M1</th>
+                                    <th>M8</th>
+                                    <th>H</th>
+                                    <th>D</th>
+                                    <th>S</th>
+                                    <th>F</th>
+                                    <th>Min Z</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button onclick="printTable()">Print Table</button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+        <my-footer></my-footer>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+
+</html>
