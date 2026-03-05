@@ -1,0 +1,62 @@
+This is a template for a more robust gcode structure, including a subprogram for variable zone selection.
+With this code, the user can now toggle a probing cycle with variable #800 and select a work zone with variable #801.
+
+%
+O99999 (<part> <operation number>)
+(<timestamp>)
+
+<initial comments>
+
+(VARIABLES)
+
+(#800: probing toggle)
+(#899: tool length measurement toggle)
+
+(#851: work zone)
+(#801: <tool 1 description>)
+(#802: <tool 2 description>)
+(#803: <tool 3 description>)
+...
+
+<safety lines>
+
+IF [#800 EQ 1] GOTO31 
+N0
+
+N1 (<tool 1 description>)
+IF [#899 NE 1] GOTO100 (length measurement toggle)
+
+G53 G0 Z0
+T#801 M06
+G65 P9995 T#801 A0.0 B1.0 C2.0 E<tool 1 length> D<tool 1 diameter>
+G53 G0 Z0
+M01
+
+N100
+<tool 1 cutting operation>
+
+N2 (<tool 2 description>)
+N200
+<tool 2 cutting operation>
+
+N3 (<tool 3 description>)
+N300
+<tool 3 cutting operation>
+
+M30
+
+N31 (probing cycle)
+#853 = [#852-53]
+G0 G93 Z0
+T31 M06
+G0 G#852 X0 Y0
+G43 H31 Z2.50
+G65 P9832
+G65 P9810 Z0.1
+G65 P9811 Z0 S#853
+G65 P9833
+G0 Z2.50
+G53 Z0
+GOTO0
+
+%

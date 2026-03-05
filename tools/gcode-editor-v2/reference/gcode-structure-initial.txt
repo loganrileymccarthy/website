@@ -1,0 +1,36 @@
+Here is what we expect the code to look like before we modify it:
+
+%
+O99999
+
+<initial comments>
+
+<safety lines>
+
+N01 (<tool 1 description>)
+<tool 1 cutting operation>
+
+N02 (<tool 2 description>)
+<tool 2 cutting operation>
+
+N03 (<tool 3 description>)
+<tool 3 cutting operation>
+...
+
+M30
+
+N4001 (subroutine 1)
+...
+N4002 (subroutine 2)
+...
+N4003 (subroutine 3)
+...
+
+%
+
+
+Some notes:
+N codes should correspond to the tool number used during the operation.
+The code should contain the O code and M30 code.
+Tooling operations should be concluded with G53 moves, typically "G53 Z0".
+Tooling operations may involve subprograms, which should then be included as part of the N block.

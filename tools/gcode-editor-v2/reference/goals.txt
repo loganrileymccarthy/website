@@ -1,0 +1,25 @@
+The goal of this gcode editor is twofold:
+1. Allow the user to input a gcode program and quickly gather information about it.
+2. Allow the user to quickly make a gcode program more featured and robust.
+
+The user should be able to comfortably access the editor. I believe this can be accomplished through availability on a website, 
+with the ability to drag-and-drop the text file onto the page. .txt, .nc, .NC, and .T files should be accepted.
+
+When the code is added, we can immediately display a lot of information with regex and a table. 
+The code can be expected to roughly follow the structure described in gcode-structure-initial.txt.
+This table should update in real-time as the user makes changes to the code. 
+Here is what the table should include:
+-list work zones, with number of occurrences
+-list of operations with the following:
+    -N code
+    -T code (to verify it matches the N code)
+    -Any M00?
+    -Any M01?
+    -Any M08?
+    -Any subprograms?
+    -Feed rates
+    -Spindle speeds
+    -Minimum Z
+    -X Range
+    -Y Range
+In addition to this table, I'd like to implement the features listed in features-list.txt.

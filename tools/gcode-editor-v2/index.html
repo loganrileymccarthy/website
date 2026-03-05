@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCode Optimizer Pro</title>
+    <!-- Modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Phosphor icons for elegant minimalist icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="logo-area">
+            <i class="ph ph-code-block"></i>
+            <h1>GCode Pro</h1>
+        </div>
+        <div class="header-actions">
+            <!-- Toggle Panel Button (Hidden until a file is loaded) -->
+            <button id="toggle-panel-btn" class="icon-btn hidden" title="Toggle Controls">
+                <i class="ph ph-sidebar-simple"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="app-container">
+
+        <!-- Main Workspace (Editor / Dropzone) -->
+        <main class="workspace">
+
+            <!-- File Upload Area -->
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-content">
+                    <i class="ph ph-file-arrow-up"></i>
+                    <h3>Upload GCode File</h3>
+                    <p>Drag & drop your .txt, .nc, .NC, or .T file here</p>
+                    <p class="text-small">or click to browse</p>
+                </div>
+                <input type="file" id="file-input" accept=".txt,.nc,.NC,.T">
+            </div>
+
+            <!-- Code Editor Area (Hidden initially) -->
+            <div id="editor-container" class="editor-container hidden">
+                <div class="editor-header">
+                    <div class="tab-group">
+                        <div class="tab active" id="tab-optimized">Generated Output</div>
+                    </div>
+                    <div class="status-indicator">
+                        <span class="dot empty"></span>
+                        <span id="stat-filename">No file loaded</span>
+                    </div>
+                </div>
+
+                <textarea id="code-editor" spellcheck="false" readonly></textarea>
+            </div>
+        </main>
+
+        <!-- Right Panel Space (Collapsible Controls) -->
+        <aside id="controls-panel" class="controls-panel hidden">
+            <div class="panel-inner">
+                <h2 class="panel-title">Controls & Data</h2>
+
+                <div class="settings-section form-card">
+                    <h3><i class="ph ph-sliders-horizontal"></i> Optimization Settings</h3>
+
+                    <div class="input-group">
+                        <label for="probing-toggle">Probing Cycle (#800)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="probing-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="length-toggle">Length Measurement (#899)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="length-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="actions-section form-card">
+                    <h3><i class="ph ph-export"></i> Export Actions</h3>
+                    <div class="action-buttons-grid">
+                        <button id="btn-copy" class="action-btn">
+                            <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
+                        </button>
+                        <button id="btn-download" class="action-btn primary">
+                            <i class="ph ph-download-simple"></i> <span class="btn-text">Download</span>
+                        </button>
+                        <button id="btn-print" class="action-btn">
+                            <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tools Table -->
+                <div class="table-section form-card">
+                    <h3><i class="ph ph-table"></i> Tool Operations Overview</h3>
+                    <div class="table-container">
+                        <table id="ops-table">
+                            <thead>
+                                <tr>
+                                    <th>N</th>
+                                    <th>Tool</th>
+                                    <th>Zone</th>
+                                    <th title="Program Stop">M00</th>
+                                    <th title="Optional Stop">M01</th>
+                                    <th title="Coolant">M08</th>
+                                    <th>Subprograms</th>
+                                    <th>Feed</th>
+                                    <th>Speed</th>
+                                    <th>Min Z</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ops-table-body">
+                                <!-- Data populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
