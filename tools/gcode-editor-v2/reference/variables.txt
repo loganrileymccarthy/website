@@ -2,5 +2,6 @@ these are the variables that are used in the gcode:
 
 #800: probing toggle
 #801-850: tool numbers
-#851-860: work zones
+#851-856: work zones
+#857: temporary number to calculate S number for probing cycles
 #899: probing cycle toggle

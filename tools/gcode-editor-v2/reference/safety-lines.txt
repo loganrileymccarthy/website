@@ -1,0 +1,14 @@
+Beginning of program:
+G00 G17 G20 G40 G49 G80 G90
+
+Beginning of tool operation:
+G0 G53 G49 Z0
+
+End of tool operation:
+M09
+M05
+G0 G53 Z0
+M01
+
+End of program:
+tbd

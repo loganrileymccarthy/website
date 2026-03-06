@@ -1,0 +1,16 @@
+Here are things that should be displayed in the generated table:
+
+A section listing work zones G54-G59 occurring in the file and number of instances.
+A section with rows corresponding to each tool operation, and columns representing the following:
+- N number
+- Tool description (comment following N number)
+- Tool number
+- Any M00? (display any comments from following line)
+- Any M01?
+- Any M08?
+- Any subprograms? Show respective N numbers
+- Feed rates
+- Spindle speeds
+- Minimum Z
+- X Range
+- Y Range

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GCode Optimizer Pro</title>
+    <title>Gcode Editor</title>
     <!-- Modern font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -18,7 +18,7 @@
     <nav class="top-nav">
         <div class="logo-area">
             <i class="ph ph-code-block"></i>
-            <h1>GCode Pro</h1>
+            <h1>Gcode Editor</h1>
         </div>
         <div class="header-actions">
             <!-- Toggle Panel Button (Hidden until a file is loaded) -->
@@ -50,6 +50,12 @@
                     <div class="tab-group">
                         <div class="tab active" id="tab-optimized">Generated Output</div>
                     </div>
+                    <div class="header-inputs" style="display: flex; gap: 12px; margin-right: 16px;">
+                        <input type="text" id="part-number" class="inline-input" placeholder="Part Number"
+                            style="width: 120px;">
+                        <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number"
+                            style="width: 120px;">
+                    </div>
                     <div class="status-indicator">
                         <span class="dot empty"></span>
                         <span id="stat-filename">No file loaded</span>
@@ -71,7 +77,7 @@
                     <div class="input-group">
                         <label for="probing-toggle">Probing Cycle (#800)</label>
                         <label class="switch">
-                            <input type="checkbox" id="probing-toggle" checked>
+                            <input type="checkbox" id="probing-toggle">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -79,7 +85,23 @@
                     <div class="input-group">
                         <label for="length-toggle">Length Measurement (#899)</label>
                         <label class="switch">
-                            <input type="checkbox" id="length-toggle" checked>
+                            <input type="checkbox" id="length-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="var-tools-toggle">Variable Tools (#801-#850)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="var-tools-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="var-zones-toggle">Variable Work Zones (#851-#856)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="var-zones-toggle">
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -109,6 +131,7 @@
                                 <tr>
                                     <th>N</th>
                                     <th>Tool</th>
+                                    <th>Description</th>
                                     <th>Zone</th>
                                     <th title="Program Stop">M00</th>
                                     <th title="Optional Stop">M01</th>
@@ -116,7 +139,11 @@
                                     <th>Subprograms</th>
                                     <th>Feed</th>
                                     <th>Speed</th>
+                                    <th>Length</th>
+                                    <th>Diameter</th>
                                     <th>Min Z</th>
+                                    <th>X Range</th>
+                                    <th>Y Range</th>
                                 </tr>
                             </thead>
                             <tbody id="ops-table-body">

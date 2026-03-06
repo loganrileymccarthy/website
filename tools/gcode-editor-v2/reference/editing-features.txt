@@ -1,0 +1,18 @@
+Here are some things the user should be able to do using the gcode-editor:
+
+overwrite work zone in the table, which should replace all instances of that zone in the file.
+overwrite the following values in the table to change values in the corresponding operation:
+    change tool number, also changes N,D,T values
+    change tool description
+    change feed rates
+    change spindle speeds
+add timestamped comment near the top of the file
+transform the gcode to the optimized form (see reference/gcode-structure-optimized) with input fields for parameters.
+    -toggle probing
+    -toggle tool length measurement
+    -toggle variable tools
+    -toggle variable work zones
+add any missing safety lines to beginning of code, and at beginnings and endings of tool operations
+copy the text to clipboard
+download the file as a .nc file type
+print the table

@@ -1,5 +1,4 @@
-This is a template for a more robust gcode structure, including a subprogram for variable zone selection.
-With this code, the user can now toggle a probing cycle with variable #800 and select a work zone with variable #801.
+This is a template for a more robust gcode structure.
 
 %
 O99999 (<part> <operation number>)
@@ -8,24 +7,33 @@ O99999 (<part> <operation number>)
 <initial comments>
 
 (VARIABLES)
-
 (#800: probing toggle)
 (#899: tool length measurement toggle)
 
-(#851: work zone)
-(#801: <tool 1 description>)
-(#802: <tool 2 description>)
-(#803: <tool 3 description>)
-...
+(#851: work zone 1, G54-G59)
+(#852: work zone 2, G54-G59)
+(#853: work zone 3, G54-G59)
+.
+.
+(#856: work zone 6, G54-G59)
+
+(#801: <tool description>)
+(#802: <tool description>)
+(#803: <tool description>)
+.
+.
+.
+(#850: <tool description>)
 
 <safety lines>
 
-IF [#800 EQ 1] GOTO31 
+IF [#800 EQ 1] GOTO99 (probing toggle)
 N0
 
 N1 (<tool 1 description>)
 IF [#899 NE 1] GOTO100 (length measurement toggle)
 
+(MEASURE TOOL 1)
 G53 G0 Z0
 T#801 M06
 G65 P9995 T#801 A0.0 B1.0 C2.0 E<tool 1 length> D<tool 1 diameter>
@@ -36,27 +44,91 @@ N100
 <tool 1 cutting operation>
 
 N2 (<tool 2 description>)
+<tool 2 measurement cycle>
 N200
 <tool 2 cutting operation>
 
 N3 (<tool 3 description>)
+<tool 3 measurement cycle>
 N300
 <tool 3 cutting operation>
 
 M30
 
-N31 (probing cycle)
-#853 = [#852-53]
+N4001 (subprogram 1)
+<subprogram 1 operation>
+M99
+
+N4002 (subprogram 2)
+<subprogram 2 operation>
+M99
+
+N4003 (subprogram 3)
+<subprogram 3 operation>
+M99
+
+.
+.
+.
+
+N99 (PROBING)
+
+(PROBE WORK ZONE 1)
+#857 = [#851-53]
+G0 G93 Z0
+T31 M06
+G0 G#851 X0 Y0
+G43 H31 Z2.50
+G65 P9832
+G65 P9810 Z0.1
+G65 P9811 Z0 S#857
+G65 P9833
+G0 Z2.50
+G53 Z0
+
+(PROBE WORK ZONE 2)
+#857 = [#852-53]
 G0 G93 Z0
 T31 M06
 G0 G#852 X0 Y0
 G43 H31 Z2.50
 G65 P9832
 G65 P9810 Z0.1
-G65 P9811 Z0 S#853
+G65 P9811 Z0 S#857
 G65 P9833
 G0 Z2.50
 G53 Z0
-GOTO0
+
+(PROBE WORK ZONE 3)
+#857 = [#853-53]
+G0 G93 Z0
+T31 M06
+G0 G#853 X0 Y0
+G43 H31 Z2.50
+G65 P9832
+G65 P9810 Z0.1
+G65 P9811 Z0 S#857
+G65 P9833
+G0 Z2.50
+G53 Z0
+
+.
+.
+.
+
+GOTO0 (END PROBING)
 
 %
+
+Some notes:
+The part and operation number should be taken from the user as inputs when transforming the code.
+Tool length and diameter parameters for each should also be taken from the user as inputs.
+Tool descriptions should be taken from the comment with the N code in the original file.
+Using variable tool numbers:
+    -each unique tool gets a variable from #801-#850 according to the order they appear.
+    -Repeat tools use the same variable.
+    -H, D values should be replaced by the variable.
+Using variable work zones:
+    -each unique work zone gets a variable from #851-#856 according to the order they appear.
+    -repeat work zones use the same variable.
+    -probe cycles at the end for each work zone.

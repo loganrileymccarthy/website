@@ -15,22 +15,30 @@ N02 (<tool 2 description>)
 
 N03 (<tool 3 description>)
 <tool 3 cutting operation>
-...
-
+.
+.
+.
 M30
 
-N4001 (subroutine 1)
-...
-N4002 (subroutine 2)
-...
-N4003 (subroutine 3)
-...
+N4001 (subprogram 1)
+<subprogram 1 operation>
+M99
 
+N4002 (subprogram 2)
+<subprogram 2 operation>
+M99
+
+N4003 (subprogram 3)
+<subprogram 3 operation>
+M99
+.
+.
+.
 %
 
 
 Some notes:
 N codes should correspond to the tool number used during the operation.
+N codes will often not be sequential.
 The code should contain the O code and M30 code.
-Tooling operations should be concluded with G53 moves, typically "G53 Z0".
 Tooling operations may involve subprograms, which should then be included as part of the N block.
