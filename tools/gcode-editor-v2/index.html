@@ -44,8 +44,8 @@
                 <input type="file" id="file-input" accept=".txt,.nc,.NC,.T">
             </div>
 
-            <!-- Code Editor Area (Hidden initially) -->
-            <div id="editor-container" class="editor-container hidden">
+            <!-- Code Editor Area -->
+            <div id="editor-container" class="editor-container">
                 <div class="editor-header">
                     <div class="tab-group">
                         <div class="tab active" id="tab-optimized">Generated Output</div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
 
-                <textarea id="code-editor" spellcheck="false" readonly></textarea>
+                <textarea id="code-editor" spellcheck="false" placeholder="Or paste your GCode here..."></textarea>
             </div>
         </main>
 
@@ -105,6 +105,10 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
+
+                    <button id="btn-apply" class="action-btn primary" style="width: 100%; margin-top: 15px; justify-content: center;">
+                        <i class="ph ph-magic-wand"></i> <span class="btn-text">Apply Enhancements</span>
+                    </button>
                 </div>
 
                 <div class="actions-section form-card">

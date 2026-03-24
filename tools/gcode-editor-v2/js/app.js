@@ -91,6 +91,36 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsText(file);
     }
 
+    // --- Paste/Typing Handling ---
+    codeEditor.addEventListener('input', () => {
+        if (dropZone.style.display !== 'none' && codeEditor.value.trim().length > 0) {
+            fileMeta.name = "Pasted Code";
+            currentRawCode = codeEditor.value;
+            
+            // UI Update
+            dropZone.style.display = 'none';
+
+            // Show Controls
+            controlsPanel.classList.remove('hidden');
+            togglePanelBtn.classList.remove('hidden');
+
+            statusDot.classList.remove('empty');
+            statusDot.classList.add('active');
+            statFilename.textContent = fileMeta.name;
+
+            parseGCodeIntoOperations(currentRawCode);
+            renderTable();
+            document.getElementById('tab-optimized').textContent = 'Original Code';
+
+            // Enable buttons
+            btnCopy.disabled = false;
+            btnDownload.disabled = false;
+            btnPrint.disabled = false;
+        } else if (dropZone.style.display === 'none') {
+            currentRawCode = codeEditor.value;
+        }
+    });
+
     // --- Core Processing ---
     function processGCode(gcode) {
         // UI Update
@@ -107,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         parseGCodeIntoOperations(gcode);
         renderTable();
-        refreshGeneratedCode();
+        codeEditor.value = gcode;
+        document.getElementById('tab-optimized').textContent = 'Original Code';
 
         // Enable buttons
         btnCopy.disabled = false;
@@ -277,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             e.target.title = "";
                         }
                     }
-                    refreshGeneratedCode();
+                    // Removed auto-update: refreshGeneratedCode();
                 });
             });
         };
@@ -328,17 +359,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Live Optimization Updates ---
-    probingToggle.addEventListener('change', refreshGeneratedCode);
-    lengthToggle.addEventListener('change', refreshGeneratedCode);
-    varToolsToggle.addEventListener('change', refreshGeneratedCode);
-    varZonesToggle.addEventListener('change', refreshGeneratedCode);
-    partNumberInput.addEventListener('input', refreshGeneratedCode);
-    opNumberInput.addEventListener('input', refreshGeneratedCode);
+    // User prefers an explicit "Apply" rather than auto-updating on every toggle change.
+    const btnApply = document.getElementById('btn-apply');
+    if (btnApply) {
+        btnApply.addEventListener('click', refreshGeneratedCode);
+    }
 
     function refreshGeneratedCode() {
         if (!currentRawCode) return;
         const optCode = generateOptimizedGCode();
         codeEditor.value = optCode;
+        document.getElementById('tab-optimized').textContent = 'Generated Output';
     }
 
     // --- Export Logic ---
