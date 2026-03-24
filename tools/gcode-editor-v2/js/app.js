@@ -485,11 +485,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += `N${parseInt(op.nCode) * 100} \n`;
             }
 
-            // Beginning of tool operation safety lines
-            out += `G0 G53 G49 Z0 \n`;
+            // Beginning of tool operation safety lines (removed per user)
 
-            op.lines.forEach(line => {
+            op.lines.forEach((line, index) => {
                 let modifiedLine = line;
+
+                // Strip the duplicated N code and comment block from the first line
+                if (index === 0) {
+                    modifiedLine = modifiedLine.replace(/^N\d+\s*(\([^)]*\))?\s*/i, '');
+                    if (!modifiedLine.trim()) return; // skip if nothing is left
+                }
 
                 // M00, M01, M08? The user might have requested these as features but editing-features list says:
                 // "change tool number, description, feed rates, spindle speeds, work zone"
@@ -533,11 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += modifiedLine + "\n";
             });
 
-            // End of tool operation safety lines
-            out += `M09 \n`;
-            out += `M05 \n`;
-            out += `G0 G53 Z0 \n`;
-            out += `M01 \n`;
+            // End of tool operation safety lines (removed per user)
             out += "\n";
         });
 
