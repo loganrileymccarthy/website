@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // State
     let currentRawCode = "";
     let parsedOperations = [];
+    let workZonesCount = {};
+    let globalZoneMap = {};
     let fileMeta = { name: "" };
 
     // --- Panel Toggle ---
@@ -148,6 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function parseGCodeIntoOperations(code) {
         parsedOperations = [];
+        workZonesCount = {};
+        globalZoneMap = {};
         let globalMinZ = Infinity;
 
         const lines = code.split(/\r?\n/);
@@ -172,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tool: "",
                     workZone: "",
                     m00: false,
+                    m00Comment: "",
                     m01: false,
                     m08: false,
                     subprograms: new Set(),
@@ -193,9 +198,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tMatch && !currentOp.tool) currentOp.tool = tMatch[1];
 
                 const gZoneMatch = line.match(/G(5[4-9]|54\.1\s*P\d+)/i);
-                if (gZoneMatch && !currentOp.workZone) currentOp.workZone = gZoneMatch[0];
+                if (gZoneMatch) {
+                    let zoneStr = gZoneMatch[0].toUpperCase();
+                    workZonesCount[zoneStr] = (workZonesCount[zoneStr] || 0) + 1;
+                    if (!globalZoneMap[zoneStr]) globalZoneMap[zoneStr] = zoneStr;
+                    if (!currentOp.workZone) currentOp.workZone = zoneStr;
+                }
 
-                if (/\bM0?0\b/i.test(line)) currentOp.m00 = true;
+                if (/\bM0?0\b/i.test(line)) {
+                    currentOp.m00 = true;
+                    // Try to get comment from same line
+                    let commentMatch = line.match(/\(([^)]+)\)/);
+                    if (commentMatch) {
+                        currentOp.m00Comment = commentMatch[1];
+                    } else if (i + 1 < lines.length) {
+                        // Look at next line
+                        let nextLine = lines[i+1];
+                        let nextCommentMatch = nextLine.match(/\(([^)]+)\)/);
+                        if (nextCommentMatch) {
+                            currentOp.m00Comment = nextCommentMatch[1];
+                        }
+                    }
+                }
                 if (/\bM0?1\b/i.test(line)) currentOp.m01 = true;
                 if (/\bM0?8\b/i.test(line)) currentOp.m08 = true;
 
@@ -236,6 +260,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderTable() {
+        const zonesTableBody = document.getElementById('zones-table-body');
+        if (zonesTableBody) {
+            zonesTableBody.innerHTML = '';
+            let zonesAdded = 0;
+            for (const [zone, count] of Object.entries(workZonesCount)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <input type="text" class="inline-input global-zone-input" data-original="${zone}" value="${globalZoneMap[zone] || zone}">
+                    </td>
+                    <td>${count}</td>`;
+                zonesTableBody.appendChild(tr);
+                zonesAdded++;
+            }
+            if (zonesAdded === 0) {
+                zonesTableBody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px; color: var(--text-muted);">No Work Zones Found</td></tr>`;
+            }
+        }
+
         tableBody.innerHTML = '';
         if (parsedOperations.length === 0) {
             tableBody.innerHTML = `
@@ -251,13 +294,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
 
             const subs = Array.from(op.subprograms).join(', ') || '-';
-            const minZ = op.minZ === Infinity ? '-' : `Z${op.minZ.toFixed(4)}`;
-            const xRange = (op.minX === Infinity || op.maxX === -Infinity) ? '-' : `${op.minX.toFixed(3)} to ${op.maxX.toFixed(3)}`;
-            const yRange = (op.minY === Infinity || op.maxY === -Infinity) ? '-' : `${op.minY.toFixed(3)} to ${op.maxY.toFixed(3)}`;
+            const minZ = op.minZ === Infinity ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">Z${op.minZ.toFixed(4)}</span>`;
+            const xRange = (op.minX === Infinity || op.maxX === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minX.toFixed(3)}<br>${op.maxX.toFixed(3)}</span>`;
+            const yRange = (op.minY === Infinity || op.maxY === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minY.toFixed(3)}<br>${op.maxY.toFixed(3)}</span>`;
 
             const tCodeMatchWarn = (op.tool && parseInt(op.tool) !== parseInt(op.nCode))
                 ? 'style="color: var(--accent); font-weight: bold;" title="T code does not match N code"'
                 : '';
+
+            let m00Display = '<span class="badge no">N</span>';
+            if (op.m00) {
+                if (op.m00Comment) {
+                    m00Display = `<span style="font-size: 11px;">${op.m00Comment}</span>`;
+                } else {
+                    m00Display = '<span class="badge yes">Y</span>';
+                }
+            }
 
             tr.innerHTML = `
                 <td>
@@ -269,10 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>
                     <input type="text" class="inline-input desc-input wide" data-index="${index}" value="${op.description}" placeholder="Description">
                 </td>
-                <td>
-                    <input type="text" class="inline-input zone-input" data-index="${index}" value="${op.workZone}" placeholder="-">
-                </td>
-                <td><span class="badge ${op.m00 ? 'yes' : 'no'}">${op.m00 ? 'Y' : 'N'}</span></td>
+                <td>${m00Display}</td>
                 <td><span class="badge ${op.m01 ? 'yes' : 'no'}">${op.m01 ? 'Y' : 'N'}</span></td>
                 <td><span class="badge ${op.m08 ? 'yes' : 'no'}">${op.m08 ? 'Y' : 'N'}</span></td>
                 <td>${subs}</td>
@@ -289,8 +338,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="text" class="inline-input diameter-input" data-index="${index}" value="${op.toolDiameter}" placeholder="0.0">
                 </td>
                 <td>${minZ}</td>
-                <td><span style="font-size: 11px">${xRange}</span></td>
-                <td><span style="font-size: 11px">${yRange}</span></td>
+                <td>${xRange}</td>
+                <td>${yRange}</td>
             `;
             tableBody.appendChild(tr);
         });
@@ -308,18 +357,26 @@ document.addEventListener('DOMContentLoaded', () => {
                             e.target.title = "";
                         }
                     }
-                    // Removed auto-update: refreshGeneratedCode();
+                    refreshGeneratedCode();
                 });
             });
         };
 
         bindInput('.tool-input', 'tool', v => v.replace(/[^0-9]/g, ''));
         bindInput('.desc-input', 'description');
-        bindInput('.zone-input', 'workZone', v => v.toUpperCase());
         bindInput('.feed-input', 'feedRate', v => v.replace(/[^0-9.]/g, ''));
         bindInput('.speed-input', 'spindleSpeed', v => v.replace(/[^0-9]/g, ''));
         bindInput('.length-input', 'toolLength', v => v.replace(/[^0-9.]/g, ''));
         bindInput('.diameter-input', 'toolDiameter', v => v.replace(/[^0-9.]/g, ''));
+
+        document.querySelectorAll('.global-zone-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const orig = e.target.getAttribute('data-original');
+                const val = e.target.value.toUpperCase();
+                globalZoneMap[orig] = val;
+                refreshGeneratedCode();
+            });
+        });
 
         // Navigation logic for N code buttons
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -432,7 +489,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let zoneVars = {};
 
         parsedOperations.forEach(op => {
-            if (op.workZone) uniqueZones.add(op.workZone);
+            if (op.workZone) {
+                let activeZone = globalZoneMap[op.workZone] || op.workZone;
+                uniqueZones.add(activeZone);
+            }
             if (op.tool) {
                 uniqueTools.add(op.tool);
                 toolDescs[op.tool] = op.description || `Tool ${op.tool}`;
@@ -516,10 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (op.workZone) {
+                    let activeZone = globalZoneMap[op.workZone] || op.workZone;
                     if (useVarZones) {
-                        modifiedLine = modifiedLine.replace(/G5[4-9]|G54\.1\s*P\d+/gi, `G#${zoneVars[op.workZone]}`);
+                        modifiedLine = modifiedLine.replace(/G5[4-9]|G54\.1\s*P\d+/gi, `G#${zoneVars[activeZone]}`);
                     } else {
-                        modifiedLine = modifiedLine.replace(/G5[4-9]|G54\.1\s*P\d+/gi, op.workZone);
+                        modifiedLine = modifiedLine.replace(/G5[4-9]|G54\.1\s*P\d+/gi, activeZone);
                     }
                 }
 

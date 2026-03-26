@@ -13,6 +13,8 @@
 </head>
 
 <body>
+    <script type="module" src="../../main.js"></script>
+    <my-header></my-header>
 
     <!-- Top Navigation Bar -->
     <nav class="top-nav">
@@ -126,8 +128,26 @@
                     </div>
                 </div>
 
+                <!-- Work Zones Table -->
+                <div class="table-section form-card printable-section" style="margin-bottom: 20px;">
+                    <h3><i class="ph ph-map-pin"></i> Work Zones Summary</h3>
+                    <div class="table-container">
+                        <table id="zones-table">
+                            <thead>
+                                <tr>
+                                    <th>Work Zone</th>
+                                    <th>Instances</th>
+                                </tr>
+                            </thead>
+                            <tbody id="zones-table-body">
+                                <!-- Data populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <!-- Tools Table -->
-                <div class="table-section form-card">
+                <div class="table-section form-card printable-section">
                     <h3><i class="ph ph-table"></i> Tool Operations Overview</h3>
                     <div class="table-container">
                         <table id="ops-table">
@@ -136,7 +156,6 @@
                                     <th>N</th>
                                     <th>Tool</th>
                                     <th>Description</th>
-                                    <th>Zone</th>
                                     <th title="Program Stop">M00</th>
                                     <th title="Optional Stop">M01</th>
                                     <th title="Coolant">M08</th>
