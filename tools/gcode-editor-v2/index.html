@@ -13,14 +13,14 @@
 </head>
 
 <body>
-    <script type="module" src="../../main.js"></script>
-    <my-header></my-header>
+    <!--<script type="module" src="../../main.js"></script>-->
+    <!--<my-header></my-header>-->
 
     <!-- Top Navigation Bar -->
     <nav class="top-nav">
         <div class="logo-area">
             <i class="ph ph-code-block"></i>
-            <h1>Gcode Editor</h1>
+            <h1>G-coder by LRM</h1>
         </div>
         <div class="header-actions">
             <!-- Toggle Panel Button (Hidden until a file is loaded) -->
@@ -52,12 +52,6 @@
                     <div class="tab-group">
                         <div class="tab active" id="tab-optimized">Generated Output</div>
                     </div>
-                    <div class="header-inputs" style="display: flex; gap: 12px; margin-right: 16px;">
-                        <input type="text" id="part-number" class="inline-input" placeholder="Part Number"
-                            style="width: 120px;">
-                        <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number"
-                            style="width: 120px;">
-                    </div>
                     <div class="status-indicator">
                         <span class="dot empty"></span>
                         <span id="stat-filename">No file loaded</span>
@@ -72,6 +66,18 @@
         <aside id="controls-panel" class="controls-panel hidden">
             <div class="panel-inner">
                 <h2 class="panel-title">Controls & Data</h2>
+
+                <div class="info-section form-card printable-section">
+                    <h3><i class="ph ph-info"></i> Job Information</h3>
+                    <div class="input-group">
+                        <label for="part-number">Part Number</label>
+                        <input type="text" id="part-number" class="inline-input wide" placeholder="Part Number">
+                    </div>
+                    <div class="input-group">
+                        <label for="operation-number">Operation Number</label>
+                        <input type="text" id="operation-number" class="inline-input wide" placeholder="Operation Number">
+                    </div>
+                </div>
 
                 <div class="settings-section form-card">
                     <h3><i class="ph ph-sliders-horizontal"></i> Optimization Settings</h3>
@@ -108,7 +114,8 @@
                         </label>
                     </div>
 
-                    <button id="btn-apply" class="action-btn primary" style="width: 100%; margin-top: 15px; justify-content: center;">
+                    <button id="btn-apply" class="action-btn primary"
+                        style="width: 100%; margin-top: 15px; justify-content: center;">
                         <i class="ph ph-magic-wand"></i> <span class="btn-text">Apply Enhancements</span>
                     </button>
                 </div>
