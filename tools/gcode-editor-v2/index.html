@@ -54,7 +54,7 @@
                     </div>
                     <div class="status-indicator">
                         <span class="dot empty"></span>
-                        <span id="stat-filename">No file loaded</span>
+                        <input type="text" id="stat-filename" class="inline-input" style="width: 200px;" value="No file loaded" title="Edit filename">
                     </div>
                 </div>
 
@@ -76,6 +76,10 @@
                     <div class="input-group">
                         <label for="operation-number">Operation Number</label>
                         <input type="text" id="operation-number" class="inline-input wide" placeholder="Operation Number">
+                    </div>
+                    <div class="input-group">
+                        <label for="job-comment">Comment</label>
+                        <input type="text" id="job-comment" class="inline-input wide" placeholder="Optional Comment">
                     </div>
                 </div>
 
@@ -113,11 +117,6 @@
                             <span class="slider round"></span>
                         </label>
                     </div>
-
-                    <button id="btn-apply" class="action-btn primary"
-                        style="width: 100%; margin-top: 15px; justify-content: center;">
-                        <i class="ph ph-magic-wand"></i> <span class="btn-text">Apply Enhancements</span>
-                    </button>
                 </div>
 
                 <div class="actions-section form-card">

@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const partNumberInput = document.getElementById('part-number');
     const opNumberInput = document.getElementById('operation-number');
+    const jobCommentInput = document.getElementById('job-comment');
 
     const btnCopy = document.getElementById('btn-copy');
     const btnDownload = document.getElementById('btn-download');
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             statusDot.classList.remove('empty');
             statusDot.classList.add('active');
-            statFilename.textContent = fileMeta.name;
+            statFilename.value = fileMeta.name;
 
             parseGCodeIntoOperations(currentRawCode);
             renderTable();
@@ -135,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         statusDot.classList.remove('empty');
         statusDot.classList.add('active');
-        statFilename.textContent = fileMeta.name;
+        statFilename.value = fileMeta.name;
 
         parseGCodeIntoOperations(gcode);
         renderTable();
@@ -416,11 +417,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Live Optimization Updates ---
-    // User prefers an explicit "Apply" rather than auto-updating on every toggle change.
-    const btnApply = document.getElementById('btn-apply');
-    if (btnApply) {
-        btnApply.addEventListener('click', refreshGeneratedCode);
-    }
+    // Auto-update on every setting change
+    [probingToggle, lengthToggle, varToolsToggle, varZonesToggle].forEach(toggle => {
+        if (toggle) toggle.addEventListener('change', refreshGeneratedCode);
+    });
+
+    [partNumberInput, opNumberInput, jobCommentInput].forEach(input => {
+        if (input) input.addEventListener('input', refreshGeneratedCode);
+    });
 
     function refreshGeneratedCode() {
         if (!currentRawCode) return;
@@ -443,7 +447,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const blob = new Blob([codeEditor.value], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const filename = fileMeta.name.split('.')[0] + '_opt.nc';
+        
+        let filename = statFilename.value.trim();
+        if (!filename || filename === 'No file loaded') {
+            filename = 'download.nc';
+        } else if (!filename.includes('.')) {
+            filename += '.nc';
+        }
+
         a.href = url;
         a.download = filename;
         document.body.appendChild(a);
@@ -465,13 +476,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const partNum = partNumberInput.value.trim() || 'PART';
         const opNum = opNumberInput.value.trim() || 'OP';
+        const comment = jobCommentInput.value.trim();
 
         let out = "% \n";
         out += `O99999 (${partNum} ${opNum}) \n`;
 
         const now = new Date();
         const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-        out += `(${stamp}) \n\n`;
+        
+        if (comment) {
+            out += `(${comment} - ${stamp}) \n\n`;
+        } else {
+            out += `(${stamp}) \n\n`;
+        }
 
         out += "(VARIABLES) \n";
         if (useProbing || useLengthCheck || useVarTools || useVarZones) {
