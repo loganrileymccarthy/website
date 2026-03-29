@@ -57,13 +57,15 @@
                             <button id="btn-copy" class="action-btn" style="padding: 4px 12px; height: 32px;">
                                 <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
                             </button>
-                            <button id="btn-download" class="action-btn primary" style="padding: 4px 12px; height: 32px;">
+                            <button id="btn-download" class="action-btn primary"
+                                style="padding: 4px 12px; height: 32px;">
                                 <i class="ph ph-download-simple"></i> <span class="btn-text">Download</span>
                             </button>
                         </div>
                         <div class="status-indicator">
                             <span class="dot empty"></span>
-                            <input type="text" id="stat-filename" class="inline-input" style="width: 200px;" value="No file loaded" title="Edit filename">
+                            <input type="text" id="stat-filename" class="inline-input" style="width: 200px;"
+                                value="No file loaded" title="Edit filename">
                         </div>
                     </div>
                 </div>
@@ -75,7 +77,7 @@
         <!-- Right Panel Space (Collapsible Controls) -->
         <aside id="controls-panel" class="controls-panel hidden">
             <div class="panel-inner">
-                <h2 class="panel-title">Controls & Data</h2>
+                <!--<h2 class="panel-title">Controls & Data</h2>-->
 
                 <div class="info-section form-card printable-section">
                     <h3><i class="ph ph-info"></i> Job Information</h3>
@@ -96,6 +98,18 @@
                                 <span class="slider round"></span>
                             </label>
                         </div>
+
+                        <!-- Probing Configuration (shown when probing is enabled) -->
+                        <div id="probing-config" class="probing-config hidden">
+                            <div id="probing-cycles-list">
+                                <!-- Probe cycle cards injected by JS -->
+                            </div>
+                            <button id="btn-add-probe" class="action-btn"
+                                style="margin-top: 10px; width: 100%; justify-content: center;">
+                                <i class="ph ph-plus"></i> Add Probe Cycle
+                            </button>
+                        </div>
+
 
                         <div class="input-group">
                             <label for="length-toggle">Length Measurement (#899)</label>
@@ -125,29 +139,25 @@
 
                 <!-- Program Summary Section -->
                 <div class="table-section form-card printable-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h3 style="margin-bottom: 0;"><i class="ph ph-list-dashes"></i> Program Summary</h3>
                         <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
                             <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
                         </button>
                     </div>
 
-                    <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Work Zones</h4>
-                    <div class="table-container" style="max-height: max-content; margin-bottom: 24px;">
-                        <table id="zones-table">
-                            <thead>
-                                <tr>
-                                    <th>Work Zone</th>
-                                    <th>Instances</th>
-                                </tr>
-                            </thead>
-                            <tbody id="zones-table-body">
-                                <!-- Data populated by JS -->
-                            </tbody>
-                        </table>
+                    <h4
+                        style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Work Zones</h4>
+                    <div class="zones-container" id="zones-container"
+                        style="max-height: max-content; margin-bottom: 24px;">
+                        <!-- Data populated by JS -->
                     </div>
 
-                    <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Tool Operations</h4>
+                    <h4
+                        style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Tool Operations</h4>
                     <div class="table-container">
                         <table id="ops-table">
                             <thead>

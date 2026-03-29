@@ -1,0 +1,22 @@
+Tool operation without tool measurement enabled:
+
+N1 (<tool description>)
+<tool operation>
+
+Tool operation with tool measurement enabled:
+
+
+N1 (<tool description>)
+IF [#899 NE 1] GOTO100 (length measurement toggle)
+
+(MEASURE TOOL)
+G53 G0 Z0
+T#801 M06
+G65 P9995 T#801 A0.0 B1.0 C2.0 E<tool length> D<tool diameter>
+G53 G0 Z0
+M01
+
+N100
+<tool operation>
+
+Tool lengths and diameters can be gathered from inputs from the user in the table.

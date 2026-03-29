@@ -1,0 +1,23 @@
+When probing is enabled, we will want to have this before any tool operations:
+
+IF [#800 EQ 1] GOTO31 (probing toggle)
+N0
+
+After the M30, we will have a N31 section which will include any desired probing cycles:
+
+N31
+(EXAMPLE SURFACE PROBE)
+G53 G0 Z0
+T31 M06
+G0 G54 X0 Y0
+G43 H31 Z2.50
+G65 P9832 (PROBE ON)
+G65 P9810 Z0.1 (APPROACH)
+G65 P9811 Z0 S<zone 1-6> (SURFACE)
+G65 P9833 (PROBE OFF)
+G0 Z2.50
+G53 Z0
+<POSSIBLE ADDITIONAL PROBING CYCLES>
+GOTO0
+
+Probing cycle parameters will be entered by the user in the control panel.
