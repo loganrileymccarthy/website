@@ -276,7 +276,7 @@ body {
 
 /* Collapsible Panel */
 .controls-panel {
-    width: 650px;
+    width: 900px;
     background: #111418;
     border-left: 1px solid var(--border-color);
     transition: margin-right var(--transition-smooth);
@@ -287,7 +287,7 @@ body {
 }
 
 .controls-panel.collapsed {
-    margin-right: -650px;
+    margin-right: -900px;
 }
 
 .panel-inner {
@@ -295,7 +295,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 650px;
+    width: 900px;
 }
 
 .panel-title {
@@ -339,6 +339,33 @@ body {
 .input-group label {
     font-size: 14px;
     font-weight: 300;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    row-gap: 6px;
+}
+
+.settings-grid .input-group {
+    border-bottom: none;
+    padding: 6px 0;
+}
+
+.inline-inputs-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.inline-inputs-row .inline-input {
+    flex: 1;
+    width: auto;
+}
+
+.inline-inputs-row #job-comment {
+    flex: 2;
 }
 
 /* Toggle Switch */
@@ -545,17 +572,17 @@ tbody tr:hover {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
     .controls-panel {
-        width: 500px;
+        width: 650px;
     }
 
     .panel-inner {
-        width: 500px;
+        width: 650px;
     }
 
     .controls-panel.collapsed {
-        margin-right: -500px;
+        margin-right: -650px;
     }
 }
 

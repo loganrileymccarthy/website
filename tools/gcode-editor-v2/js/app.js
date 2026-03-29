@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // State
     let currentRawCode = "";
+    let currentHeader = "";
     let parsedOperations = [];
     let workZonesCount = {};
     let globalZoneMap = {};
@@ -95,11 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Paste/Typing Handling ---
+    let editorTypingTimeout;
     codeEditor.addEventListener('input', () => {
         if (dropZone.style.display !== 'none' && codeEditor.value.trim().length > 0) {
             fileMeta.name = "Pasted Code";
             currentRawCode = codeEditor.value;
-            
+
             // UI Update
             dropZone.style.display = 'none';
 
@@ -121,6 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPrint.disabled = false;
         } else if (dropZone.style.display === 'none') {
             currentRawCode = codeEditor.value;
+            
+            // Debounce parsing to keep typing smooth
+            clearTimeout(editorTypingTimeout);
+            editorTypingTimeout = setTimeout(() => {
+                parseGCodeIntoOperations(currentRawCode);
+                renderTable();
+            }, 500);
         }
     });
 
@@ -154,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         workZonesCount = {};
         globalZoneMap = {};
         let globalMinZ = Infinity;
+        currentHeader = "";
 
         const lines = code.split(/\r?\n/);
 
@@ -162,6 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i].trim();
+
+            if (!currentOp) {
+                const nMatch = line.match(/^N(\d+)(.*)/i);
+                if (!nMatch) {
+                    currentHeader += lines[i] + "\n";
+                    continue;
+                }
+            }
+
             if (!line) continue;
 
             const nMatch = line.match(/^N(\d+)(.*)/i);
@@ -214,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentOp.m00Comment = commentMatch[1];
                     } else if (i + 1 < lines.length) {
                         // Look at next line
-                        let nextLine = lines[i+1];
+                        let nextLine = lines[i + 1];
                         let nextCommentMatch = nextLine.match(/\(([^)]+)\)/);
                         if (nextCommentMatch) {
                             currentOp.m00Comment = nextCommentMatch[1];
@@ -295,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr');
 
             const subs = Array.from(op.subprograms).join(', ') || '-';
-            const minZ = op.minZ === Infinity ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">Z${op.minZ.toFixed(4)}</span>`;
+            const minZ = op.minZ === Infinity ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minZ.toFixed(4)}</span>`;
             const xRange = (op.minX === Infinity || op.maxX === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minX.toFixed(3)}<br>${op.maxX.toFixed(3)}</span>`;
             const yRange = (op.minY === Infinity || op.maxY === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minY.toFixed(3)}<br>${op.maxY.toFixed(3)}</span>`;
 
@@ -447,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const blob = new Blob([codeEditor.value], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        
+
         let filename = statFilename.value.trim();
         if (!filename || filename === 'No file loaded') {
             filename = 'download.nc';
@@ -478,16 +497,53 @@ document.addEventListener('DOMContentLoaded', () => {
         const opNum = opNumberInput.value.trim() || 'OP';
         const comment = jobCommentInput.value.trim();
 
-        let out = "% \n";
-        out += `O99999 (${partNum} ${opNum}) \n`;
-
         const now = new Date();
         const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-        
-        if (comment) {
-            out += `(${comment} - ${stamp}) \n\n`;
+
+        let headerTitle = `(${partNum} ${opNum})`;
+        let headerStamp = comment ? `(${comment} - ${stamp})` : `(${stamp})`;
+
+        let out = "";
+
+        if (!currentHeader.trim()) {
+            out = "% \n";
+            out += `O99999 ${headerTitle} \n`;
+            out += `${headerStamp} \n\n`;
         } else {
-            out += `(${stamp}) \n\n`;
+            let lines = currentHeader.split('\n');
+            let oCodeFound = false;
+            let newHeaderLines = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                if (!oCodeFound && /^O\d+/i.test(line.trim())) {
+                    // This is the O code line
+                    // See if it already has a comment
+                    let replaced = line.replace(/\([^)]*\)/g, ''); // remove existing comments
+                    newHeaderLines.push(`${replaced.trim()} ${headerTitle}`);
+                    newHeaderLines.push(headerStamp);
+                    oCodeFound = true;
+                } else {
+                    newHeaderLines.push(line);
+                }
+            }
+
+            if (!oCodeFound) {
+                // If no O code found, add it at the top (after % if exists)
+                if (newHeaderLines[0] && newHeaderLines[0].trim() === '%') {
+                    newHeaderLines.splice(1, 0, `O99999 ${headerTitle}`);
+                    newHeaderLines.splice(2, 0, headerStamp);
+                } else {
+                    newHeaderLines.unshift(headerStamp);
+                    newHeaderLines.unshift(`O99999 ${headerTitle}`);
+                    newHeaderLines.unshift("%");
+                }
+            }
+
+            out = newHeaderLines.join('\n');
+            if (!out.endsWith('\n\n')) {
+                out = out.trimEnd() + '\n\n';
+            }
         }
 
         out += "(VARIABLES) \n";
@@ -567,6 +623,9 @@ document.addEventListener('DOMContentLoaded', () => {
             op.lines.forEach((line, index) => {
                 let modifiedLine = line;
 
+                // Skip `%` symbols found in operations since we output it explicitly at start and end
+                if (modifiedLine.trim() === '%') return;
+
                 // Strip the duplicated N code and comment block from the first line
                 if (index === 0) {
                     modifiedLine = modifiedLine.replace(/^N\d+\s*(\([^)]*\))?\s*/i, '');
@@ -619,9 +678,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // End of tool operation safety lines (removed per user)
             out += "\n";
         });
-
-        // Program End
-        out += "M30 \n\n";
 
         // Generate Subprograms (assuming they were N block prefixed elements that didn't act as tool operations natively, 
         // wait, we filtered standard M30 and then subprograms? Actually parseGCodeIntoOperations gets all N blocks.

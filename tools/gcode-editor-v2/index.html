@@ -52,9 +52,19 @@
                     <div class="tab-group">
                         <div class="tab active" id="tab-optimized">Generated Output</div>
                     </div>
-                    <div class="status-indicator">
-                        <span class="dot empty"></span>
-                        <input type="text" id="stat-filename" class="inline-input" style="width: 200px;" value="No file loaded" title="Edit filename">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="display: flex; gap: 8px;">
+                            <button id="btn-copy" class="action-btn" style="padding: 4px 12px; height: 32px;">
+                                <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
+                            </button>
+                            <button id="btn-download" class="action-btn primary" style="padding: 4px 12px; height: 32px;">
+                                <i class="ph ph-download-simple"></i> <span class="btn-text">Download</span>
+                            </button>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="dot empty"></span>
+                            <input type="text" id="stat-filename" class="inline-input" style="width: 200px;" value="No file loaded" title="Edit filename">
+                        </div>
                     </div>
                 </div>
 
@@ -69,75 +79,61 @@
 
                 <div class="info-section form-card printable-section">
                     <h3><i class="ph ph-info"></i> Job Information</h3>
-                    <div class="input-group">
-                        <label for="part-number">Part Number</label>
-                        <input type="text" id="part-number" class="inline-input wide" placeholder="Part Number">
-                    </div>
-                    <div class="input-group">
-                        <label for="operation-number">Operation Number</label>
-                        <input type="text" id="operation-number" class="inline-input wide" placeholder="Operation Number">
-                    </div>
-                    <div class="input-group">
-                        <label for="job-comment">Comment</label>
-                        <input type="text" id="job-comment" class="inline-input wide" placeholder="Optional Comment">
+                    <div class="inline-inputs-row">
+                        <input type="text" id="part-number" class="inline-input" placeholder="Part Number">
+                        <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number">
+                        <input type="text" id="job-comment" class="inline-input" placeholder="Optional Comment">
                     </div>
                 </div>
 
                 <div class="settings-section form-card">
                     <h3><i class="ph ph-sliders-horizontal"></i> Optimization Settings</h3>
+                    <div class="settings-grid">
+                        <div class="input-group">
+                            <label for="probing-toggle">Probing Cycle (#800)</label>
+                            <label class="switch">
+                                <input type="checkbox" id="probing-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
 
-                    <div class="input-group">
-                        <label for="probing-toggle">Probing Cycle (#800)</label>
-                        <label class="switch">
-                            <input type="checkbox" id="probing-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
+                        <div class="input-group">
+                            <label for="length-toggle">Length Measurement (#899)</label>
+                            <label class="switch">
+                                <input type="checkbox" id="length-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
 
-                    <div class="input-group">
-                        <label for="length-toggle">Length Measurement (#899)</label>
-                        <label class="switch">
-                            <input type="checkbox" id="length-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
+                        <div class="input-group">
+                            <label for="var-tools-toggle">Variable Tools (#801-#850)</label>
+                            <label class="switch">
+                                <input type="checkbox" id="var-tools-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
 
-                    <div class="input-group">
-                        <label for="var-tools-toggle">Variable Tools (#801-#850)</label>
-                        <label class="switch">
-                            <input type="checkbox" id="var-tools-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="var-zones-toggle">Variable Work Zones (#851-#856)</label>
-                        <label class="switch">
-                            <input type="checkbox" id="var-zones-toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="actions-section form-card">
-                    <h3><i class="ph ph-export"></i> Export Actions</h3>
-                    <div class="action-buttons-grid">
-                        <button id="btn-copy" class="action-btn">
-                            <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
-                        </button>
-                        <button id="btn-download" class="action-btn primary">
-                            <i class="ph ph-download-simple"></i> <span class="btn-text">Download</span>
-                        </button>
-                        <button id="btn-print" class="action-btn">
-                            <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
-                        </button>
+                        <div class="input-group">
+                            <label for="var-zones-toggle">Variable Work Zones (#851-#856)</label>
+                            <label class="switch">
+                                <input type="checkbox" id="var-zones-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Work Zones Table -->
-                <div class="table-section form-card printable-section" style="margin-bottom: 20px;">
-                    <h3><i class="ph ph-map-pin"></i> Work Zones Summary</h3>
-                    <div class="table-container">
+                <!-- Program Summary Section -->
+                <div class="table-section form-card printable-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin-bottom: 0;"><i class="ph ph-list-dashes"></i> Program Summary</h3>
+                        <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
+                            <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
+                        </button>
+                    </div>
+
+                    <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Work Zones</h4>
+                    <div class="table-container" style="max-height: max-content; margin-bottom: 24px;">
                         <table id="zones-table">
                             <thead>
                                 <tr>
@@ -150,11 +146,8 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
 
-                <!-- Tools Table -->
-                <div class="table-section form-card printable-section">
-                    <h3><i class="ph ph-table"></i> Tool Operations Overview</h3>
+                    <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Tool Operations</h4>
                     <div class="table-container">
                         <table id="ops-table">
                             <thead>
