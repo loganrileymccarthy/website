@@ -217,21 +217,45 @@ body {
     height: 48px;
 }
 
-.tab-group {
+.mod-tabs {
     display: flex;
-    height: 100%;
+    gap: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
 }
 
-.tab {
-    padding: 0 20px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid var(--primary);
-    color: var(--primary);
+.mod-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
     font-weight: 500;
-    font-size: 14px;
-    cursor: default;
+    font-family: inherit;
+    padding: 0 4px 10px 4px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    margin-bottom: -1px;
+}
+
+.mod-tab:hover {
+    color: var(--text-main);
+}
+
+.mod-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.mod-content {
+    display: none;
+}
+
+.mod-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease forwards;
 }
 
 .status-indicator {
@@ -276,7 +300,8 @@ body {
 
 /* Collapsible Panel */
 .controls-panel {
-    width: 900px;
+    --panel-width: 900px;
+    width: var(--panel-width);
     background: #111418;
     border-left: 1px solid var(--border-color);
     transition: margin-right var(--transition-smooth);
@@ -284,10 +309,28 @@ body {
     overflow-x: hidden;
     flex-shrink: 0;
     margin-right: 0;
+    position: relative;
 }
 
 .controls-panel.collapsed {
-    margin-right: -900px;
+    margin-right: calc(var(--panel-width) * -1);
+}
+
+.panel-resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 6px;
+    cursor: col-resize;
+    z-index: 10;
+    background: transparent;
+    transition: background var(--transition-fast);
+}
+
+.panel-resizer:hover,
+.panel-resizer.active {
+    background: var(--primary);
 }
 
 .panel-inner {
@@ -295,7 +338,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 900px;
+    width: 100%;
 }
 
 .panel-title {
@@ -554,6 +597,25 @@ input:checked+.slider:before {
     box-shadow: 0 4px 12px rgba(92, 107, 192, 0.4);
 }
 
+/* Work Zones */
+.zones-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.zone-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
 /* Table */
 .table-container {
     overflow-x: auto;
@@ -570,13 +632,17 @@ table {
 
 th,
 td {
-    padding: 10px 12px;
+    padding: 6px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     white-space: nowrap;
 }
 
+td {
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
 th {
-    background: rgba(15, 17, 21, 0.9);
+    background: var(--bg-panel);
     color: var(--text-muted);
     font-weight: 500;
     font-size: 12px;
@@ -618,11 +684,11 @@ tbody tr:hover {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-highlight);
     color: var(--text-main);
-    padding: 4px 8px;
+    padding: 4px 6px;
     border-radius: 4px;
     font-family: inherit;
     font-size: 13px;
-    width: 70px;
+    width: 60px;
     transition: var(--transition-fast);
 }
 
@@ -655,15 +721,11 @@ tbody tr:hover {
 /* Responsive */
 @media (max-width: 1400px) {
     .controls-panel {
-        width: 650px;
+        --panel-width: 650px;
     }
 
     .panel-inner {
-        width: 650px;
-    }
-
-    .controls-panel.collapsed {
-        margin-right: -650px;
+        width: 100%;
     }
 }
 
@@ -689,6 +751,10 @@ tbody tr:hover {
 
     .panel-inner {
         width: 100%;
+    }
+    
+    .panel-resizer {
+        display: none;
     }
 }
 

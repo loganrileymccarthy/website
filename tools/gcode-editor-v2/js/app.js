@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const lengthToggle = document.getElementById('length-toggle');
     const varToolsToggle = document.getElementById('var-tools-toggle');
     const varZonesToggle = document.getElementById('var-zones-toggle');
+    const headerVarsToggle = document.getElementById('header-vars-toggle');
+    const headerSafetyToggle = document.getElementById('header-safety-toggle');
+    const headerStampToggle = document.getElementById('header-stamp-toggle');
 
     // Probing config container refs
     const probingConfigDiv = document.getElementById('probing-config');
@@ -28,8 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const partNumberInput = document.getElementById('part-number');
     const opNumberInput = document.getElementById('operation-number');
-    const jobCommentInput = document.getElementById('job-comment');
 
+    const headerCommentsConfig = document.getElementById('header-comments-config');
+    const headerCommentsList = document.getElementById('header-comments-list');
+    const newCommentInput = document.getElementById('new-comment-input');
+    const btnAddComment = document.getElementById('btn-add-comment');
+
+    const btnClose = document.getElementById('btn-close');
     const btnCopy = document.getElementById('btn-copy');
     const btnDownload = document.getElementById('btn-download');
     const btnPrint = document.getElementById('btn-print');
@@ -41,10 +49,58 @@ document.addEventListener('DOMContentLoaded', () => {
     let workZonesCount = {};
     let globalZoneMap = {};
     let fileMeta = { name: "" };
+    let headerComments = [];
 
     // --- Panel Toggle ---
     togglePanelBtn.addEventListener('click', () => {
         controlsPanel.classList.toggle('collapsed');
+    });
+
+    // --- Draggable Panel Resizer ---
+    const panelResizer = document.getElementById('panel-resizer');
+    let isResizing = false;
+
+    if (panelResizer) {
+        panelResizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            panelResizer.classList.add('active');
+            document.body.style.cursor = 'col-resize';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            
+            let newWidth = window.innerWidth - e.clientX;
+            const minWidth = 400; 
+            const maxWidth = window.innerWidth - 300; 
+            
+            if (newWidth < minWidth) newWidth = minWidth;
+            if (newWidth > maxWidth) newWidth = maxWidth;
+            
+            controlsPanel.style.setProperty('--panel-width', `${newWidth}px`);
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                panelResizer.classList.remove('active');
+                document.body.style.cursor = '';
+            }
+        });
+    }
+
+    // --- Modification Tabs ---
+    document.querySelectorAll('.mod-tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            document.querySelectorAll('.mod-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mod-content').forEach(c => c.classList.remove('active'));
+
+            e.target.classList.add('active');
+            
+            const targetId = e.target.getAttribute('data-target');
+            document.getElementById(targetId).classList.add('active');
+        });
     });
 
     // --- Drag and Drop Handling ---
@@ -120,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             parseGCodeIntoOperations(currentRawCode);
             renderTable();
-            document.getElementById('tab-optimized').textContent = 'Original Code';
 
             // Enable buttons
             btnCopy.disabled = false;
@@ -155,12 +210,72 @@ document.addEventListener('DOMContentLoaded', () => {
         parseGCodeIntoOperations(gcode);
         renderTable();
         codeEditor.value = gcode;
-        document.getElementById('tab-optimized').textContent = 'Original Code';
 
         // Enable buttons
         btnCopy.disabled = false;
         btnDownload.disabled = false;
         btnPrint.disabled = false;
+    }
+
+    function renderHeaderComments() {
+        if (!headerCommentsList) return;
+        headerCommentsList.innerHTML = '';
+        if (headerComments.length === 0) {
+            headerCommentsList.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">No updates found</span>`;
+        } else {
+            headerComments.forEach((c, i) => {
+                const div = document.createElement('div');
+                div.style = "display: flex; gap: 8px;";
+                div.innerHTML = `
+                    <input type="text" class="inline-input wide current-comment-input" data-index="${i}" value="${c}">
+                    <button class="action-btn btn-del-comment" data-index="${i}" style="padding: 4px; height: 32px; width: 32px; min-width: 32px;"><i class="ph ph-trash"></i></button>
+                `;
+                headerCommentsList.appendChild(div);
+            });
+        }
+        
+        document.querySelectorAll('.current-comment-input').forEach(inp => {
+            inp.addEventListener('input', (e) => {
+                headerComments[e.target.getAttribute('data-index')] = e.target.value;
+                refreshGeneratedCode();
+            });
+        });
+        
+        document.querySelectorAll('.btn-del-comment').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                headerComments.splice(parseInt(e.currentTarget.getAttribute('data-index')), 1);
+                renderHeaderComments();
+                refreshGeneratedCode();
+            });
+        });
+    }
+
+    if (btnAddComment) {
+        btnAddComment.addEventListener('click', () => {
+            const val = newCommentInput.value.trim();
+            const now = new Date();
+            const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+            
+            if (val) {
+                headerComments.push(`${val} - ${stamp}`);
+            } else {
+                headerComments.push(`${stamp}`);
+            }
+            newCommentInput.value = '';
+            renderHeaderComments();
+            refreshGeneratedCode();
+        });
+    }
+
+    if (headerStampToggle) {
+        headerStampToggle.addEventListener('change', () => {
+            if (headerStampToggle.checked) {
+                headerCommentsConfig.classList.remove('hidden');
+            } else {
+                headerCommentsConfig.classList.add('hidden');
+            }
+            refreshGeneratedCode();
+        });
     }
 
     function parseGCodeIntoOperations(code) {
@@ -296,6 +411,50 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentOp && currentOp.nCode) {
             parsedOperations.push(currentOp);
         }
+
+        headerComments = [];
+        if (currentHeader) {
+            let headerLines = currentHeader.split('\n');
+            let newHeaderLines = [];
+            let oCodeFound = false;
+            let extracting = false;
+
+            for (let i = 0; i < headerLines.length; i++) {
+                let line = headerLines[i].trim();
+                
+                if (!oCodeFound && /^O\d+/i.test(line)) {
+                    oCodeFound = true;
+                    extracting = true;
+                    newHeaderLines.push(headerLines[i]);
+                    continue;
+                }
+
+                if (extracting) {
+                    if (line.startsWith('(') && line.endsWith(')')) {
+                        if (line === '(VARIABLES)') {
+                            extracting = false;
+                            newHeaderLines.push(headerLines[i]);
+                        } else {
+                            let inner = line.slice(1, -1).trim();
+                            if (inner && inner !== 'VARIABLES') {
+                                headerComments.push(inner);
+                            } else {
+                                newHeaderLines.push(headerLines[i]);
+                            }
+                        }
+                    } else if (line !== '') {
+                        extracting = false;
+                        newHeaderLines.push(headerLines[i]);
+                    } else {
+                        newHeaderLines.push(headerLines[i]);
+                    }
+                } else {
+                    newHeaderLines.push(headerLines[i]);
+                }
+            }
+            currentHeader = newHeaderLines.join('\n');
+        }
+        renderHeaderComments();
     }
 
     function renderTable() {
@@ -349,6 +508,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     m00Display = '<span class="badge yes">Y</span>';
                 }
             }
+            
+            let m08Display = `<span class="badge yes">Y</span>`;
+            if (!op.m08) {
+                m08Display = `<button class="btn-add-m08" data-index="${index}" style="background: none; border: none; color: var(--primary); cursor: pointer; padding: 2px;" title="Insert M08 after Tool Call"><i class="ph ph-plus-circle" style="font-size: 16px;"></i></button>`;
+            }
 
             tr.innerHTML = `
                 <td>
@@ -362,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td>${m00Display}</td>
                 <td><span class="badge ${op.m01 ? 'yes' : 'no'}">${op.m01 ? 'Y' : 'N'}</span></td>
-                <td><span class="badge ${op.m08 ? 'yes' : 'no'}">${op.m08 ? 'Y' : 'N'}</span></td>
+                <td>${m08Display}</td>
                 <td>${subs}</td>
                 <td>
                     <div style="display:flex; flex-direction:column; gap:4px;">
@@ -433,6 +597,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        document.querySelectorAll('.btn-add-m08').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.getAttribute('data-index'));
+                const op = parsedOperations[idx];
+                
+                let insertIdx = op.lines.findIndex(l => /\bM0?6\b/i.test(l));
+                if (insertIdx !== -1) {
+                    op.lines.splice(insertIdx + 1, 0, "M08");
+                } else {
+                    op.lines.splice(1, 0, "M08");
+                }
+                
+                refreshGeneratedCode();
+                currentRawCode = codeEditor.value;
+                parseGCodeIntoOperations(currentRawCode);
+                renderTable();
+            });
+        });
+
         // Navigation logic for N code buttons
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -470,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Live Optimization Updates ---
+    // --- Live Editor Updates ---
 
     // ---- Probing Cycle Cards ----
     let probeCycleCount = 0;
@@ -602,22 +785,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Auto-update on every other setting change
-    [lengthToggle, varToolsToggle, varZonesToggle].forEach(toggle => {
+    [lengthToggle, varToolsToggle, varZonesToggle, headerVarsToggle, headerSafetyToggle, headerStampToggle].forEach(toggle => {
         if (toggle) toggle.addEventListener('change', refreshGeneratedCode);
     });
 
-    [partNumberInput, opNumberInput, jobCommentInput].forEach(input => {
+    [partNumberInput, opNumberInput].forEach(input => {
         if (input) input.addEventListener('input', refreshGeneratedCode);
     });
 
     function refreshGeneratedCode() {
         if (!currentRawCode) return;
-        const optCode = generateOptimizedGCode();
-        codeEditor.value = optCode;
-        document.getElementById('tab-optimized').textContent = 'Generated Output';
+        const modifiedCode = generateModifiedGCode();
+        codeEditor.value = modifiedCode;
     }
 
     // --- Export Logic ---
+    btnClose.addEventListener('click', () => {
+        currentRawCode = "";
+        currentHeader = "";
+        parsedOperations = [];
+        workZonesCount = {};
+        globalZoneMap = {};
+        fileMeta = { name: "" };
+        
+        codeEditor.value = "";
+        fileInput.value = '';
+        
+        [probingToggle, lengthToggle, varToolsToggle, varZonesToggle].forEach(t => { if (t) t.checked = false; });
+        [headerVarsToggle, headerSafetyToggle, headerStampToggle].forEach(t => { if (t) t.checked = false; });
+        [partNumberInput, opNumberInput].forEach(i => { if (i) i.value = ''; });
+        if (headerCommentsConfig) headerCommentsConfig.classList.add('hidden');
+        headerComments = [];
+        if (newCommentInput) newCommentInput.value = '';
+        renderHeaderComments();
+        
+        probingConfigDiv.classList.add('hidden');
+        probingCyclesList.innerHTML = "";
+        probeCycleCount = 0;
+        
+        const zCont = document.getElementById('zones-container');
+        if (zCont) zCont.innerHTML = "";
+        tableBody.innerHTML = "";
+        
+        editorContainer.classList.add('hidden');
+        controlsPanel.classList.add('hidden');
+        togglePanelBtn.classList.add('hidden');
+        controlsPanel.classList.remove('collapsed');
+        
+        statusDot.classList.add('empty');
+        statusDot.classList.remove('active');
+        statFilename.value = "No file loaded";
+        
+        dropZone.style.display = 'flex';
+        
+        btnCopy.disabled = true;
+        btnDownload.disabled = true;
+        btnPrint.disabled = true;
+    });
+
     btnCopy.addEventListener('click', () => {
         navigator.clipboard.writeText(codeEditor.value).then(() => {
             const span = btnCopy.querySelector('.btn-text');
@@ -651,29 +876,32 @@ document.addEventListener('DOMContentLoaded', () => {
         window.print();
     });
 
-    // --- GCode Optimization/Transformation ---
-    function generateOptimizedGCode() {
+    // --- GCode Modifications ---
+    function generateModifiedGCode() {
         const useProbing = probingToggle.checked;
         const useLengthCheck = lengthToggle.checked;
         const useVarTools = varToolsToggle.checked;
         const useVarZones = varZonesToggle.checked;
+        const useHeaderVars = headerVarsToggle ? headerVarsToggle.checked : true;
+        const useHeaderSafety = headerSafetyToggle ? headerSafetyToggle.checked : true;
+        const useHeaderStamp = headerStampToggle ? headerStampToggle.checked : true;
 
         const partNum = partNumberInput.value.trim() || 'PART';
         const opNum = opNumberInput.value.trim() || 'OP';
-        const comment = jobCommentInput.value.trim();
-
-        const now = new Date();
-        const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
         let headerTitle = `(${partNum} ${opNum})`;
-        let headerStamp = comment ? `(${comment} - ${stamp})` : `(${stamp})`;
 
         let out = "";
 
         if (!currentHeader.trim()) {
             out = "% \n";
             out += `O99999 ${headerTitle} \n`;
-            out += `${headerStamp} \n\n`;
+            if (useHeaderStamp && headerComments.length > 0) {
+                headerComments.forEach(c => {
+                    if (c.trim()) out += `(${c}) \n`;
+                });
+            }
+            out += "\n";
         } else {
             let lines = currentHeader.split('\n');
             let oCodeFound = false;
@@ -683,10 +911,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 let line = lines[i];
                 if (!oCodeFound && /^O\d+/i.test(line.trim())) {
                     // This is the O code line
-                    // See if it already has a comment
-                    let replaced = line.replace(/\([^)]*\)/g, ''); // remove existing comments
+                    let replaced = line.replace(/\([^)]*\)/g, ''); // remove existing title comments
                     newHeaderLines.push(`${replaced.trim()} ${headerTitle}`);
-                    newHeaderLines.push(headerStamp);
+                    if (useHeaderStamp && headerComments.length > 0) {
+                        headerComments.forEach(c => {
+                            if (c.trim()) newHeaderLines.push(`(${c})`);
+                        });
+                    }
                     oCodeFound = true;
                 } else {
                     newHeaderLines.push(line);
@@ -697,9 +928,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If no O code found, add it at the top (after % if exists)
                 if (newHeaderLines[0] && newHeaderLines[0].trim() === '%') {
                     newHeaderLines.splice(1, 0, `O99999 ${headerTitle}`);
-                    newHeaderLines.splice(2, 0, headerStamp);
+                    if (useHeaderStamp && headerComments.length > 0) {
+                        let offset = 2;
+                        headerComments.forEach(c => {
+                            if (c.trim()) {
+                                newHeaderLines.splice(offset, 0, `(${c})`);
+                                offset++;
+                            }
+                        });
+                    }
                 } else {
-                    newHeaderLines.unshift(headerStamp);
+                    if (useHeaderStamp && headerComments.length > 0) {
+                        [...headerComments].reverse().forEach(c => {
+                            if (c.trim()) newHeaderLines.unshift(`(${c})`);
+                        });
+                    }
                     newHeaderLines.unshift(`O99999 ${headerTitle}`);
                     newHeaderLines.unshift("%");
                 }
@@ -711,11 +954,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        out += "(VARIABLES) \n";
-        if (useProbing || useLengthCheck || useVarTools || useVarZones) {
-            if (useProbing) out += `(#800: probing toggle) \n`;
-            if (useLengthCheck) out += `(#899: tool length measurement toggle) \n`;
-            out += "\n";
+        if (useHeaderVars) {
+            out += "(VARIABLES) \n";
+            if (useProbing || useLengthCheck || useVarTools || useVarZones) {
+                if (useProbing) out += `(#800: probing toggle) \n`;
+                if (useLengthCheck) out += `(#899: tool length measurement toggle) \n`;
+                out += "\n";
+            }
         }
 
         let uniqueZones = new Set();
@@ -741,25 +986,27 @@ document.addEventListener('DOMContentLoaded', () => {
             let zoneCounter = 851;
             uniqueZones.forEach(z => {
                 zoneVars[z] = zoneCounter;
-                out += `(#${zoneCounter}: work zone ${z}) \n`;
+                if (useHeaderVars) out += `(#${zoneCounter}: work zone ${z}) \n`;
                 zoneCounter++;
                 if (zoneCounter > 856) zoneCounter++; // Assuming limit, reference didn't specify beyond 856 but safe.
             });
-            out += "\n";
+            if (useHeaderVars) out += "\n";
         }
 
         if (useVarTools && uniqueTools.size > 0) {
             let subCounter = 801;
             uniqueTools.forEach(t => {
                 toolVars[t] = subCounter;
-                out += `(#${subCounter}: ${toolDescs[t].replace(/[()]/g, '')}) \n`;
+                if (useHeaderVars) out += `(#${subCounter}: ${toolDescs[t].replace(/[()]/g, '')}) \n`;
                 subCounter++;
             });
-            out += "\n";
+            if (useHeaderVars) out += "\n";
         }
 
         // Program Safety Lines
-        out += "G00 G17 G20 G40 G49 G80 G90 \n\n";
+        if (useHeaderSafety) {
+            out += "G00 G17 G20 G40 G49 G80 G90 \n\n";
+        }
 
         if (useProbing) {
             out += "IF [#800 EQ 1] GOTO31 (probing toggle) \n";

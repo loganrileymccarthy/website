@@ -47,13 +47,16 @@
             </div>
 
             <!-- Code Editor Area -->
-            <div id="editor-container" class="editor-container">
+            <div id="editor-container" class="editor-container hidden">
                 <div class="editor-header">
-                    <div class="tab-group">
-                        <div class="tab active" id="tab-optimized">Generated Output</div>
+                    <div class="editor-title" style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 15px; color: var(--text-main);">
+                        <i class="ph ph-file-code"></i> Active File
                     </div>
                     <div style="display: flex; align-items: center; gap: 16px;">
                         <div style="display: flex; gap: 8px;">
+                            <button id="btn-close" class="action-btn" style="padding: 4px 12px; height: 32px;" title="Close File">
+                                <i class="ph ph-x"></i> <span class="btn-text">Close</span>
+                            </button>
                             <button id="btn-copy" class="action-btn" style="padding: 4px 12px; height: 32px;">
                                 <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
                             </button>
@@ -76,6 +79,7 @@
 
         <!-- Right Panel Space (Collapsible Controls) -->
         <aside id="controls-panel" class="controls-panel hidden">
+            <div id="panel-resizer" class="panel-resizer"></div>
             <div class="panel-inner">
                 <!--<h2 class="panel-title">Controls & Data</h2>-->
 
@@ -84,15 +88,58 @@
                     <div class="inline-inputs-row">
                         <input type="text" id="part-number" class="inline-input" placeholder="Part Number">
                         <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number">
-                        <input type="text" id="job-comment" class="inline-input" placeholder="Optional Comment">
                     </div>
                 </div>
 
                 <div class="settings-section form-card">
-                    <h3><i class="ph ph-sliders-horizontal"></i> Optimization Settings</h3>
-                    <div class="settings-grid">
-                        <div class="input-group">
-                            <label for="probing-toggle">Probing Cycle (#800)</label>
+                    <h3><i class="ph ph-sliders-horizontal"></i> GCode Modifications</h3>
+                    <div class="mod-tabs">
+                        <button class="mod-tab active" data-target="mod-header">Header</button>
+                        <button class="mod-tab" data-target="mod-probing">Probing Cycle</button>
+                        <button class="mod-tab" data-target="mod-length">Length Check</button>
+                        <button class="mod-tab" data-target="mod-tools">Var Tools</button>
+                        <button class="mod-tab" data-target="mod-zones">Var Work Zones</button>
+                    </div>
+
+                    <div class="mod-content active" id="mod-header">
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="header-vars-toggle">Add (VARIABLES) Block</label>
+                            <label class="switch">
+                                <input type="checkbox" id="header-vars-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="header-safety-toggle">Add Safety Line (G0 G17...)</label>
+                            <label class="switch">
+                                <input type="checkbox" id="header-safety-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="header-stamp-toggle">Add Timestamped Updates</label>
+                            <label class="switch">
+                                <input type="checkbox" id="header-stamp-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        
+                        <!-- History Container -->
+                        <div id="header-comments-config" class="probing-config hidden">
+                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Update History</h4>
+                            <div id="header-comments-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                                <!-- Injected by JS -->
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="new-comment-input" class="inline-input wide" placeholder="Describe update...">
+                                <button id="btn-add-comment" class="action-btn" style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mod-content" id="mod-probing">
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="probing-toggle">Enable Probing Cycle (#800)</label>
                             <label class="switch">
                                 <input type="checkbox" id="probing-toggle">
                                 <span class="slider round"></span>
@@ -109,26 +156,31 @@
                                 <i class="ph ph-plus"></i> Add Probe Cycle
                             </button>
                         </div>
+                    </div>
 
-
-                        <div class="input-group">
-                            <label for="length-toggle">Length Measurement (#899)</label>
+                    <div class="mod-content" id="mod-length">
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="length-toggle">Enable Length Measurement (#899)</label>
                             <label class="switch">
                                 <input type="checkbox" id="length-toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
+                    </div>
 
-                        <div class="input-group">
-                            <label for="var-tools-toggle">Variable Tools (#801-#850)</label>
+                    <div class="mod-content" id="mod-tools">
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="var-tools-toggle">Enable Variable Tools (#801-#850)</label>
                             <label class="switch">
                                 <input type="checkbox" id="var-tools-toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
+                    </div>
 
-                        <div class="input-group">
-                            <label for="var-zones-toggle">Variable Work Zones (#851-#856)</label>
+                    <div class="mod-content" id="mod-zones">
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="var-zones-toggle">Enable Variable Work Zones (#851-#856)</label>
                             <label class="switch">
                                 <input type="checkbox" id="var-zones-toggle">
                                 <span class="slider round"></span>
