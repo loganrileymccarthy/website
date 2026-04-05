@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const controlsPanel = document.getElementById('controls-panel');
     const togglePanelBtn = document.getElementById('toggle-panel-btn');
 
-    const statusDot = document.querySelector('.status-indicator .dot');
+    //const statusDot = document.querySelector('.status-indicator .dot');
     const statFilename = document.getElementById('stat-filename');
     const tableBody = document.getElementById('ops-table-body');
 
@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerVarsToggle = document.getElementById('header-vars-toggle');
     const headerSafetyToggle = document.getElementById('header-safety-toggle');
     const headerStampToggle = document.getElementById('header-stamp-toggle');
+    const headerToolsToggle = document.getElementById('header-tools-toggle');
 
     // Probing config container refs
     const probingConfigDiv = document.getElementById('probing-config');
@@ -170,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
             controlsPanel.classList.remove('hidden');
             togglePanelBtn.classList.remove('hidden');
 
-            statusDot.classList.remove('empty');
-            statusDot.classList.add('active');
+            //statusDot.classList.remove('empty');
+            //statusDot.classList.add('active');
             statFilename.value = fileMeta.name;
 
             parseGCodeIntoOperations(currentRawCode);
@@ -203,8 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
         controlsPanel.classList.remove('hidden');
         togglePanelBtn.classList.remove('hidden');
 
-        statusDot.classList.remove('empty');
-        statusDot.classList.add('active');
+        //statusDot.classList.remove('empty');
+        //statusDot.classList.add('active');
         statFilename.value = fileMeta.name;
 
         parseGCodeIntoOperations(gcode);
@@ -436,7 +437,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             newHeaderLines.push(headerLines[i]);
                         } else {
                             let inner = line.slice(1, -1).trim();
-                            if (inner && inner !== 'VARIABLES') {
+                            const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}$/.test(inner);
+                            
+                            if (inner && inner !== 'VARIABLES' && isTimestamped) {
                                 headerComments.push(inner);
                             } else {
                                 newHeaderLines.push(headerLines[i]);
@@ -785,7 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Auto-update on every other setting change
-    [lengthToggle, varToolsToggle, varZonesToggle, headerVarsToggle, headerSafetyToggle, headerStampToggle].forEach(toggle => {
+    [lengthToggle, varToolsToggle, varZonesToggle, headerVarsToggle, headerSafetyToggle, headerStampToggle, headerToolsToggle].forEach(toggle => {
         if (toggle) toggle.addEventListener('change', refreshGeneratedCode);
     });
 
@@ -812,7 +815,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.value = '';
         
         [probingToggle, lengthToggle, varToolsToggle, varZonesToggle].forEach(t => { if (t) t.checked = false; });
-        [headerVarsToggle, headerSafetyToggle, headerStampToggle].forEach(t => { if (t) t.checked = false; });
+        [headerVarsToggle, headerSafetyToggle, headerStampToggle, headerToolsToggle].forEach(t => { if (t) t.checked = false; });
         [partNumberInput, opNumberInput].forEach(i => { if (i) i.value = ''; });
         if (headerCommentsConfig) headerCommentsConfig.classList.add('hidden');
         headerComments = [];
@@ -832,8 +835,8 @@ document.addEventListener('DOMContentLoaded', () => {
         togglePanelBtn.classList.add('hidden');
         controlsPanel.classList.remove('collapsed');
         
-        statusDot.classList.add('empty');
-        statusDot.classList.remove('active');
+        //statusDot.classList.add('empty');
+        //statusDot.classList.remove('active');
         statFilename.value = "No file loaded";
         
         dropZone.style.display = 'flex';
@@ -885,6 +888,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const useHeaderVars = headerVarsToggle ? headerVarsToggle.checked : true;
         const useHeaderSafety = headerSafetyToggle ? headerSafetyToggle.checked : true;
         const useHeaderStamp = headerStampToggle ? headerStampToggle.checked : true;
+        const useHeaderTools = headerToolsToggle ? headerToolsToggle.checked : false;
 
         const partNum = partNumberInput.value.trim() || 'PART';
         const opNum = opNumberInput.value.trim() || 'OP';
@@ -1001,6 +1005,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 subCounter++;
             });
             if (useHeaderVars) out += "\n";
+        }
+
+        if (useHeaderTools && uniqueTools.size > 0) {
+            out += "(TOOLS) \n";
+            let toolList = Array.from(uniqueTools).sort((a, b) => parseInt(a) - parseInt(b));
+            toolList.forEach(t => {
+                let desc = toolDescs[t] ? toolDescs[t].replace(/[()]/g, '') : `TOOL ${t}`;
+                out += `(T${t} - ${desc}) \n`;
+            });
+            out += "\n";
         }
 
         // Program Safety Lines

@@ -49,27 +49,24 @@
             <!-- Code Editor Area -->
             <div id="editor-container" class="editor-container hidden">
                 <div class="editor-header">
-                    <div class="editor-title" style="display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 15px; color: var(--text-main);">
-                        <i class="ph ph-file-code"></i> Active File
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 16px;">
-                        <div style="display: flex; gap: 8px;">
-                            <button id="btn-close" class="action-btn" style="padding: 4px 12px; height: 32px;" title="Close File">
-                                <i class="ph ph-x"></i> <span class="btn-text">Close</span>
-                            </button>
-                            <button id="btn-copy" class="action-btn" style="padding: 4px 12px; height: 32px;">
-                                <i class="ph ph-copy"></i> <span class="btn-text">Copy</span>
-                            </button>
-                            <button id="btn-download" class="action-btn primary"
-                                style="padding: 4px 12px; height: 32px;">
-                                <i class="ph ph-download-simple"></i> <span class="btn-text">Download</span>
-                            </button>
-                        </div>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-right: auto;">
                         <div class="status-indicator">
-                            <span class="dot empty"></span>
+                            <!--<span class="dot empty"></span>-->
                             <input type="text" id="stat-filename" class="inline-input" style="width: 200px;"
                                 value="No file loaded" title="Edit filename">
                         </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button id="btn-close" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
+                                <i class="ph ph-x"></i><span class="btn-text"></span>
+                            </button>
+                            <button id="btn-copy" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Copy">
+                                <i class="ph ph-copy"></i><span class="btn-text"></span>
+                            </button>
+                            <button id="btn-download" class="action-btn primary" style="padding: 4px; height: 32px; min-width: 32px;" title="Download">
+                                <i class="ph ph-download-simple"></i><span class="btn-text"></span>
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -84,7 +81,7 @@
                 <!--<h2 class="panel-title">Controls & Data</h2>-->
 
                 <div class="info-section form-card printable-section">
-                    <h3><i class="ph ph-info"></i> Job Information</h3>
+                    <!--<h3><i class="ph ph-info"></i> Job Information</h3>-->
                     <div class="inline-inputs-row">
                         <input type="text" id="part-number" class="inline-input" placeholder="Part Number">
                         <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number">
@@ -92,34 +89,41 @@
                 </div>
 
                 <div class="settings-section form-card">
-                    <h3><i class="ph ph-sliders-horizontal"></i> GCode Modifications</h3>
+                    <!--<h3><i class="ph ph-sliders-horizontal"></i> GCode Modifications</h3>-->
                     <div class="mod-tabs">
                         <button class="mod-tab active" data-target="mod-header">Header</button>
-                        <button class="mod-tab" data-target="mod-probing">Probing Cycle</button>
-                        <button class="mod-tab" data-target="mod-length">Length Check</button>
-                        <button class="mod-tab" data-target="mod-tools">Var Tools</button>
-                        <button class="mod-tab" data-target="mod-zones">Var Work Zones</button>
+                        <button class="mod-tab" data-target="mod-probing">Probing</button>
+                        <button class="mod-tab" data-target="mod-length">Length Setting</button>
+                        <button class="mod-tab" data-target="mod-tools">Variable Tools</button>
+                        <button class="mod-tab" data-target="mod-zones">Variable Zones</button>
                     </div>
 
                     <div class="mod-content active" id="mod-header">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-vars-toggle">Add (VARIABLES) Block</label>
+                            <label for="header-stamp-toggle">Timestamped Updates</label>
+                            <label class="switch">
+                                <input type="checkbox" id="header-stamp-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="header-tools-toggle">Tool List</label>
+                            <label class="switch">
+                                <input type="checkbox" id="header-tools-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="input-group" style="padding-top: 0; border: none;">
+                            <label for="header-vars-toggle">Variables List</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-vars-toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-safety-toggle">Add Safety Line (G0 G17...)</label>
+                            <label for="header-safety-toggle">Safety Lines</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-safety-toggle">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-stamp-toggle">Add Timestamped Updates</label>
-                            <label class="switch">
-                                <input type="checkbox" id="header-stamp-toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -139,7 +143,7 @@
 
                     <div class="mod-content" id="mod-probing">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="probing-toggle">Enable Probing Cycle (#800)</label>
+                            <label for="probing-toggle">Enable Probing (#800)</label>
                             <label class="switch">
                                 <input type="checkbox" id="probing-toggle">
                                 <span class="slider round"></span>
@@ -191,17 +195,22 @@
 
                 <!-- Program Summary Section -->
                 <div class="table-section form-card printable-section">
-                    <div
+                    <!--<div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h3 style="margin-bottom: 0;"><i class="ph ph-list-dashes"></i> Program Summary</h3>
                         <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
                             <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
                         </button>
+                    </div> -->
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4
+                            style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Work Zones</h4>
+                        <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
+                            <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
+                        </button>
                     </div>
-
-                    <h4
-                        style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Work Zones</h4>
                     <div class="zones-container" id="zones-container"
                         style="max-height: max-content; margin-bottom: 24px;">
                         <!-- Data populated by JS -->
