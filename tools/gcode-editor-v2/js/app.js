@@ -1,9 +1,44 @@
 // app.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Global Event Listeners
+    document.addEventListener('wheel', function(e) {
+        if (e.target.type === 'number') {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Global Paste Listener
+    document.addEventListener('paste', (e) => {
+        if (dropZone.style.display !== 'none') {
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            if (pastedText && pastedText.trim().length > 0) {
+                fileMeta.name = "Pasted_Code.nc";
+                processGCode(pastedText);
+            }
+        }
+    });
+
     // DOM Elements
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
+    const btnPaste = document.getElementById('btn-paste');
+
+    if (btnPaste) {
+        btnPaste.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            try {
+                const text = await navigator.clipboard.readText();
+                if (text && text.trim().length > 0) {
+                    fileMeta.name = "Pasted_Code.nc";
+                    processGCode(text);
+                }
+            } catch (err) {
+                console.error("Failed to read clipboard:", err);
+                alert("Clipboard access denied. Please press Ctrl+V to paste.");
+            }
+        });
+    }
 
     // UI Elements
     const codeEditor = document.getElementById('code-editor');
@@ -229,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const div = document.createElement('div');
                 div.style = "display: flex; gap: 8px;";
                 div.innerHTML = `
-                    <input type="text" class="inline-input wide current-comment-input" data-index="${i}" value="${c}">
+                    <input type="text" class="inline-input extra-wide current-comment-input" data-index="${i}" value="${c}">
                     <button class="action-btn btn-del-comment" data-index="${i}" style="padding: 4px; height: 32px; width: 32px; min-width: 32px;"><i class="ph ph-trash"></i></button>
                 `;
                 headerCommentsList.appendChild(div);
@@ -259,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
             
             if (val) {
-                headerComments.push(`${val} - ${stamp}`);
+                headerComments.push(`${stamp} - ${val}`);
             } else {
                 headerComments.push(`${stamp}`);
             }
@@ -378,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
         parsedOperations.forEach((op, index) => {
             const tr = document.createElement('tr');
 
-            const subs = op.subprograms.size > 0 ? Array.from(op.subprograms).join('<br>') : '-';
+            const subs = op.subprograms.size > 0 ? `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${Array.from(op.subprograms).join('<br>')}</span>` : '-';
             const minZ = op.minZ === Infinity ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minZ.toFixed(4)}</span>`;
             const xRange = (op.minX === Infinity || op.maxX === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minX.toFixed(3)}<br>${op.maxX.toFixed(3)}</span>`;
             const yRange = (op.minY === Infinity || op.maxY === -Infinity) ? '-' : `<span style="font-family: 'Consolas', monospace; font-size: 12px;">${op.minY.toFixed(3)}<br>${op.maxY.toFixed(3)}</span>`;
@@ -388,12 +423,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 : '';
 
             let m00Display = '<span class="badge no">N</span>';
-            if (op.m00) {
-                if (op.m00Comment) {
-                    m00Display = `<span style="font-size: 11px;">${op.m00Comment}</span>`;
-                } else {
-                    m00Display = '<span class="badge yes">Y</span>';
-                }
+            if (op.m00s && op.m00s.length > 0) {
+                m00Display = `<div style="display:flex; flex-direction:column; gap:4px;">` + 
+                    op.m00s.map((m, mIdx) => `<input type="text" class="inline-input wide m00-input" data-index="${index}" data-subindex="${mIdx}" value="${m.comment}" placeholder="M00 Comment">`).join('') +
+                    `</div>`;
+            }
+            
+            let m01Display = `<span class="badge yes">Y</span>`;
+            if (!op.m01) {
+                m01Display = `<button class="btn-add-m01" data-index="${index}" style="background: none; border: none; color: var(--primary); cursor: pointer; padding: 2px;" title="Insert M01 after Tool Call"><i class="ph ph-plus-circle" style="font-size: 16px;"></i></button>`;
             }
             
             let m08Display = `<span class="badge yes">Y</span>`;
@@ -412,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="text" class="inline-input desc-input wide" data-index="${index}" value="${op.description}" placeholder="Description">
                 </td>
                 <td>${m00Display}</td>
-                <td><span class="badge ${op.m01 ? 'yes' : 'no'}">${op.m01 ? 'Y' : 'N'}</span></td>
+                <td>${m01Display}</td>
                 <td>${m08Display}</td>
                 <td>${subs}</td>
                 <td>
@@ -464,6 +502,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         bindInput('.tool-input', 'tool', v => v.replace(/[^0-9]/g, ''));
         bindInput('.desc-input', 'description');
+        document.querySelectorAll('.m00-input').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const idx = e.target.getAttribute('data-index');
+                const subIdx = e.target.getAttribute('data-subindex');
+                parsedOperations[idx].m00s[parseInt(subIdx)].comment = e.target.value;
+                refreshGeneratedCode();
+            });
+        });
         bindInput('.feed-input', 'feedRates', v => v.replace(/[^0-9.]/g, ''));
         bindInput('.speed-input', 'spindleSpeeds', v => v.replace(/[^0-9]/g, ''));
         document.querySelectorAll('.global-zone-input').forEach(input => {
@@ -485,6 +531,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     op.lines.splice(insertIdx + 1, 0, "M08");
                 } else {
                     op.lines.splice(1, 0, "M08");
+                }
+                
+                refreshGeneratedCode();
+                currentRawCode = codeEditor.value;
+                parseGCodeIntoOperations(currentRawCode);
+                renderTable();
+            });
+        });
+
+        document.querySelectorAll('.btn-add-m01').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.currentTarget.getAttribute('data-index'));
+                const op = parsedOperations[idx];
+                
+                let insertIdx = op.lines.findIndex(l => /\bM0?6\b/i.test(l));
+                if (insertIdx !== -1) {
+                    op.lines.splice(insertIdx + 1, 0, "M01");
+                } else {
+                    op.lines.splice(1, 0, "M01");
                 }
                 
                 refreshGeneratedCode();
@@ -936,6 +1001,29 @@ document.addEventListener('DOMContentLoaded', () => {
             op.lines.forEach((line, index) => {
                 let modifiedLine = line;
 
+                if (op.m00s && op.m00s.length > 0) {
+                    let m00SameLine = op.m00s.find(m => m.lineIndex === index);
+                    if (m00SameLine && !m00SameLine.originalComment && m00SameLine.comment.trim()) {
+                        modifiedLine += ` (${m00SameLine.comment.trim()})`;
+                    } else {
+                        let m00NextLine = op.m00s.find(m => (!m.isSameLine) && m.lineIndex + 1 === index);
+                        if (m00NextLine && m00NextLine.originalComment) {
+                            if (m00NextLine.comment.trim()) {
+                                modifiedLine = modifiedLine.replace(`(${m00NextLine.originalComment})`, `(${m00NextLine.comment.trim()})`);
+                            } else {
+                                modifiedLine = modifiedLine.replace(`(${m00NextLine.originalComment})`, ``).trim();
+                            }
+                        }
+                        if (m00SameLine && m00SameLine.originalComment && m00SameLine.isSameLine) {
+                            if (m00SameLine.comment.trim()) {
+                                modifiedLine = modifiedLine.replace(`(${m00SameLine.originalComment})`, `(${m00SameLine.comment.trim()})`);
+                            } else {
+                                modifiedLine = modifiedLine.replace(`(${m00SameLine.originalComment})`, ``).trim();
+                            }
+                        }
+                    }
+                }
+
                 // Skip `%` symbols found in operations since we output it explicitly at start and end
                 if (modifiedLine.trim() === '%') return;
 
@@ -1039,4 +1127,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         return generateProbingBlock(cycles);
     }
-});
+})

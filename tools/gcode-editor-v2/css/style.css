@@ -7,6 +7,8 @@
     --primary: #5c6bc0;
     --primary-hover: #7986cb;
     --accent: #00e676;
+    --danger: #ff6b6b;
+    --danger-hover: #ff8787;
 
     --text-main: #e1e4e8;
     --text-muted: #8b949e;
@@ -17,7 +19,8 @@
     --drop-active: rgba(92, 107, 192, 0.15);
 
     /* Typography */
-    --font-family: 'Outfit', sans-serif;
+    /*--font-family: 'Outfit', sans-serif;*/
+    --font-family: 'Consolas', 'Monaco', monospace;
 
     /* Effects */
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -260,7 +263,7 @@ body {
     animation: fadeIn 0.3s ease forwards;
 }
 
-.status-indicator {
+.file-information {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -370,7 +373,7 @@ body {
 
 .input-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -475,6 +478,7 @@ body {
     line-height: 1.3;
 }
 
+.editor-header .inline-input,
 .info-section .inline-input,
 #mod-header .inline-input,
 #mod-length .inline-input,
@@ -613,6 +617,16 @@ input:checked+.slider:before {
     box-shadow: 0 4px 12px rgba(92, 107, 192, 0.4);
 }
 
+.action-btn.danger {
+    background: var(--danger);
+    color: white;
+}
+
+.action-btn.danger:hover:not(:disabled) {
+    background: var(--danger-hover);
+    box-shadow: 0 4px 12px rgba(255, 80, 80, 0.4);
+}
+
 /* Work Zones */
 .zones-container {
     display: flex;
@@ -695,6 +709,24 @@ tbody tr:hover {
     text-decoration: underline;
 }
 
+/* Hide number input arrows */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+select.inline-input {
+    background-color: #161b22;
+}
+
+select.inline-input option {
+    background-color: #161b22;
+}
+
 /* Editable inputs in table */
 .inline-input {
     background: rgba(0, 0, 0, 0.3);
@@ -710,6 +742,10 @@ tbody tr:hover {
 
 .inline-input.wide {
     width: 140px;
+}
+
+.inline-input.extra-wide {
+    width: 250px;
 }
 
 .inline-input:focus {

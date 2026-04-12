@@ -1,3 +1,43 @@
+function stripInjectedCode(code) {
+    let lines = code.split(/\r?\n/);
+    let out = [];
+    let inProbingBlock = false;
+    let inLengthBlock = false;
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        let trimmed = line.trim();
+
+        if (trimmed.match(/^N31\b/)) {
+            inProbingBlock = true;
+        }
+
+        if (inProbingBlock) {
+            if (trimmed.match(/^GOTO0/i)) {
+                inProbingBlock = false;
+            }
+            continue;
+        }
+
+        if (trimmed.includes('(probing toggle)')) continue;
+        if (trimmed === 'N0' && i > 0 && lines[i-1].includes('(probing toggle)')) continue;
+
+        if (trimmed.includes('(length measurement toggle)')) {
+            inLengthBlock = true;
+            continue;
+        }
+        if (inLengthBlock) {
+            if (trimmed.match(/^N\d+/) && parseInt(trimmed.substring(1)) >= 100) {
+                inLengthBlock = false;
+            }
+            continue;
+        }
+
+        out.push(line);
+    }
+    return out.join('\n');
+}
+
 function parseGcodeIntoOperations(code) {
     let parsedOperations = [];
     let workZonesCount = {};
@@ -6,7 +46,7 @@ function parseGcodeIntoOperations(code) {
     let currentHeader = "";
     let headerComments = [];
 
-    const lines = code.split(/\r?\n/);
+    const lines = stripInjectedCode(code).split(/\r?\n/);
 
     let currentOp = null;
     let currentNCode = "";
@@ -36,8 +76,7 @@ function parseGcodeIntoOperations(code) {
                 description: nMatch[2] ? nMatch[2].replace(/[()]/g, '').trim() : "",
                 tool: "",
                 workZone: "",
-                m00: false,
-                m00Comment: "",
+                m00s: [],
                 m01: false,
                 m08: false,
                 subprograms: new Set(),
@@ -67,19 +106,23 @@ function parseGcodeIntoOperations(code) {
             }
 
             if (/\bM0?0\b/i.test(line)) {
-                currentOp.m00 = true;
-                // Try to get comment from same line
+                let m00Event = { lineIndex: currentOp.lines.length - 1, comment: "", originalComment: "", isSameLine: false };
+                
                 let commentMatch = line.match(/\(([^)]+)\)/);
                 if (commentMatch) {
-                    currentOp.m00Comment = commentMatch[1];
+                    m00Event.comment = commentMatch[1];
+                    m00Event.originalComment = commentMatch[1];
+                    m00Event.isSameLine = true;
                 } else if (i + 1 < lines.length) {
-                    // Look at next line
                     let nextLine = lines[i + 1];
                     let nextCommentMatch = nextLine.match(/\(([^)]+)\)/);
-                    if (nextCommentMatch) {
-                        currentOp.m00Comment = nextCommentMatch[1];
+                    if (nextCommentMatch && !/\bM0?0\b/i.test(nextLine)) {
+                        m00Event.comment = nextCommentMatch[1];
+                        m00Event.originalComment = nextCommentMatch[1];
+                        m00Event.isSameLine = false;
                     }
                 }
+                currentOp.m00s.push(m00Event);
             }
             if (/\bM0?1\b/i.test(line)) currentOp.m01 = true;
             if (/\bM0?8\b/i.test(line)) currentOp.m08 = true;
@@ -154,7 +197,7 @@ function parseGcodeIntoOperations(code) {
                         newHeaderLines.push(headerLines[i]);
                     } else {
                         let inner = line.slice(1, -1).trim();
-                        const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}$/.test(inner);
+                        const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}/.test(inner);
                         
                         if (inner && inner !== 'VARIABLES' && isTimestamped) {
                             headerComments.push(inner);
@@ -185,7 +228,6 @@ function parseGcodeIntoOperations(code) {
     };
 }
 
-// Export for module usage if necessary in other projects
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { parseGcodeIntoOperations };
 }

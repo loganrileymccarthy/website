@@ -37,33 +37,40 @@
 
             <!-- File Upload Area -->
             <div id="drop-zone" class="drop-zone">
-                <div class="drop-content">
+                <div class="drop-content" style="pointer-events: none; position: relative; z-index: 2;">
                     <i class="ph ph-file-arrow-up"></i>
                     <h3>Upload GCode File</h3>
                     <p>Drag & drop your .txt, .nc, .NC, or .T file here</p>
                     <p class="text-small">or click to browse</p>
+                    <button id="btn-paste" class="action-btn" style="pointer-events: auto; margin: 16px auto 0; position: relative; z-index: 10;">
+                        <i class="ph ph-clipboard"></i> Paste from Clipboard
+                    </button>
+                    <p class="text-small" style="margin-top: 16px;">(or press Ctrl+V)</p>
                 </div>
-                <input type="file" id="file-input" accept=".txt,.nc,.NC,.T">
+                <input type="file" id="file-input" accept=".txt,.nc,.NC,.T" style="z-index: 1;">
             </div>
 
             <!-- Code Editor Area -->
             <div id="editor-container" class="editor-container hidden">
                 <div class="editor-header">
-                    <div style="display: flex; align-items: center; gap: 16px; margin-right: auto;">
-                        <div class="status-indicator">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div class="file-information">
                             <!--<span class="dot empty"></span>-->
                             <input type="text" id="stat-filename" class="inline-input" style="width: 200px;"
                                 value="No file loaded" title="Edit filename">
+                            <input type="text" id="part-number" class="inline-input" style="width: 50px;" placeholder="Part">
+                            <input type="text" id="operation-number" class="inline-input" style="width: 50px;" placeholder="Op">
                         </div>
                         <div style="display: flex; gap: 8px;">
-                            <button id="btn-close" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
-                                <i class="ph ph-x"></i><span class="btn-text"></span>
-                            </button>
+                            
                             <button id="btn-copy" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Copy">
                                 <i class="ph ph-copy"></i><span class="btn-text"></span>
                             </button>
                             <button id="btn-download" class="action-btn primary" style="padding: 4px; height: 32px; min-width: 32px;" title="Download">
                                 <i class="ph ph-download-simple"></i><span class="btn-text"></span>
+                            </button>
+                            <button id="btn-close" class="action-btn danger" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
+                                <i class="ph ph-x"></i><span class="btn-text"></span>
                             </button>
                         </div>
                         
@@ -80,13 +87,13 @@
             <div class="panel-inner">
                 <!--<h2 class="panel-title">Controls & Data</h2>-->
 
-                <div class="info-section form-card printable-section">
-                    <!--<h3><i class="ph ph-info"></i> Job Information</h3>-->
+                <!--<div class="info-section form-card printable-section">
+                    <h3><i class="ph ph-info"></i> Job Information</h3>
                     <div class="inline-inputs-row">
                         <input type="text" id="part-number" class="inline-input" style="width: 100px;" placeholder="Part Number">
                         <input type="text" id="operation-number" class="inline-input" style="width: 100px;" placeholder="Operation Number">
                     </div>
-                </div>
+                </div>-->
 
                 <div class="settings-section form-card">
                     <!--<h3><i class="ph ph-sliders-horizontal"></i> GCode Modifications</h3>-->
@@ -100,32 +107,32 @@
 
                     <div class="mod-content active" id="mod-header">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-stamp-toggle">Timestamped Updates</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-stamp-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="header-stamp-toggle">Timestamped Updates</label>
                         </div>
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-tools-toggle">Tool List</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-tools-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="header-tools-toggle">Tool List</label>
                         </div>
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-vars-toggle">Variables List</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-vars-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="header-vars-toggle">Variables List</label>
                         </div>
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="header-safety-toggle">Safety Lines</label>
                             <label class="switch">
                                 <input type="checkbox" id="header-safety-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="header-safety-toggle">Safety Lines</label>
                         </div>
                         
                         <!-- History Container -->
@@ -135,7 +142,7 @@
                                 <!-- Injected by JS -->
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="new-comment-input" class="inline-input wide" placeholder="Describe update...">
+                                <input type="text" id="new-comment-input" class="inline-input extra-wide" placeholder="Describe update...">
                                 <button id="btn-add-comment" class="action-btn" style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
                             </div>
                         </div>
@@ -143,11 +150,11 @@
 
                     <div class="mod-content" id="mod-probing">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="probing-toggle">Enable Probing (#800)</label>
                             <label class="switch">
                                 <input type="checkbox" id="probing-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="probing-toggle">Enable Probing (#800)</label>
                         </div>
 
                         <!-- Probing Configuration (shown when probing is enabled) -->
@@ -164,11 +171,11 @@
 
                     <div class="mod-content" id="mod-length">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="length-toggle">Enable Length Measurement (#899)</label>
                             <label class="switch">
                                 <input type="checkbox" id="length-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="length-toggle">Enable Length Measurement (#899)</label>
                         </div>
                         <div id="length-config" class="probing-config hidden">
                             <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>
@@ -180,21 +187,21 @@
 
                     <div class="mod-content" id="mod-tools">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="var-tools-toggle">Enable Variable Tools (#801-#850)</label>
                             <label class="switch">
                                 <input type="checkbox" id="var-tools-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="var-tools-toggle">Enable Variable Tools (#801-#850)</label>
                         </div>
                     </div>
 
                     <div class="mod-content" id="mod-zones">
                         <div class="input-group" style="padding-top: 0; border: none;">
-                            <label for="var-zones-toggle">Enable Variable Work Zones (#851-#856)</label>
                             <label class="switch">
                                 <input type="checkbox" id="var-zones-toggle">
                                 <span class="slider round"></span>
                             </label>
+                            <label for="var-zones-toggle">Enable Variable Work Zones (#851-#856)</label>
                         </div>
                     </div>
                 </div>
@@ -235,7 +242,7 @@
                                     <th title="Program Stop">M00</th>
                                     <th title="Optional Stop">M01</th>
                                     <th title="Coolant">M08</th>
-                                    <th>Subprograms</th>
+                                    <th>Subs</th>
                                     <th>Feed</th>
                                      <th>Speed</th>
                                      <th>Min Z</th>
