@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let workZonesCount = {};
     let globalZoneMap = {};
     let fileMeta = { name: "" };
+    let toolMeasurements = {};
     let headerComments = [];
 
     // --- Panel Toggle ---
@@ -280,183 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function parseGCodeIntoOperations(code) {
-        parsedOperations = [];
-        workZonesCount = {};
-        globalZoneMap = {};
-        let globalMinZ = Infinity;
-        currentHeader = "";
-
-        const lines = code.split(/\r?\n/);
-
-        let currentOp = null;
-        let currentNCode = "";
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i].trim();
-
-            if (!currentOp) {
-                const nMatch = line.match(/^N(\d+)(.*)/i);
-                if (!nMatch) {
-                    currentHeader += lines[i] + "\n";
-                    continue;
-                }
-            }
-
-            if (!line) continue;
-
-            const nMatch = line.match(/^N(\d+)(.*)/i);
-            if (nMatch) {
-                if (currentOp && currentOp.nCode) {
-                    parsedOperations.push(currentOp);
-                }
-                currentNCode = nMatch[1];
-                currentOp = {
-                    nCode: currentNCode,
-                    originalLine: line,
-                    description: nMatch[2] ? nMatch[2].replace(/[()]/g, '').trim() : "",
-                    tool: "",
-                    workZone: "",
-                    m00: false,
-                    m00Comment: "",
-                    m01: false,
-                    m08: false,
-                    subprograms: new Set(),
-                    feedRates: [],
-                    originalFeedRates: [],
-                    spindleSpeeds: [],
-                    originalSpindleSpeeds: [],
-                    minZ: Infinity,
-                    minX: Infinity,
-                    maxX: -Infinity,
-                    minY: Infinity,
-                    maxY: -Infinity,
-                    toolLength: "",
-                    toolDiameter: "",
-                    lines: [line]
-                };
-            } else if (currentOp) {
-                currentOp.lines.push(line);
-
-                const tMatch = line.match(/T(\d+)/i);
-                if (tMatch && !currentOp.tool) currentOp.tool = tMatch[1];
-
-                const gZoneMatch = line.match(/G(5[4-9]|54\.1\s*P\d+)/i);
-                if (gZoneMatch) {
-                    let zoneStr = gZoneMatch[0].toUpperCase();
-                    workZonesCount[zoneStr] = (workZonesCount[zoneStr] || 0) + 1;
-                    if (!globalZoneMap[zoneStr]) globalZoneMap[zoneStr] = zoneStr;
-                    if (!currentOp.workZone) currentOp.workZone = zoneStr;
-                }
-
-                if (/\bM0?0\b/i.test(line)) {
-                    currentOp.m00 = true;
-                    // Try to get comment from same line
-                    let commentMatch = line.match(/\(([^)]+)\)/);
-                    if (commentMatch) {
-                        currentOp.m00Comment = commentMatch[1];
-                    } else if (i + 1 < lines.length) {
-                        // Look at next line
-                        let nextLine = lines[i + 1];
-                        let nextCommentMatch = nextLine.match(/\(([^)]+)\)/);
-                        if (nextCommentMatch) {
-                            currentOp.m00Comment = nextCommentMatch[1];
-                        }
-                    }
-                }
-                if (/\bM0?1\b/i.test(line)) currentOp.m01 = true;
-                if (/\bM0?8\b/i.test(line)) currentOp.m08 = true;
-
-                const subMatch = line.match(/(M98\s*P\d+|G65\s*P\d+)/i);
-                if (subMatch) currentOp.subprograms.add(subMatch[1]);
-
-                const fMatches = [...line.matchAll(/F(\d+(\.\d*)?)/ig)];
-                fMatches.forEach(match => {
-                    const fVal = match[1];
-                    if (!currentOp.originalFeedRates.includes(fVal)) {
-                        currentOp.originalFeedRates.push(fVal);
-                        currentOp.feedRates.push(fVal);
-                    }
-                });
-
-                const sMatches = [...line.matchAll(/S(\d+)/ig)];
-                sMatches.forEach(match => {
-                    const sVal = match[1];
-                    if (!currentOp.originalSpindleSpeeds.includes(sVal)) {
-                        currentOp.originalSpindleSpeeds.push(sVal);
-                        currentOp.spindleSpeeds.push(sVal);
-                    }
-                });
-
-                const zMatch = line.match(/Z(-?\d+(\.\d+)?)/i);
-                if (zMatch) {
-                    const zVal = parseFloat(zMatch[1]);
-                    if (zVal < currentOp.minZ) currentOp.minZ = zVal;
-                    if (zVal < globalMinZ) globalMinZ = zVal;
-                }
-
-                const xMatch = line.match(/X(-?\d+(\.\d+)?)/i);
-                if (xMatch) {
-                    const xVal = parseFloat(xMatch[1]);
-                    if (xVal < currentOp.minX) currentOp.minX = xVal;
-                    if (xVal > currentOp.maxX) currentOp.maxX = xVal;
-                }
-
-                const yMatch = line.match(/Y(-?\d+(\.\d+)?)/i);
-                if (yMatch) {
-                    const yVal = parseFloat(yMatch[1]);
-                    if (yVal < currentOp.minY) currentOp.minY = yVal;
-                    if (yVal > currentOp.maxY) currentOp.maxY = yVal;
-                }
-            }
-        }
-        if (currentOp && currentOp.nCode) {
-            parsedOperations.push(currentOp);
-        }
-
-        headerComments = [];
-        if (currentHeader) {
-            let headerLines = currentHeader.split('\n');
-            let newHeaderLines = [];
-            let oCodeFound = false;
-            let extracting = false;
-
-            for (let i = 0; i < headerLines.length; i++) {
-                let line = headerLines[i].trim();
-                
-                if (!oCodeFound && /^O\d+/i.test(line)) {
-                    oCodeFound = true;
-                    extracting = true;
-                    newHeaderLines.push(headerLines[i]);
-                    continue;
-                }
-
-                if (extracting) {
-                    if (line.startsWith('(') && line.endsWith(')')) {
-                        if (line === '(VARIABLES)') {
-                            extracting = false;
-                            newHeaderLines.push(headerLines[i]);
-                        } else {
-                            let inner = line.slice(1, -1).trim();
-                            const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}$/.test(inner);
-                            
-                            if (inner && inner !== 'VARIABLES' && isTimestamped) {
-                                headerComments.push(inner);
-                            } else {
-                                newHeaderLines.push(headerLines[i]);
-                            }
-                        }
-                    } else if (line !== '') {
-                        extracting = false;
-                        newHeaderLines.push(headerLines[i]);
-                    } else {
-                        newHeaderLines.push(headerLines[i]);
-                    }
-                } else {
-                    newHeaderLines.push(headerLines[i]);
-                }
-            }
-            currentHeader = newHeaderLines.join('\n');
-        }
+        const result = parseGcodeIntoOperations(code);
+        parsedOperations = result.parsedOperations;
+        workZonesCount = result.workZonesCount;
+        globalZoneMap = result.globalZoneMap;
+        currentHeader = result.currentHeader;
+        headerComments = result.headerComments;
         renderHeaderComments();
     }
 
@@ -478,6 +308,60 @@ document.addEventListener('DOMContentLoaded', () => {
                     zonesContainer.appendChild(chip);
                 });
             }
+        }
+
+        
+        const toolMeasurementsList = document.getElementById('tool-measurements-list');
+        if (toolMeasurementsList) {
+            toolMeasurementsList.innerHTML = '';
+            
+            let uniqueTools = new Set();
+            parsedOperations.forEach(op => {
+                if (op.tool) {
+                    uniqueTools.add(op.tool);
+                    if (!toolMeasurements[op.tool]) {
+                        toolMeasurements[op.tool] = { length: "", diameter: "", measure: true };
+                    }
+                }
+            });
+
+            if (uniqueTools.size === 0) {
+                toolMeasurementsList.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">No tools found</span>`;
+            } else {
+                Array.from(uniqueTools).sort((a,b) => parseInt(a) - parseInt(b)).forEach(t => {
+                    const div = document.createElement('div');
+                    div.style = "display: flex; gap: 8px; align-items: center;";
+                    div.innerHTML = `
+                        <span style="font-size: 13px; font-weight: bold; width: 60px;">Tool ${t}</span>
+                        <label style="display:flex; align-items:center; gap:4px; font-size:12px; margin-right: 8px; cursor: pointer;">
+                            <input type="checkbox" class="global-measure-toggle" data-tool="${t}" ${toolMeasurements[t].measure ? 'checked' : ''}>
+                            Measure
+                        </label>
+                        <input type="text" class="inline-input global-length-input" data-tool="${t}" value="${toolMeasurements[t].length}" placeholder="Length (0.0)">
+                        <input type="text" class="inline-input global-diameter-input" data-tool="${t}" value="${toolMeasurements[t].diameter}" placeholder="Diameter (0.0)">
+                    `;
+                    toolMeasurementsList.appendChild(div);
+                });
+            }
+
+            document.querySelectorAll('.global-measure-toggle').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    toolMeasurements[e.target.getAttribute('data-tool')].measure = e.target.checked;
+                    refreshGeneratedCode();
+                });
+            });
+            document.querySelectorAll('.global-length-input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    toolMeasurements[e.target.getAttribute('data-tool')].length = e.target.value.replace(/[^0-9.]/g, '');
+                    refreshGeneratedCode();
+                });
+            });
+            document.querySelectorAll('.global-diameter-input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    toolMeasurements[e.target.getAttribute('data-tool')].diameter = e.target.value.replace(/[^0-9.]/g, '');
+                    refreshGeneratedCode();
+                });
+            });
         }
 
         tableBody.innerHTML = '';
@@ -545,12 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         : `<input type="text" class="inline-input speed-input" data-index="${index}" data-subindex="0" value="" placeholder="-">`}
                     </div>
                 </td>
-                <td>
-                    <input type="text" class="inline-input length-input" data-index="${index}" value="${op.toolLength}" placeholder="0.0">
-                </td>
-                <td>
-                    <input type="text" class="inline-input diameter-input" data-index="${index}" value="${op.toolDiameter}" placeholder="0.0">
-                </td>
                 <td>${minZ}</td>
                 <td>${xRange}</td>
                 <td>${yRange}</td>
@@ -588,9 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bindInput('.desc-input', 'description');
         bindInput('.feed-input', 'feedRates', v => v.replace(/[^0-9.]/g, ''));
         bindInput('.speed-input', 'spindleSpeeds', v => v.replace(/[^0-9]/g, ''));
-        bindInput('.length-input', 'toolLength', v => v.replace(/[^0-9.]/g, ''));
-        bindInput('.diameter-input', 'toolDiameter', v => v.replace(/[^0-9.]/g, ''));
-
         document.querySelectorAll('.global-zone-input').forEach(input => {
             input.addEventListener('input', (e) => {
                 const orig = e.target.getAttribute('data-original');
@@ -670,7 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="probe-card-header">
                 <span class="probe-card-title">Probe Cycle #${id}</span>
                 <div style="display:flex; align-items:center; gap:8px;">
-                    <select class="inline-input probe-type-select" style="padding: 3px 6px;">
+                    <select class="inline-input probe-type-select" style="width: 100px; padding: 3px 6px;">
                         <option value="surface">Surface</option>
                         <option value="bore">Bore</option>
                         <option value="boss">Boss</option>
@@ -688,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="number" class="inline-input probe-tool" placeholder="31" min="1">
                 </div>
                 <div class="probe-param-group">
-                    <label>Work Offset</label>
+                    <label>Zone</label>
                     <input type="text" class="inline-input probe-offset" placeholder="54">
                 </div>
                 <div class="probe-param-group">
@@ -787,8 +662,18 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshGeneratedCode();
     });
 
+    const lengthConfigDiv = document.getElementById('length-config');
+    lengthToggle.addEventListener('change', () => {
+        if (lengthToggle.checked) {
+            lengthConfigDiv.classList.remove('hidden');
+        } else {
+            lengthConfigDiv.classList.add('hidden');
+        }
+        refreshGeneratedCode();
+    });
+
     // Auto-update on every other setting change
-    [lengthToggle, varToolsToggle, varZonesToggle, headerVarsToggle, headerSafetyToggle, headerStampToggle, headerToolsToggle].forEach(toggle => {
+    [varToolsToggle, varZonesToggle, headerVarsToggle, headerSafetyToggle, headerStampToggle, headerToolsToggle].forEach(toggle => {
         if (toggle) toggle.addEventListener('change', refreshGeneratedCode);
     });
 
@@ -891,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const useHeaderTools = headerToolsToggle ? headerToolsToggle.checked : false;
 
         const partNum = partNumberInput.value.trim() || 'PART';
-        const opNum = opNumberInput.value.trim() || 'OP';
+        const opNum = 'OP' + (opNumberInput.value.trim() || '');
 
         let headerTitle = `(${partNum} ${opNum})`;
 
@@ -1031,14 +916,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Write N block description
             out += `N${op.nCode} (${op.description ? op.description : ''}) \n`;
 
-            if (useLengthCheck && op.tool) {
+            if (useLengthCheck && op.tool && toolMeasurements[op.tool] && toolMeasurements[op.tool].measure !== false) {
                 out += `IF [#899 NE 1] GOTO${parseInt(op.nCode) * 100} (length measurement toggle) \n\n`;
                 out += `(MEASURE TOOL ${op.tool})\n`;
                 out += `G53 G0 Z0 \n`;
 
                 let tRef = useVarTools ? `#${toolVars[op.tool]}` : op.tool;
                 out += `T${tRef} M06 \n`;
-                out += `G65 P9995 T${tRef} A0.0 B1.0 C2.0 E${op.toolLength || "0.0"} D${op.toolDiameter || "0.0"} \n`;
+                const tLength = toolMeasurements[op.tool]?.length || "0.0";
+                const tDiameter = toolMeasurements[op.tool]?.diameter || "0.0";
+                out += `G65 P9995 T${tRef} A0.0 B1.0 C2.0 E${tLength} D${tDiameter} \n`;
                 out += `G53 G0 Z0 \n`;
                 out += `M01 \n\n`;
                 out += `N${parseInt(op.nCode) * 100} \n`;
@@ -1126,7 +1013,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Actually, let's keep it simple for now as it was basically sequentially appended.
 
         if (useProbing) {
-            out += generateProbingBlock();
+            out += getProbingBlockFromUI();
         }
 
         out += "% \n";
@@ -1134,71 +1021,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return out;
     }
 
-    function generateProbingBlock() {
+    function getProbingBlockFromUI() {
         const cards = probingCyclesList.querySelectorAll('.probe-cycle-card');
-        if (cards.length === 0) return '(PROBING: no probe cycles configured)\n\n';
-
-        let out = '';
-        cards.forEach((card, cardIdx) => {
-            const type = card.querySelector('.probe-type-select').value;
-            const v1 = parseInt(card.querySelector('.probe-tool').value);
-            const v2Str = card.querySelector('.probe-offset').value.trim();
-            const v2 = parseFloat(v2Str);
-            const v3 = parseFloat(card.querySelector('.probe-x').value) || 0;
-            const v4 = parseFloat(card.querySelector('.probe-y').value) || 0;
-            const v5 = parseFloat(card.querySelector('.probe-z').value) || 0;
-            const v6 = parseFloat(card.querySelector('.probe-v6').value) || 0;
-            const v7 = parseFloat(card.querySelector('.probe-v7').value) || 0;
-
-            if (isNaN(v1) || isNaN(v2) || v2Str === '') {
-                out += `(PROBE CYCLE ${cardIdx + 1}: enter Tool/N and Work Offset to generate)\n\n`;
-                return;
-            }
-
-            // Work offset → S-value and G-code zone string
-            let sVal, zoneVal;
-            if (v2 >= 54 && v2 < 60) {
-                sVal = v2 - 53;
-                zoneVal = `G${v2}`;
-            } else if (v2 >= 154.01 && v2 < 155) {
-                const parts = v2Str.split('.');
-                if (!parts[1] || parts[1].length !== 2) {
-                    out += `(PROBE CYCLE ${cardIdx + 1}: 154 range offset needs 2 decimal places e.g. 154.01)\n\n`;
-                    return;
-                }
-                sVal = parseInt(parts[1]);
-                zoneVal = `G154 P${sVal}`;
-            } else {
-                out += `(PROBE CYCLE ${cardIdx + 1}: invalid offset — must be 54–59 or 154.01–154.99)\n\n`;
-                return;
-            }
-
-            const isExternal = ['surface', 'boss', 'web-x', 'web-y'].includes(type);
-            const safeZ = v5 + 3.0;
-            const approachZ = isExternal ? v5 + 0.1 : v5;
-
-            let macroLine = '';
-            if (type === 'surface')   macroLine = `G65 P9811 Z${v5.toFixed(2)} S${sVal}`;
-            else if (type === 'bore') macroLine = `G65 P9814 D${v6.toFixed(2)} S${sVal}`;
-            else if (type === 'boss') macroLine = `G65 P9814 D${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
-            else if (type === 'gap-x') macroLine = `G65 P9812 X${v6.toFixed(2)} S${sVal}`;
-            else if (type === 'web-x') macroLine = `G65 P9812 X${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
-            else if (type === 'gap-y') macroLine = `G65 P9812 Y${v6.toFixed(2)} S${sVal}`;
-            else if (type === 'web-y') macroLine = `G65 P9812 Y${v7.toFixed(2)} Z-${Math.abs(v6).toFixed(2)} S${sVal}`;
-
-            out += `(${type.toUpperCase()} PROBE)\n`;
-            out += `T${v1} M06\n`;
-            out += `G00 G90 ${zoneVal} X${v3.toFixed(2)} Y${v4.toFixed(2)}\n`;
-            out += `G43 H${v1} Z${safeZ.toFixed(2)}\n`;
-            out += `G65 P9832\n`;
-            out += `G65 P9810 Z${approachZ.toFixed(2)} F100.\n`;
-            out += `${macroLine}\n`;
-            out += `G65 P9833\n`;
-            out += `G00 Z${safeZ.toFixed(2)}\n`;
-            out += `G53 Z0\n\n`;
+        const cycles = [];
+        cards.forEach((card) => {
+            cycles.push({
+                type: card.querySelector('.probe-type-select').value,
+                v1: parseInt(card.querySelector('.probe-tool').value),
+                v2Str: card.querySelector('.probe-offset').value.trim(),
+                v2: parseFloat(card.querySelector('.probe-offset').value.trim()),
+                v3: parseFloat(card.querySelector('.probe-x').value) || 0,
+                v4: parseFloat(card.querySelector('.probe-y').value) || 0,
+                v5: parseFloat(card.querySelector('.probe-z').value) || 0,
+                v6: parseFloat(card.querySelector('.probe-v6').value) || 0,
+                v7: parseFloat(card.querySelector('.probe-v7').value) || 0
+            });
         });
-
-        // Wrap all cycles in N31 block with GOTO0 at end
-        return `N31\n${out}GOTO0\n\n`;
+        return generateProbingBlock(cycles);
     }
 });

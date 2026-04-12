@@ -83,8 +83,8 @@
                 <div class="info-section form-card printable-section">
                     <!--<h3><i class="ph ph-info"></i> Job Information</h3>-->
                     <div class="inline-inputs-row">
-                        <input type="text" id="part-number" class="inline-input" placeholder="Part Number">
-                        <input type="text" id="operation-number" class="inline-input" placeholder="Operation Number">
+                        <input type="text" id="part-number" class="inline-input" style="width: 100px;" placeholder="Part Number">
+                        <input type="text" id="operation-number" class="inline-input" style="width: 100px;" placeholder="Operation Number">
                     </div>
                 </div>
 
@@ -170,6 +170,12 @@
                                 <span class="slider round"></span>
                             </label>
                         </div>
+                        <div id="length-config" class="probing-config hidden">
+                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>
+                            <div id="tool-measurements-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mod-content" id="mod-tools">
@@ -231,12 +237,10 @@
                                     <th title="Coolant">M08</th>
                                     <th>Subprograms</th>
                                     <th>Feed</th>
-                                    <th>Speed</th>
-                                    <th>Length</th>
-                                    <th>Diameter</th>
-                                    <th>Min Z</th>
-                                    <th>X Range</th>
-                                    <th>Y Range</th>
+                                     <th>Speed</th>
+                                     <th>Min Z</th>
+                                     <th>X Range</th>
+                                     <th>Y Range</th>
                                 </tr>
                             </thead>
                             <tbody id="ops-table-body">
@@ -251,6 +255,8 @@
 
     </div>
 
+    <script src="js/gcode-parser.js"></script>
+    <script src="js/probing-generator.js"></script>
     <script src="js/app.js"></script>
 </body>
 

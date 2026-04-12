@@ -457,7 +457,7 @@ body {
 
 .probing-params-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
     gap: 8px;
 }
 
@@ -475,8 +475,15 @@ body {
     line-height: 1.3;
 }
 
+.info-section .inline-input,
+#mod-header .inline-input,
+#mod-length .inline-input,
 .probe-param-group .inline-input {
-    width: 100%;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.probe-param-group .inline-input {
+    width: 70px;
 }
 
 .inline-inputs-row {
@@ -790,8 +797,8 @@ tbody tr:hover {
 /* Print Styles */
 @media print {
     @page { 
-        margin: 0.5in; 
-        size: portrait; 
+        margin: 0.25in; 
+        size: landscape; 
     }
 
     body * {
@@ -805,7 +812,7 @@ tbody tr:hover {
     }
 
     .printable-section {
-        position: static; /* Let them flow normally */
+        position: static;
         left: 0;
         top: 0;
         box-shadow: none;
@@ -814,50 +821,60 @@ tbody tr:hover {
         padding: 0;
     }
 
-    /* Remove background colors and adjust text colors for printing */
     .printable-section table {
         color: #000;
         background-color: transparent;
         width: 100%;
         border-collapse: collapse;
-        font-size: 10px; /* Smaller font for density */
+        font-size: 9px;
+        table-layout: auto;
     }
 
     .printable-section th {
         background-color: transparent !important;
         color: #000;
-        border-bottom: 2px solid #000;
-        font-size: 9px;
-        padding: 2px 4px;
+        border-bottom: 1px solid #000;
+        font-size: 8px;
+        padding: 1px 2px;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 
     .printable-section td {
-        border-bottom: 1px solid #dcdcdc;
+        border-bottom: 1px solid #eee;
         color: #000;
-        padding: 2px 4px;
-        line-height: 1.2;
+        padding: 1px 2px;
+        line-height: 1.1;
     }
 
     .printable-section h3 {
         color: #000;
-        font-size: 12px;
-        margin-bottom: 6px;
+        font-size: 11px;
+        margin-bottom: 4px;
     }
 
     .printable-section i {
         display: none;
     }
 
-    /* Make inputs look like regular text in print */
     .printable-section .inline-input {
         border: none;
-        background: transparent;
+        background: transparent !important;
         color: #000;
         padding: 0;
-        width: auto !important;
+        width: 100% !important;
+        max-width: 100%;
+        min-width: 15px;
         font-size: inherit;
+        -webkit-appearance: none;
+        box-shadow: none;
+    }
+
+    ::placeholder { 
+        color: transparent !important; 
+    }
+    ::-webkit-input-placeholder { 
+        color: transparent !important; 
     }
 
     .printable-section .badge {
@@ -870,15 +887,13 @@ tbody tr:hover {
     }
     
     .printable-section td span {
-        font-size: 10px !important;
+        font-size: 9px !important;
     }
 
-    /* Hide unnecessary structural elements from print */
     .top-nav, .workspace, .editor-container, .settings-section, .actions-section {
         display: none !important;
     }
 
-    /* Stack printable sections for print view */
     .controls-panel {
         width: 100%;
         margin: 0;
@@ -894,19 +909,12 @@ tbody tr:hover {
     .panel-inner {
         width: 100%;
         padding: 0;
-        gap: 12px;
+        gap: 8px;
     }
     
     .form-card {
         border: none;
         padding: 0;
-        margin: 0 0 16px 0;
-    }
-    
-    .table-container {
-        padding: 0;
-        margin: 0;
-        max-height: none;
-        overflow: visible;
+        margin: 0 0 8px 0;
     }
 }
