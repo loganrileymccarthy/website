@@ -130,7 +130,7 @@ function parseGcodeIntoOperations(code) {
             const subMatch = line.match(/(M98\s*P\d+|G65\s*P\d+)/i);
             if (subMatch) currentOp.subprograms.add(subMatch[1]);
 
-            const fMatches = [...line.matchAll(/F(\d+(\.\d*)?)/ig)];
+            const fMatches = [...line.matchAll(/F(\d+\.?\d*|\.\d+)/ig)];
             fMatches.forEach(match => {
                 const fVal = match[1];
                 if (!currentOp.originalFeedRates.includes(fVal)) {
@@ -148,21 +148,21 @@ function parseGcodeIntoOperations(code) {
                 }
             });
 
-            const zMatch = line.match(/Z(-?\d+(\.\d+)?)/i);
+            const zMatch = line.match(/Z(-?(?:\d+\.?\d*|\.\d+))/i);
             if (zMatch) {
                 const zVal = parseFloat(zMatch[1]);
                 if (zVal < currentOp.minZ) currentOp.minZ = zVal;
                 if (zVal < globalMinZ) globalMinZ = zVal;
             }
 
-            const xMatch = line.match(/X(-?\d+(\.\d+)?)/i);
+            const xMatch = line.match(/X(-?(?:\d+\.?\d*|\.\d+))/i);
             if (xMatch) {
                 const xVal = parseFloat(xMatch[1]);
                 if (xVal < currentOp.minX) currentOp.minX = xVal;
                 if (xVal > currentOp.maxX) currentOp.maxX = xVal;
             }
 
-            const yMatch = line.match(/Y(-?\d+(\.\d+)?)/i);
+            const yMatch = line.match(/Y(-?(?:\d+\.?\d*|\.\d+))/i);
             if (yMatch) {
                 const yVal = parseFloat(yMatch[1]);
                 if (yVal < currentOp.minY) currentOp.minY = yVal;

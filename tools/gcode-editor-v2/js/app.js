@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!headerCommentsList) return;
         headerCommentsList.innerHTML = '';
         if (headerComments.length === 0) {
-            headerCommentsList.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">No updates found</span>`;
+            headerCommentsList.innerHTML = '';
         } else {
             headerComments.forEach((c, i) => {
                 const div = document.createElement('div');
@@ -372,8 +372,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="checkbox" class="global-measure-toggle" data-tool="${t}" ${toolMeasurements[t].measure ? 'checked' : ''}>
                             Measure
                         </label>
-                        <input type="text" class="inline-input global-length-input" data-tool="${t}" value="${toolMeasurements[t].length}" placeholder="Length (0.0)">
-                        <input type="text" class="inline-input global-diameter-input" data-tool="${t}" value="${toolMeasurements[t].diameter}" placeholder="Diameter (0.0)">
+                        <input type="text" class="inline-input global-length-input" data-tool="${t}" value="${toolMeasurements[t].length}" placeholder="L">
+                        <input type="text" class="inline-input global-diameter-input" data-tool="${t}" value="${toolMeasurements[t].diameter}" placeholder="D">
                     `;
                     toolMeasurementsList.appendChild(div);
                 });

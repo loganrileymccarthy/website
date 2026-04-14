@@ -222,12 +222,26 @@ body {
     height: 48px;
 }
 
+.settings-section, .table-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+.settings-section {
+    flex: 2;
+}
+.table-section {
+    flex: 3;
+}
+
 .mod-tabs {
     display: flex;
     gap: 16px;
     margin-bottom: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     overflow-x: auto;
+    flex-shrink: 0;
 }
 
 .mod-tab {
@@ -261,6 +275,9 @@ body {
 .mod-content.active {
     display: block;
     animation: fadeIn 0.3s ease forwards;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .file-information {
@@ -307,6 +324,8 @@ body {
 .controls-panel {
     --panel-width: 900px;
     width: var(--panel-width);
+    height: 100%;
+    max-height: 100%;
     background: #111418;
     border-left: 1px solid var(--border-color);
     transition: margin-right var(--transition-smooth);
@@ -344,6 +363,7 @@ body {
     flex-direction: column;
     gap: 20px;
     width: 100%;
+    height: 100%;
 }
 
 .panel-title {
@@ -375,6 +395,7 @@ body {
     display: flex;
     justify-content: left;
     align-items: center;
+    gap: 10px;
     padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -647,11 +668,18 @@ input:checked+.slider:before {
 }
 
 /* Table */
+.table-section > div:not(.table-container),
+.table-section > h4 {
+    flex-shrink: 0;
+}
+
 .table-container {
     overflow-x: auto;
+    overflow-y: auto;
     margin: -10px -20px -20px;
     padding: 10px 20px 20px;
-    max-height: 400px;
+    flex: 1;
+    min-height: 0;
 }
 
 table {

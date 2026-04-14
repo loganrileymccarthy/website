@@ -56,24 +56,20 @@
                     <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                         <div class="file-information">
                             <!--<span class="dot empty"></span>-->
+                            <button id="btn-close" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
+                                <i class="ph ph-caret-left"></i><span class="btn-text"></span>
+                            </button>
                             <input type="text" id="stat-filename" class="inline-input" style="width: 200px;"
                                 value="No file loaded" title="Edit filename">
                             <input type="text" id="part-number" class="inline-input" style="width: 50px;" placeholder="Part">
                             <input type="text" id="operation-number" class="inline-input" style="width: 50px;" placeholder="Op">
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            
                             <button id="btn-copy" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Copy">
                                 <i class="ph ph-copy"></i><span class="btn-text"></span>
                             </button>
                             <button id="btn-download" class="action-btn primary" style="padding: 4px; height: 32px; min-width: 32px;" title="Download">
                                 <i class="ph ph-download-simple"></i><span class="btn-text"></span>
                             </button>
-                            <button id="btn-close" class="action-btn danger" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
-                                <i class="ph ph-x"></i><span class="btn-text"></span>
-                            </button>
                         </div>
-                        
                     </div>
                 </div>
 
@@ -137,7 +133,7 @@
                         
                         <!-- History Container -->
                         <div id="header-comments-config" class="probing-config hidden">
-                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Update History</h4>
+                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Timestamps</h4>
                             <div id="header-comments-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
                                 <!-- Injected by JS -->
                             </div>
@@ -178,7 +174,7 @@
                             <label for="length-toggle">Enable Length Measurement (#899)</label>
                         </div>
                         <div id="length-config" class="probing-config hidden">
-                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>
+                            <!--<h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>-->
                             <div id="tool-measurements-list" style="display: flex; flex-direction: column; gap: 8px;">
                                 <!-- Injected by JS -->
                             </div>
@@ -206,7 +202,7 @@
                     </div>
                 </div>
 
-                <!-- Program Summary Section -->
+                <!-- Sequence Detail Section -->
                 <div class="table-section form-card printable-section">
                     <!--<div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -217,11 +213,10 @@
                     </div> -->
                     <div
                         style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4
-                            style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
-                            Work Zones</h4>
+                        <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Sequence Detail</h4>
                         <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
-                            <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
+                            <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
                         </button>
                     </div>
                     <div class="zones-container" id="zones-container"
@@ -229,9 +224,8 @@
                         <!-- Data populated by JS -->
                     </div>
 
-                    <h4
-                        style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Tool Operations</h4>
+                    <!--<h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                        Tool Operations</h4>-->
                     <div class="table-container">
                         <table id="ops-table">
                             <thead>
