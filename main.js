@@ -7,10 +7,9 @@ class MyHeader extends HTMLElement {
 			</h1>
 			<p>
 				<a href="../about.html">about</a> // 
-				<a href="../tools.html">tools</a> //
+				<a href="../cnc.html">cnc</a> //
 				<a href="../fungi.html">fungi</a> //
-				<a href="../music.html">music</a> // 
-				<a href="../artwork.html">artwork</a>
+				<a href="../other-stuff.html">other stuff</a>
     		</p>
     	</header>
 	`
