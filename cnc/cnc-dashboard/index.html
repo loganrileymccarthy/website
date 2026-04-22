@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>&#x2694 CNC Dashboard &#x2694</title>
     <link rel="stylesheet" href="../../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Specific styles for this dashboard */
         .tab-container {
@@ -39,10 +40,22 @@
         }
         .tab-content {
             display: none;
-            padding: 20px 0;
+            padding: 0;
+            margin-top: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
         }
         .tab-content.active {
             display: block;
+        }
+        
+        /* Ensure sticky headers are opaque when scrolling */
+        table th {
+            background-color: #2a2a2a;
+            z-index: 10;
+        }
+        .light-mode table th {
+            background-color: #e0e0e0;
         }
         
         /* Converter styles */
@@ -106,6 +119,7 @@
                     <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
                     <button class="tab-btn" data-target="cut-tap-tab">Cut Taps</button>
                     <button class="tab-btn" data-target="form-tap-tab">Form Taps</button>
+                    <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
                 </div>
                 
                 <div id="threads-tab" class="tab-content active">
@@ -169,6 +183,10 @@
                         <tbody id="formtap-tbody">
                         </tbody>
                     </table>
+                </div>
+
+                <div id="cutting-speed-tab" class="tab-content" style="height: 60vh;">
+                    <canvas id="sfmChart"></canvas>
                 </div>
             </div>
         </main>
@@ -247,6 +265,69 @@
         
         populateTable('cuttap-tbody', dashboardData.cutTapSizes, tapRowGen);
         populateTable('formtap-tbody', dashboardData.formTapSizes, tapRowGen);
+
+        // Chart.js Logic for Cutting Speed
+        const initChart = () => {
+            const ctx = document.getElementById('sfmChart').getContext('2d');
+            const sfmValues = [100, 250, 500, 1000, 2000];
+            const diameters = [];
+            for (let i = 1; i <= 64; i++) {
+                diameters.push(i / 32);
+            }
+
+            const isLightMode = document.body.classList.contains('light-mode') || (document.getElementById('darkModeToggleGlobal') && !document.getElementById('darkModeToggleGlobal').checked);
+            const textColor = isLightMode ? '#000' : '#fff';
+            const gridColor = isLightMode ? '#ccc' : '#444';
+
+            const datasets = sfmValues.map((sfm, index) => {
+                const data = diameters.map(d => {
+                    return (sfm * 3.82) / d;
+                });
+                const hue = (index * 360) / sfmValues.length;
+                return {
+                    label: `${sfm} SFM`,
+                    data: data,
+                    borderColor: `hsl(${hue}, 70%, 50%)`,
+                    backgroundColor: `hsla(${hue}, 70%, 50%, 0.1)`,
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0.4
+                };
+            });
+
+            window.sfmChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: diameters.map(d => d.toFixed(3) + '"'),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Diameter (inches)', color: textColor },
+                            ticks: { color: textColor },
+                            grid: { color: gridColor }
+                        },
+                        y: {
+                            title: { display: true, text: 'RPM', color: textColor },
+                            ticks: { color: textColor },
+                            grid: { color: gridColor },
+                            max: 15000,
+                            min: 0
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: textColor } }
+                    }
+                }
+            });
+        };
+
+        // Initialize chart after a short delay or when the tab is clicked to ensure canvas is ready
+        setTimeout(initChart, 100);
     </script>
 </body>
 </html>
