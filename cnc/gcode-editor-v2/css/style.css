@@ -82,10 +82,6 @@ body {
 .logo-area h1 {
     font-size: 22px;
     font-weight: 600;
-    background: linear-gradient(90deg, #fff, #aeb6e0);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .icon-btn {
@@ -222,15 +218,18 @@ body {
     height: 48px;
 }
 
-.settings-section, .table-section {
+.settings-section,
+.table-section {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
 }
+
 .settings-section {
     flex: 2;
 }
+
 .table-section {
     flex: 3;
 }
@@ -668,8 +667,8 @@ input:checked+.slider:before {
 }
 
 /* Table */
-.table-section > div:not(.table-container),
-.table-section > h4 {
+.table-section>div:not(.table-container),
+.table-section>h4 {
     flex-shrink: 0;
 }
 
@@ -738,11 +737,12 @@ tbody tr:hover {
 }
 
 /* Hide number input arrows */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
+
 input[type=number] {
     -moz-appearance: textfield;
 }
@@ -832,7 +832,7 @@ select.inline-input option {
     .panel-inner {
         width: 100%;
     }
-    
+
     .panel-resizer {
         display: none;
     }
@@ -860,9 +860,9 @@ select.inline-input option {
 
 /* Print Styles */
 @media print {
-    @page { 
-        margin: 0.25in; 
-        size: landscape; 
+    @page {
+        margin: 0.25in;
+        size: landscape;
     }
 
     body * {
@@ -934,11 +934,12 @@ select.inline-input option {
         box-shadow: none;
     }
 
-    ::placeholder { 
-        color: transparent !important; 
+    ::placeholder {
+        color: transparent !important;
     }
-    ::-webkit-input-placeholder { 
-        color: transparent !important; 
+
+    ::-webkit-input-placeholder {
+        color: transparent !important;
     }
 
     .printable-section .badge {
@@ -949,12 +950,16 @@ select.inline-input option {
         font-weight: normal;
         font-size: inherit;
     }
-    
+
     .printable-section td span {
         font-size: 9px !important;
     }
 
-    .top-nav, .workspace, .editor-container, .settings-section, .actions-section {
+    .top-nav,
+    .workspace,
+    .editor-container,
+    .settings-section,
+    .actions-section {
         display: none !important;
     }
 
@@ -975,7 +980,7 @@ select.inline-input option {
         padding: 0;
         gap: 8px;
     }
-    
+
     .form-card {
         border: none;
         padding: 0;

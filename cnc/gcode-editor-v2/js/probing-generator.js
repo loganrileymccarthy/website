@@ -62,7 +62,7 @@ function generateProbingBlock(cycles) {
     });
 
     // Wrap all cycles in N31 block with GOTO0 at end
-    return `N31\n${out}GOTO0\n\n`;
+    return `(*** BEGIN_PROBE_CYCLES ***)\nN31\n${out}GOTO0\n(*** END_PROBE_CYCLES ***)\n\n`;
 }
 
 // Export for module usage if necessary in other projects

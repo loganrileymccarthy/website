@@ -3,10 +3,22 @@ function stripInjectedCode(code) {
     let out = [];
     let inProbingBlock = false;
     let inLengthBlock = false;
+    let inDelineatedBlock = false;
 
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
         let trimmed = line.trim();
+
+        if (trimmed.match(/^\(\*\*\* BEGIN_.*\*\*\*\)$/)) {
+            inDelineatedBlock = true;
+            continue;
+        }
+        if (inDelineatedBlock) {
+            if (trimmed.match(/^\(\*\*\* END_.*\*\*\*\)$/)) {
+                inDelineatedBlock = false;
+            }
+            continue;
+        }
 
         if (trimmed.match(/^N31\b/)) {
             inProbingBlock = true;
@@ -75,6 +87,9 @@ function parseGcodeIntoOperations(code) {
                 originalLine: line,
                 description: nMatch[2] ? nMatch[2].replace(/[()]/g, '').trim() : "",
                 tool: "",
+                originalTool: "",
+                otherTools: [],
+                toolHasM6: false,
                 workZone: "",
                 m00s: [],
                 m01: false,
@@ -94,8 +109,36 @@ function parseGcodeIntoOperations(code) {
         } else if (currentOp) {
             currentOp.lines.push(line);
 
-            const tMatch = line.match(/T(\d+)/i);
-            if (tMatch && !currentOp.tool) currentOp.tool = tMatch[1];
+            const tMatches = [...line.matchAll(/T(\d+)/gi)];
+            if (tMatches.length > 0) {
+                let hasM6 = /\bM0?6\b/i.test(line);
+                
+                for (let match of tMatches) {
+                    let tVal = match[1];
+                    if (hasM6) {
+                        if (!currentOp.toolHasM6) {
+                            if (currentOp.tool) currentOp.otherTools.push(currentOp.tool);
+                            currentOp.tool = tVal;
+                            currentOp.originalTool = tVal;
+                            currentOp.toolHasM6 = true;
+                        } else {
+                            if (currentOp.tool !== tVal && !currentOp.otherTools.includes(tVal)) currentOp.otherTools.push(tVal);
+                        }
+                    } else {
+                        if (!currentOp.tool) {
+                            currentOp.tool = tVal;
+                            currentOp.originalTool = tVal;
+                            currentOp.toolHasM6 = false;
+                        } else {
+                            if (currentOp.tool !== tVal && !currentOp.otherTools.includes(tVal)) currentOp.otherTools.push(tVal);
+                        }
+                    }
+                }
+            }
+            
+            if (/\bM0?6\b/i.test(line)) {
+                if (currentOp.tool) currentOp.toolHasM6 = true;
+            }
 
             const gZoneMatch = line.match(/G(5[4-9]|54\.1\s*P\d+)/i);
             if (gZoneMatch) {

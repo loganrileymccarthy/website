@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Global Event Listeners
-    document.addEventListener('wheel', function(e) {
+    document.addEventListener('wheel', function (e) {
         if (e.target.type === 'number') {
             e.preventDefault();
         }
@@ -107,14 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.addEventListener('mousemove', (e) => {
             if (!isResizing) return;
-            
+
             let newWidth = window.innerWidth - e.clientX;
-            const minWidth = 400; 
-            const maxWidth = window.innerWidth - 300; 
-            
+            const minWidth = 400;
+            const maxWidth = window.innerWidth - 300;
+
             if (newWidth < minWidth) newWidth = minWidth;
             if (newWidth > maxWidth) newWidth = maxWidth;
-            
+
             controlsPanel.style.setProperty('--panel-width', `${newWidth}px`);
         });
 
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.mod-content').forEach(c => c.classList.remove('active'));
 
             e.target.classList.add('active');
-            
+
             const targetId = e.target.getAttribute('data-target');
             document.getElementById(targetId).classList.add('active');
         });
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPrint.disabled = false;
         } else if (dropZone.style.display === 'none') {
             currentRawCode = codeEditor.value;
-            
+
             // Debounce parsing to keep typing smooth
             clearTimeout(editorTypingTimeout);
             editorTypingTimeout = setTimeout(() => {
@@ -270,14 +270,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 headerCommentsList.appendChild(div);
             });
         }
-        
+
         document.querySelectorAll('.current-comment-input').forEach(inp => {
             inp.addEventListener('input', (e) => {
                 headerComments[e.target.getAttribute('data-index')] = e.target.value;
                 refreshGeneratedCode();
             });
         });
-        
+
         document.querySelectorAll('.btn-del-comment').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 headerComments.splice(parseInt(e.currentTarget.getAttribute('data-index')), 1);
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const val = newCommentInput.value.trim();
             const now = new Date();
             const stamp = now.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-            
+
             if (val) {
                 headerComments.push(`${stamp} - ${val}`);
             } else {
@@ -345,11 +345,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        
+
         const toolMeasurementsList = document.getElementById('tool-measurements-list');
         if (toolMeasurementsList) {
             toolMeasurementsList.innerHTML = '';
-            
+
             let uniqueTools = new Set();
             parsedOperations.forEach(op => {
                 if (op.tool) {
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (uniqueTools.size === 0) {
                 toolMeasurementsList.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">No tools found</span>`;
             } else {
-                Array.from(uniqueTools).sort((a,b) => parseInt(a) - parseInt(b)).forEach(t => {
+                Array.from(uniqueTools).sort((a, b) => parseInt(a) - parseInt(b)).forEach(t => {
                     const div = document.createElement('div');
                     div.style = "display: flex; gap: 8px; align-items: center;";
                     div.innerHTML = `
@@ -424,16 +424,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let m00Display = '<span class="badge no">N</span>';
             if (op.m00s && op.m00s.length > 0) {
-                m00Display = `<div style="display:flex; flex-direction:column; gap:4px;">` + 
+                m00Display = `<div style="display:flex; flex-direction:column; gap:4px;">` +
                     op.m00s.map((m, mIdx) => `<input type="text" class="inline-input wide m00-input" data-index="${index}" data-subindex="${mIdx}" value="${m.comment}" placeholder="M00 Comment">`).join('') +
                     `</div>`;
             }
-            
+
             let m01Display = `<span class="badge yes">Y</span>`;
             if (!op.m01) {
                 m01Display = `<button class="btn-add-m01" data-index="${index}" style="background: none; border: none; color: var(--primary); cursor: pointer; padding: 2px;" title="Insert M01 after Tool Call"><i class="ph ph-plus-circle" style="font-size: 16px;"></i></button>`;
             }
-            
+
             let m08Display = `<span class="badge yes">Y</span>`;
             if (!op.m08) {
                 m08Display = `<button class="btn-add-m08" data-index="${index}" style="background: none; border: none; color: var(--primary); cursor: pointer; padding: 2px;" title="Insert M08 after Tool Call"><i class="ph ph-plus-circle" style="font-size: 16px;"></i></button>`;
@@ -455,16 +455,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${subs}</td>
                 <td>
                     <div style="display:flex; flex-direction:column; gap:4px;">
-                    ${op.feedRates.length > 0 
-                        ? op.feedRates.map((f, i) => `<input type="text" class="inline-input feed-input" data-index="${index}" data-subindex="${i}" value="${f}" placeholder="-">`).join('') 
-                        : `<input type="text" class="inline-input feed-input" data-index="${index}" data-subindex="0" value="" placeholder="-">`}
+                    ${op.feedRates.length > 0
+                    ? op.feedRates.map((f, i) => `<input type="text" class="inline-input feed-input" data-index="${index}" data-subindex="${i}" value="${f}" placeholder="-">`).join('')
+                    : `<input type="text" class="inline-input feed-input" data-index="${index}" data-subindex="0" value="" placeholder="-">`}
                     </div>
                 </td>
                 <td>
                     <div style="display:flex; flex-direction:column; gap:4px;">
                     ${op.spindleSpeeds.length > 0
-                        ? op.spindleSpeeds.map((s, i) => `<input type="text" class="inline-input speed-input" data-index="${index}" data-subindex="${i}" value="${s}" placeholder="-">`).join('')
-                        : `<input type="text" class="inline-input speed-input" data-index="${index}" data-subindex="0" value="" placeholder="-">`}
+                    ? op.spindleSpeeds.map((s, i) => `<input type="text" class="inline-input speed-input" data-index="${index}" data-subindex="${i}" value="${s}" placeholder="-">`).join('')
+                    : `<input type="text" class="inline-input speed-input" data-index="${index}" data-subindex="0" value="" placeholder="-">`}
                     </div>
                 </td>
                 <td>${minZ}</td>
@@ -481,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const subIdx = e.target.getAttribute('data-subindex');
                     let val = e.target.value;
                     if (sanitizer) val = sanitizer(val);
-                    
+
                     if (subIdx !== null && subIdx !== undefined) {
                         if (!parsedOperations[idx][key]) parsedOperations[idx][key] = [];
                         parsedOperations[idx][key][parseInt(subIdx)] = val;
@@ -525,14 +525,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', (e) => {
                 const idx = parseInt(e.currentTarget.getAttribute('data-index'));
                 const op = parsedOperations[idx];
-                
+
                 let insertIdx = op.lines.findIndex(l => /\bM0?6\b/i.test(l));
                 if (insertIdx !== -1) {
                     op.lines.splice(insertIdx + 1, 0, "M08");
                 } else {
                     op.lines.splice(1, 0, "M08");
                 }
-                
+
                 refreshGeneratedCode();
                 currentRawCode = codeEditor.value;
                 parseGCodeIntoOperations(currentRawCode);
@@ -544,14 +544,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', (e) => {
                 const idx = parseInt(e.currentTarget.getAttribute('data-index'));
                 const op = parsedOperations[idx];
-                
+
                 let insertIdx = op.lines.findIndex(l => /\bM0?6\b/i.test(l));
                 if (insertIdx !== -1) {
                     op.lines.splice(insertIdx + 1, 0, "M01");
                 } else {
                     op.lines.splice(1, 0, "M01");
                 }
-                
+
                 refreshGeneratedCode();
                 currentRawCode = codeEditor.value;
                 parseGCodeIntoOperations(currentRawCode);
@@ -760,10 +760,10 @@ document.addEventListener('DOMContentLoaded', () => {
         workZonesCount = {};
         globalZoneMap = {};
         fileMeta = { name: "" };
-        
+
         codeEditor.value = "";
         fileInput.value = '';
-        
+
         [probingToggle, lengthToggle, varToolsToggle, varZonesToggle].forEach(t => { if (t) t.checked = false; });
         [headerVarsToggle, headerSafetyToggle, headerStampToggle, headerToolsToggle].forEach(t => { if (t) t.checked = false; });
         [partNumberInput, opNumberInput].forEach(i => { if (i) i.value = ''; });
@@ -771,26 +771,26 @@ document.addEventListener('DOMContentLoaded', () => {
         headerComments = [];
         if (newCommentInput) newCommentInput.value = '';
         renderHeaderComments();
-        
+
         probingConfigDiv.classList.add('hidden');
         probingCyclesList.innerHTML = "";
         probeCycleCount = 0;
-        
+
         const zCont = document.getElementById('zones-container');
         if (zCont) zCont.innerHTML = "";
         tableBody.innerHTML = "";
-        
+
         editorContainer.classList.add('hidden');
         controlsPanel.classList.add('hidden');
         togglePanelBtn.classList.add('hidden');
         controlsPanel.classList.remove('collapsed');
-        
+
         //statusDot.classList.add('empty');
         //statusDot.classList.remove('active');
         statFilename.value = "No file loaded";
-        
+
         dropZone.style.display = 'flex';
-        
+
         btnCopy.disabled = true;
         btnDownload.disabled = true;
         btnPrint.disabled = true;
@@ -909,10 +909,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (useHeaderVars) {
+            out += "(*** BEGIN_VARIABLES ***) \n";
             out += "(VARIABLES) \n";
             if (useProbing || useLengthCheck || useVarTools || useVarZones) {
-                if (useProbing) out += `(#800: probing toggle) \n`;
-                if (useLengthCheck) out += `(#899: tool length measurement toggle) \n`;
+                if (useProbing) out += `(#801: probing toggle) \n`;
+                if (useLengthCheck) out += `(#800: tool length measurement toggle) \n`;
                 out += "\n";
             }
         }
@@ -957,24 +958,33 @@ document.addEventListener('DOMContentLoaded', () => {
             if (useHeaderVars) out += "\n";
         }
 
+        if (useHeaderVars) {
+            out += "(*** END_VARIABLES ***) \n\n";
+        }
+
         if (useHeaderTools && uniqueTools.size > 0) {
-            out += "(TOOLS) \n";
+            out += "(*** BEGIN_TOOLS ***) \n";
             let toolList = Array.from(uniqueTools).sort((a, b) => parseInt(a) - parseInt(b));
             toolList.forEach(t => {
                 let desc = toolDescs[t] ? toolDescs[t].replace(/[()]/g, '') : `TOOL ${t}`;
                 out += `(T${t} - ${desc}) \n`;
             });
-            out += "\n";
+            out += "(*** END_TOOLS ***) \n\n";
         }
 
         // Program Safety Lines
         if (useHeaderSafety) {
-            out += "G00 G17 G20 G40 G49 G80 G90 \n\n";
+            out += "(*** BEGIN_SAFETY ***) \n";
+            out += "G00 G17 G20 G40 G49 G80 G90 \n";
+            out += "G53 G0 Z0 \n";
+            out += "(*** END_SAFETY ***) \n\n";
         }
 
         if (useProbing) {
-            out += "IF [#800 EQ 1] GOTO31 (probing toggle) \n";
-            out += "N0 \n\n";
+            out += "(*** BEGIN_PROBE_TOGGLE ***) \n";
+            out += "IF [#801 EQ 1] GOTO31 \n";
+            out += "N0 \n";
+            out += "(*** END_PROBE_TOGGLE ***) \n\n";
         }
 
         parsedOperations.forEach(op => {
@@ -982,7 +992,8 @@ document.addEventListener('DOMContentLoaded', () => {
             out += `N${op.nCode} (${op.description ? op.description : ''}) \n`;
 
             if (useLengthCheck && op.tool && toolMeasurements[op.tool] && toolMeasurements[op.tool].measure !== false) {
-                out += `IF [#899 NE 1] GOTO${parseInt(op.nCode) * 100} (length measurement toggle) \n\n`;
+                out += `(*** BEGIN_LENGTH_CHECK ***) \n`;
+                out += `IF [#800 NE 1] GOTO${parseInt(op.nCode) * 100} \n\n`;
                 out += `(MEASURE TOOL ${op.tool})\n`;
                 out += `G53 G0 Z0 \n`;
 
@@ -990,17 +1001,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += `T${tRef} M06 \n`;
                 const tLength = toolMeasurements[op.tool]?.length || "0.0";
                 const tDiameter = toolMeasurements[op.tool]?.diameter || "0.0";
+                out += `M0 \n`;
+                out += `(BLOW OFF PROBE) \n`;
                 out += `G65 P9995 T${tRef} A0.0 B1.0 C2.0 E${tLength} D${tDiameter} \n`;
-                out += `G53 G0 Z0 \n`;
-                out += `M01 \n\n`;
+                out += `G53 G0 Z0 \n\n`;
                 out += `N${parseInt(op.nCode) * 100} \n`;
+                out += `(*** END_LENGTH_CHECK ***) \n\n`;
             }
 
-            // Beginning of tool operation safety lines (removed per user)
 
+            //Replace things on lines
             op.lines.forEach((line, index) => {
                 let modifiedLine = line;
 
+                //M0 comments
                 if (op.m00s && op.m00s.length > 0) {
                     let m00SameLine = op.m00s.find(m => m.lineIndex === index);
                     if (m00SameLine && !m00SameLine.originalComment && m00SameLine.comment.trim()) {
@@ -1037,18 +1051,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 // "change tool number, description, feed rates, spindle speeds, work zone"
 
                 // Tool and D/H offset replacements
-                if (op.tool) {
+                if (op.tool && op.originalTool) {
                     if (useVarTools) {
-                        modifiedLine = modifiedLine.replace(/T\d+/gi, `T#${toolVars[op.tool]}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`T${op.originalTool}(?!\\d)`, 'gi'), `T#${toolVars[op.tool]}`);
                         // D/H should also be replaced by variable if requested? 
                         // reference says: "-H, D values should be replaced by the variable"
-                        modifiedLine = modifiedLine.replace(/H\d+/gi, `H#${toolVars[op.tool]}`);
-                        modifiedLine = modifiedLine.replace(/D\d+/gi, `D#${toolVars[op.tool]}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`H${op.originalTool}(?!\\d)`, 'gi'), `H#${toolVars[op.tool]}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`D${op.originalTool}(?!\\d)`, 'gi'), `D#${toolVars[op.tool]}`);
                     } else {
-                        modifiedLine = modifiedLine.replace(/T\d+/gi, `T${op.tool}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`T${op.originalTool}(?!\\d)`, 'gi'), `T${op.tool}`);
                         // If mapping H/D to standard tool number directly:
-                        modifiedLine = modifiedLine.replace(/H\d+/gi, `H${op.tool}`);
-                        modifiedLine = modifiedLine.replace(/D\d+/gi, `D${op.tool}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`H${op.originalTool}(?!\\d)`, 'gi'), `H${op.tool}`);
+                        modifiedLine = modifiedLine.replace(new RegExp(`D${op.originalTool}(?!\\d)`, 'gi'), `D${op.tool}`);
                     }
                 }
 
@@ -1088,17 +1102,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += modifiedLine + "\n";
             });
 
-            // End of tool operation safety lines (removed per user)
             out += "\n";
         });
-
-        // Generate Subprograms (assuming they were N block prefixed elements that didn't act as tool operations natively, 
-        // wait, we filtered standard M30 and then subprograms? Actually parseGCodeIntoOperations gets all N blocks.
-        // As per table ops, subprograms usually have an N block but no tool. We generated them with M30. Wait, M30 needs to be BEFORE subprograms!
-        // We will assume in the parsedOperations, ops > N4000 are subprograms.
-        // Wait, the user reference says "N codes should correspond to the tool number used during the operation... N codes will often not be sequential."
-        // We might have accidentally put subprograms before M30. We should output subprograms after M30. Subprograms usually have N > 1000 or similar.
-        // Actually, let's keep it simple for now as it was basically sequentially appended.
 
         if (useProbing) {
             out += getProbingBlockFromUI();
