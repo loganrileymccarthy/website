@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#x2694 CNC Dashboard &#x2694</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* Specific styles for this dashboard */
+        .tab-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #444;
+            gap: 2px;
+        }
+        .tab-buttons button {
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+            border-bottom: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        .tab-buttons button.active {
+            background-color: #444;
+            font-weight: bold;
+            color: yellow;
+        }
+        .tab-buttons button:hover:not(.active) {
+            background-color: white;
+            color: black;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Converter styles */
+        .converter-container {
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            background-color: #1a1a1a;
+        }
+        .converter-container input[type="number"] {
+            width: 120px;
+            pointer-events: auto; /* override global pointer-events: none on focus */
+        }
+        .converter-container input[type="number"]:focus {
+            pointer-events: auto; 
+        }
+
+        /* Light mode support for the dashboard specifically */
+        .light-mode .converter-container {
+            background-color: #e0e0e0;
+        }
+        .light-mode .tab-buttons button {
+            background-color: antiquewhite;
+            color: black;
+            border-color: #ccc;
+        }
+        .light-mode .tab-buttons button.active {
+            background-color: #ccc;
+            font-weight: bold;
+            color: blue;
+        }
+        .light-mode .tab-buttons button:hover:not(.active) {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="../../main.js"></script>
+    <div class="wrapper-wide">
+        <my-header></my-header>
+        <main>
+            <h2>CNC Dashboard</h2>
+            
+            <div class="converter-container">
+                <label style="margin-bottom: 0;">Inch</label>
+                <input type="number" id="inch-input" placeholder="in">
+                <span style="color: white; font-size: 20px;" class="converter-arrows">&#x2194;</span>
+                <input type="number" id="mm-input" placeholder="mm">
+                <label style="margin-bottom: 0;">mm</label>
+            </div>
+
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
+                    <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
+                    <button class="tab-btn" data-target="cut-tap-tab">Cut Taps</button>
+                    <button class="tab-btn" data-target="form-tap-tab">Form Taps</button>
+                </div>
+                
+                <div id="threads-tab" class="tab-content active">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thread Size</th>
+                                <th>Tap Drill</th>
+                                <th>Minor Dia Min</th>
+                                <th>Minor Dia Max</th>
+                                <th>Pitch Dia Min</th>
+                                <th>Pitch Dia Max</th>
+                            </tr>
+                        </thead>
+                        <tbody id="class2b-tbody">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="drills-tab" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Size (Fraction / Letter / Wire)</th>
+                                <th>Decimal (inch)</th>
+                                <th>Decimal (mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="drills-tbody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="cut-tap-tab" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tap Size</th>
+                                <th>Type</th>
+                                <th>Cut Tap Drill</th>
+                                <th>Decimal (in)</th>
+                                <th>Decimal (mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuttap-tbody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="form-tap-tab" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tap Size</th>
+                                <th>Type</th>
+                                <th>Form Tap Drill</th>
+                                <th>Decimal (in)</th>
+                                <th>Decimal (mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="formtap-tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <my-footer></my-footer>
+    </div>
+
+    <script type="module">
+        import dashboardData from './dashboard-data.js';
+
+        // Inch/MM Converter Logic
+        const inchInput = document.getElementById('inch-input');
+        const mmInput = document.getElementById('mm-input');
+
+        inchInput.addEventListener('input', () => {
+            const inchValue = parseFloat(inchInput.value);
+            if (!isNaN(inchValue)) {
+                mmInput.value = (inchValue * 25.4).toFixed(4);
+            } else {
+                mmInput.value = '';
+            }
+        });
+
+        mmInput.addEventListener('input', () => {
+            const mmValue = parseFloat(mmInput.value);
+            if (!isNaN(mmValue)) {
+                inchInput.value = (mmValue / 25.4).toFixed(4);
+            } else {
+                inchInput.value = '';
+            }
+        });
+
+        // Light mode listener for the arrows
+        const darkModeToggle = document.getElementById('darkModeToggleGlobal');
+        const arrows = document.querySelector('.converter-arrows');
+        if (document.body.classList.contains('light-mode') || (darkModeToggle && !darkModeToggle.checked)) {
+            if (arrows) arrows.style.color = 'black';
+        }
+        
+        document.head.insertAdjacentHTML("beforeend", `<style>
+            .light-mode .converter-arrows { color: black !important; }
+        </style>`);
+
+        // Tabs Logic
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked
+                btn.classList.add('active');
+                const targetId = btn.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Data Population Logic
+        const populateTable = (tbodyId, data, rowGenerator) => {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) return;
+            tbody.innerHTML = data.map(rowGenerator).join('');
+        };
+
+        populateTable('class2b-tbody', dashboardData.class2bThreads, row => 
+            `<tr><td>${row.size}</td><td>${row.drill}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
+        );
+
+        populateTable('drills-tbody', dashboardData.drillSizes, row => 
+            `<tr><td>${row.size}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`
+        );
+
+        const tapRowGen = row => `<tr><td>${row.size}</td><td>${row.type}</td><td>${row.drill}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`;
+        
+        populateTable('cuttap-tbody', dashboardData.cutTapSizes, tapRowGen);
+        populateTable('formtap-tbody', dashboardData.formTapSizes, tapRowGen);
+    </script>
+</body>
+</html>
