@@ -9,12 +9,12 @@ function stripInjectedCode(code) {
         let line = lines[i];
         let trimmed = line.trim();
 
-        if (trimmed.match(/^\(\*\*\* BEGIN_.*\*\*\*\)$/)) {
+        if (trimmed.match(/^\(\*\*\* BEGIN.*\*\*\*\)$/)) {
             inDelineatedBlock = true;
             continue;
         }
         if (inDelineatedBlock) {
-            if (trimmed.match(/^\(\*\*\* END_.*\*\*\*\)$/)) {
+            if (trimmed.match(/^\(\*\*\* END.*\*\*\*\)$/)) {
                 inDelineatedBlock = false;
             }
             continue;
@@ -32,7 +32,7 @@ function stripInjectedCode(code) {
         }
 
         if (trimmed.includes('(probing toggle)')) continue;
-        if (trimmed === 'N0' && i > 0 && lines[i-1].includes('(probing toggle)')) continue;
+        if (trimmed === 'N0' && i > 0 && lines[i - 1].includes('(probing toggle)')) continue;
 
         if (trimmed.includes('(length measurement toggle)')) {
             inLengthBlock = true;
@@ -112,7 +112,7 @@ function parseGcodeIntoOperations(code) {
             const tMatches = [...line.matchAll(/T(\d+)/gi)];
             if (tMatches.length > 0) {
                 let hasM6 = /\bM0?6\b/i.test(line);
-                
+
                 for (let match of tMatches) {
                     let tVal = match[1];
                     if (hasM6) {
@@ -135,7 +135,7 @@ function parseGcodeIntoOperations(code) {
                     }
                 }
             }
-            
+
             if (/\bM0?6\b/i.test(line)) {
                 if (currentOp.tool) currentOp.toolHasM6 = true;
             }
@@ -150,7 +150,7 @@ function parseGcodeIntoOperations(code) {
 
             if (/\bM0?0\b/i.test(line)) {
                 let m00Event = { lineIndex: currentOp.lines.length - 1, comment: "", originalComment: "", isSameLine: false };
-                
+
                 let commentMatch = line.match(/\(([^)]+)\)/);
                 if (commentMatch) {
                     m00Event.comment = commentMatch[1];
@@ -225,7 +225,7 @@ function parseGcodeIntoOperations(code) {
 
         for (let i = 0; i < headerLines.length; i++) {
             let line = headerLines[i].trim();
-            
+
             if (!oCodeFound && /^O\d+/i.test(line)) {
                 oCodeFound = true;
                 extracting = true;
@@ -241,7 +241,7 @@ function parseGcodeIntoOperations(code) {
                     } else {
                         let inner = line.slice(1, -1).trim();
                         const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}/.test(inner);
-                        
+
                         if (inner && inner !== 'VARIABLES' && isTimestamped) {
                             headerComments.push(inner);
                         } else {

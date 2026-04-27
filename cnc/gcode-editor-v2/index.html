@@ -42,7 +42,8 @@
                     <h3>Upload GCode File</h3>
                     <p>Drag & drop your .txt, .nc, .NC, or .T file here</p>
                     <p class="text-small">or click to browse</p>
-                    <button id="btn-paste" class="action-btn" style="pointer-events: auto; margin: 16px auto 0; position: relative; z-index: 10;">
+                    <button id="btn-paste" class="action-btn"
+                        style="pointer-events: auto; margin: 16px auto 0; position: relative; z-index: 10;">
                         <i class="ph ph-clipboard"></i> Paste from Clipboard
                     </button>
                     <p class="text-small" style="margin-top: 16px;">(or press Ctrl+V)</p>
@@ -56,17 +57,22 @@
                     <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                         <div class="file-information">
                             <!--<span class="dot empty"></span>-->
-                            <button id="btn-close" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
+                            <button id="btn-close" class="action-btn"
+                                style="padding: 4px; height: 32px; min-width: 32px;" title="Close File">
                                 <i class="ph ph-caret-left"></i><span class="btn-text"></span>
                             </button>
                             <input type="text" id="stat-filename" class="inline-input" style="width: 200px;"
                                 value="No file loaded" title="Edit filename">
-                            <input type="text" id="part-number" class="inline-input" style="width: 50px;" placeholder="Part">
-                            <input type="text" id="operation-number" class="inline-input" style="width: 50px;" placeholder="Op">
-                            <button id="btn-copy" class="action-btn" style="padding: 4px; height: 32px; min-width: 32px;" title="Copy">
+                            <input type="text" id="part-number" class="inline-input" style="width: 50px;"
+                                placeholder="Part">
+                            <input type="text" id="operation-number" class="inline-input" style="width: 50px;"
+                                placeholder="Op">
+                            <button id="btn-copy" class="action-btn"
+                                style="padding: 4px; height: 32px; min-width: 32px;" title="Copy">
                                 <i class="ph ph-copy"></i><span class="btn-text"></span>
                             </button>
-                            <button id="btn-download" class="action-btn primary" style="padding: 4px; height: 32px; min-width: 32px;" title="Download">
+                            <button id="btn-download" class="action-btn primary"
+                                style="padding: 4px; height: 32px; min-width: 32px;" title="Download">
                                 <i class="ph ph-download-simple"></i><span class="btn-text"></span>
                             </button>
                         </div>
@@ -130,16 +136,21 @@
                             </label>
                             <label for="header-safety-toggle">Safety Lines</label>
                         </div>
-                        
+
                         <!-- History Container -->
                         <div id="header-comments-config" class="probing-config hidden">
-                            <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Timestamps</h4>
-                            <div id="header-comments-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                            <h4
+                                style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">
+                                Timestamps</h4>
+                            <div id="header-comments-list"
+                                style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
                                 <!-- Injected by JS -->
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="new-comment-input" class="inline-input extra-wide" placeholder="Describe update...">
-                                <button id="btn-add-comment" class="action-btn" style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
+                                <input type="text" id="new-comment-input" class="inline-input extra-wide"
+                                    placeholder="Describe update...">
+                                <button id="btn-add-comment" class="action-btn"
+                                    style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -171,7 +182,7 @@
                                 <input type="checkbox" id="length-toggle">
                                 <span class="slider round"></span>
                             </label>
-                            <label for="length-toggle">Enable Length Measurement (#899)</label>
+                            <label for="length-toggle">Enable Length Measurement</label>
                         </div>
                         <div id="length-config" class="probing-config hidden">
                             <!--<h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>-->
@@ -211,9 +222,9 @@
                             <i class="ph ph-printer"></i> <span class="btn-text">Print Summary</span>
                         </button>
                     </div> -->
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h4
+                            style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">
                             Sequence Detail</h4>
                         <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
                             <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
@@ -238,10 +249,10 @@
                                     <th title="Coolant">M08</th>
                                     <th>Subs</th>
                                     <th>Feed</th>
-                                     <th>Speed</th>
-                                     <th>Min Z</th>
-                                     <th>X Range</th>
-                                     <th>Y Range</th>
+                                    <th>Speed</th>
+                                    <th>Min Z</th>
+                                    <th>X Range</th>
+                                    <th>Y Range</th>
                                 </tr>
                             </thead>
                             <tbody id="ops-table-body">

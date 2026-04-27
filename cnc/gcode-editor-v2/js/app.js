@@ -909,7 +909,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (useHeaderVars) {
-            out += "(*** BEGIN_VARIABLES ***) \n";
+            out += "(*** BEGIN VARIABLES ***) \n";
             out += "(VARIABLES) \n";
             if (useProbing || useLengthCheck || useVarTools || useVarZones) {
                 if (useProbing) out += `(#801: probing toggle) \n`;
@@ -959,32 +959,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (useHeaderVars) {
-            out += "(*** END_VARIABLES ***) \n\n";
+            out += "(*** END VARIABLES ***) \n\n";
         }
 
         if (useHeaderTools && uniqueTools.size > 0) {
-            out += "(*** BEGIN_TOOLS ***) \n";
+            out += "(*** BEGIN TOOLS ***) \n";
             let toolList = Array.from(uniqueTools).sort((a, b) => parseInt(a) - parseInt(b));
             toolList.forEach(t => {
                 let desc = toolDescs[t] ? toolDescs[t].replace(/[()]/g, '') : `TOOL ${t}`;
                 out += `(T${t} - ${desc}) \n`;
             });
-            out += "(*** END_TOOLS ***) \n\n";
+            out += "(*** END TOOLS ***) \n\n";
         }
 
         // Program Safety Lines
         if (useHeaderSafety) {
-            out += "(*** BEGIN_SAFETY ***) \n";
+            out += "(*** BEGIN SAFETY ***) \n";
             out += "G00 G17 G20 G40 G49 G80 G90 \n";
             out += "G53 G0 Z0 \n";
-            out += "(*** END_SAFETY ***) \n\n";
+            out += "(*** END SAFETY ***) \n\n";
         }
 
         if (useProbing) {
-            out += "(*** BEGIN_PROBE_TOGGLE ***) \n";
+            out += "(*** BEGIN PROBE TOGGLE ***) \n";
             out += "IF [#801 EQ 1] GOTO31 \n";
             out += "N0 \n";
-            out += "(*** END_PROBE_TOGGLE ***) \n\n";
+            out += "(*** END PROBE TOGGLE ***) \n\n";
         }
 
         parsedOperations.forEach(op => {
@@ -992,8 +992,8 @@ document.addEventListener('DOMContentLoaded', () => {
             out += `N${op.nCode} (${op.description ? op.description : ''}) \n`;
 
             if (useLengthCheck && op.tool && toolMeasurements[op.tool] && toolMeasurements[op.tool].measure !== false) {
-                out += `(*** BEGIN_LENGTH_CHECK ***) \n`;
-                out += `IF [#800 NE 1] GOTO${parseInt(op.nCode) * 100} \n\n`;
+                out += `(*** BEGIN LENGTH CHECK ***) \n`;
+                out += `IF [#${2000 + parseInt(op.tool)} NE 10.0] GOTO${parseInt(op.nCode) * 100} \n\n`;
                 out += `(MEASURE TOOL ${op.tool})\n`;
                 out += `G53 G0 Z0 \n`;
 
@@ -1006,7 +1006,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 out += `G65 P9995 T${tRef} A0.0 B1.0 C2.0 E${tLength} D${tDiameter} \n`;
                 out += `G53 G0 Z0 \n\n`;
                 out += `N${parseInt(op.nCode) * 100} \n`;
-                out += `(*** END_LENGTH_CHECK ***) \n\n`;
+                out += `(*** END LENGTH CHECK ***) \n\n`;
             }
 
 
