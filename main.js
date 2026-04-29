@@ -1,15 +1,15 @@
 class MyHeader extends HTMLElement {
 	connectedCallback() {
-	this.innerHTML = `
+		this.innerHTML = `
 		<header>
       		<h1>
-				<a href="../index.html" class="homeButton">&#x2694 LRM &#x2694</a>
+				<a href="https://www.loganrileymccarthy.com/index.html" class="homeButton">&#x2694 LRM &#x2694</a>
 			</h1>
 			<p>
-				<a href="../about.html">about</a> // 
-				<a href="../cnc.html">cnc</a> //
-				<a href="../fungi.html">fungi</a> //
-				<a href="../other-stuff.html">other stuff</a>
+				<a href="https://www.loganrileymccarthy.com/about.html">about</a> // 
+				<a href="https://www.loganrileymccarthy.com/cnc.html">cnc</a> //
+				<a href="https://www.loganrileymccarthy.com/fungi.html">fungi</a> //
+				<a href="https://www.loganrileymccarthy.com/other-stuff.html">other stuff</a>
     		</p>
     	</header>
 	`
@@ -20,7 +20,7 @@ customElements.define('my-header', MyHeader)
 
 class MyFooter extends HTMLElement {
 	connectedCallback() {
-	this.innerHTML = `
+		this.innerHTML = `
 		<footer>
 			<p>
                 <label style="font-size: 11px;">
@@ -29,15 +29,15 @@ class MyFooter extends HTMLElement {
             </p>
 		</footer>
 	`
-    
-    // Add logic after elements are created
-    this.querySelector('#darkModeToggleGlobal').addEventListener('change', (e) => {
-        if (e.target.checked) {
-            document.body.classList.remove("light-mode");
-        } else {
-            document.body.classList.add("light-mode");
-        }
-    });
+
+		// Add logic after elements are created
+		this.querySelector('#darkModeToggleGlobal').addEventListener('change', (e) => {
+			if (e.target.checked) {
+				document.body.classList.remove("light-mode");
+			} else {
+				document.body.classList.add("light-mode");
+			}
+		});
 
 	}
 }

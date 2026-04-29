@@ -13,11 +13,13 @@
             width: 100%;
             margin-top: 0;
         }
+
         .tab-buttons {
             display: flex;
             border-bottom: 1px solid #444;
             gap: 2px;
         }
+
         .tab-buttons button {
             background-color: #2a2a2a;
             color: white;
@@ -29,15 +31,18 @@
             font-family: 'Courier New', monospace;
             font-size: 16px;
         }
+
         .tab-buttons button.active {
             background-color: #444;
             font-weight: bold;
             color: yellow;
         }
+
         .tab-buttons button:hover:not(.active) {
             background-color: white;
             color: black;
         }
+
         .tab-content {
             display: none;
             padding: 0;
@@ -45,19 +50,21 @@
             max-height: 60vh;
             overflow-y: auto;
         }
+
         .tab-content.active {
             display: block;
         }
-        
+
         /* Ensure sticky headers are opaque when scrolling */
         table th {
             background-color: #2a2a2a;
             z-index: 10;
         }
+
         .light-mode table th {
             background-color: #e0e0e0;
         }
-        
+
         /* Dashboard Layout */
         .dashboard-layout {
             display: flex;
@@ -66,16 +73,19 @@
             width: 100%;
             align-items: flex-start;
         }
+
         .left-panel {
             flex: 0 0 320px;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
         .right-panel {
             flex: 1;
             min-width: 0;
         }
+
         .calculator-panel {
             border: 1px solid #444;
             border-radius: 4px;
@@ -85,6 +95,7 @@
             flex-direction: column;
             gap: 15px;
         }
+
         .calculator-panel h3 {
             margin: 0;
             color: yellow;
@@ -92,14 +103,17 @@
             font-family: 'Courier New', monospace;
             text-align: center;
         }
+
         .calc-row {
             display: flex;
             flex-direction: row;
-            align-items: flex-end; /* Align inputs to bottom so labels align top */
+            align-items: flex-end;
+            /* Align inputs to bottom so labels align top */
             gap: 10px;
             justify-content: space-between;
             width: 100%;
         }
+
         .calc-col {
             display: flex;
             flex-direction: column;
@@ -107,11 +121,14 @@
             gap: 5px;
             width: 100%;
         }
-        .calc-col input[type="number"], .calc-col input[type="text"], .calc-col select {
+
+        .calc-col input[type="number"],
+        .calc-col input[type="text"],
+        .calc-col select {
             width: 100%;
             pointer-events: auto;
         }
-        
+
         /* Converter styles */
         .converter-container {
             display: flex;
@@ -119,6 +136,7 @@
             gap: 15px;
             justify-content: center;
         }
+
         .converter-container input[type="number"] {
             width: 100px;
             pointer-events: auto;
@@ -128,19 +146,23 @@
         .light-mode .calculator-panel {
             background-color: #e0e0e0;
         }
+
         .light-mode .calculator-panel h3 {
             color: blue;
         }
+
         .light-mode .tab-buttons button {
             background-color: antiquewhite;
             color: black;
             border-color: #ccc;
         }
+
         .light-mode .tab-buttons button.active {
             background-color: #ccc;
             font-weight: bold;
             color: blue;
         }
+
         .light-mode .tab-buttons button:hover:not(.active) {
             background-color: #ddd;
         }
@@ -153,7 +175,7 @@
         <my-header></my-header>
         <main>
             <h2>CNC Dashboard</h2>
-            
+
             <div class="dashboard-layout">
                 <div class="left-panel">
                     <div class="calculator-panel">
@@ -166,7 +188,7 @@
                             <label style="margin-bottom: 0;">mm</label>
                         </div>
                     </div>
-                    
+
                     <div class="calculator-panel">
                         <h3>Tap RPM Calculator</h3>
                         <div class="calc-col">
@@ -202,88 +224,88 @@
                         </div>
                         <div class="calc-col">
                             <label>Feedrate (IPM)</label>
-                            <input type="number" id="feed-ipm" placeholder="IPM" readonly style="background-color: #333; cursor: not-allowed; border-color: #666;">
+                            <input type="number" id="feed-ipm" placeholder="IPM" readonly
+                                style="background-color: #333; cursor: not-allowed; border-color: #666;">
                         </div>
                     </div>
                 </div>
 
                 <div class="right-panel">
                     <div class="tab-container">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
-                    <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
-                    <button class="tab-btn" data-target="cut-tap-tab">Cut Taps</button>
-                    <button class="tab-btn" data-target="form-tap-tab">Form Taps</button>
-                    <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
-                </div>
-                
-                <div id="threads-tab" class="tab-content active">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Thread Size</th>
-                                <th>Tap Drill</th>
-                                <th>Minor Dia Min</th>
-                                <th>Minor Dia Max</th>
-                                <th>Pitch Dia Min</th>
-                                <th>Pitch Dia Max</th>
-                            </tr>
-                        </thead>
-                        <tbody id="class2b-tbody">
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div id="drills-tab" class="tab-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Size (Fraction / Letter / Wire)</th>
-                                <th>Decimal (inch)</th>
-                                <th>Decimal (mm)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="drills-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
+                            <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
+                            <button class="tab-btn" data-target="cut-tap-tab">Cut Taps</button>
+                            <button class="tab-btn" data-target="form-tap-tab">Form Taps</button>
+                            <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
+                        </div>
 
-                <div id="cut-tap-tab" class="tab-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tap Size</th>
-                                <th>Type</th>
-                                <th>Cut Tap Drill</th>
-                                <th>Decimal (in)</th>
-                                <th>Decimal (mm)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cuttap-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                        <div id="threads-tab" class="tab-content active">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Thread Size</th>
+                                        <th>Minor Dia Min</th>
+                                        <th>Minor Dia Max</th>
+                                        <th>Pitch Dia Min</th>
+                                        <th>Pitch Dia Max</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="class2b-tbody">
+                                </tbody>
+                            </table>
+                        </div>
 
-                <div id="form-tap-tab" class="tab-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tap Size</th>
-                                <th>Type</th>
-                                <th>Form Tap Drill</th>
-                                <th>Decimal (in)</th>
-                                <th>Decimal (mm)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="formtap-tbody">
-                        </tbody>
-                    </table>
-                </div>
+                        <div id="drills-tab" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Size (Fraction / Letter / Wire)</th>
+                                        <th>Decimal (inch)</th>
+                                        <th>Decimal (mm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="drills-tbody">
+                                </tbody>
+                            </table>
+                        </div>
 
-                <div id="cutting-speed-tab" class="tab-content" style="height: 60vh;">
-                    <canvas id="sfmChart"></canvas>
-                </div>
-            </div>
+                        <div id="cut-tap-tab" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tap Size</th>
+                                        <th>Type</th>
+                                        <th>Cut Tap Drill</th>
+                                        <th>Decimal (in)</th>
+                                        <th>Decimal (mm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cuttap-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="form-tap-tab" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tap Size</th>
+                                        <th>Type</th>
+                                        <th>Form Tap Drill</th>
+                                        <th>Decimal (in)</th>
+                                        <th>Decimal (mm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="formtap-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="cutting-speed-tab" class="tab-content" style="height: 60vh;">
+                            <canvas id="sfmChart"></canvas>
+                        </div>
+                    </div>
         </main>
         <my-footer></my-footer>
     </div>
@@ -319,7 +341,7 @@
                     let parts = sizeStr.substring(1).split('x').map(p => p.trim());
                     diaIn = parseFloat(parts[0]) / 25.4;
                     let pitchMm = parseFloat(parts[1]);
-                    tpi = 25.4 / pitchMm; 
+                    tpi = 25.4 / pitchMm;
                 } else {
                     // Imperial e.g., "#0-80 UNF", "1/4-20 UNC", "1\"-8 UNC"
                     let parts = sizeStr.split('-');
@@ -348,7 +370,7 @@
             const updateFeed = () => {
                 const tpi = parseFloat(feedPitchInput.value);
                 const rpm = parseFloat(feedRpmInput.value);
-                
+
                 if (!isNaN(tpi) && !isNaN(rpm) && tpi > 0) {
                     const feed = rpm / tpi;
                     feedIpmInput.value = feed.toFixed(2);
@@ -362,17 +384,17 @@
                 if (!tapSize) return;
                 const parsed = parseTapSize(tapSize);
                 currentTapDiameter = parsed.diameter;
-                
+
                 // Populate feed calculator pitch (TPI equivalent)
                 feedPitchInput.value = (Math.round(parsed.tpi * 1000) / 1000).toString();
-                
+
                 // Trigger RPM recalculation if SFM is present
                 if (tapSfmInput.value) {
                     tapSfmInput.dispatchEvent(new Event('input'));
                 } else if (tapRpmInput.value) {
                     tapRpmInput.dispatchEvent(new Event('input'));
                 }
-                
+
                 updateFeed();
             });
 
@@ -432,7 +454,7 @@
         if (document.body.classList.contains('light-mode') || (darkModeToggle && !darkModeToggle.checked)) {
             if (arrows) arrows.style.color = 'black';
         }
-        
+
         document.head.insertAdjacentHTML("beforeend", `<style>
             .light-mode .converter-arrows { color: black !important; }
         </style>`);
@@ -446,7 +468,7 @@
                 // Remove active class from all
                 tabBtns.forEach(b => b.classList.remove('active'));
                 tabContents.forEach(c => c.classList.remove('active'));
-                
+
                 // Add active class to clicked
                 btn.classList.add('active');
                 const targetId = btn.getAttribute('data-target');
@@ -461,16 +483,16 @@
             tbody.innerHTML = data.map(rowGenerator).join('');
         };
 
-        populateTable('class2b-tbody', dashboardData.class2bThreads, row => 
-            `<tr><td>${row.size}</td><td>${row.drill}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
+        populateTable('class2b-tbody', dashboardData.class2bThreads, row =>
+            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
         );
 
-        populateTable('drills-tbody', dashboardData.drillSizes, row => 
+        populateTable('drills-tbody', dashboardData.drillSizes, row =>
             `<tr><td>${row.size}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`
         );
 
         const tapRowGen = row => `<tr><td>${row.size}</td><td>${row.type}</td><td>${row.drill}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`;
-        
+
         populateTable('cuttap-tbody', dashboardData.cutTapSizes, tapRowGen);
         populateTable('formtap-tbody', dashboardData.formTapSizes, tapRowGen);
 
@@ -538,4 +560,5 @@
         setTimeout(initChart, 100);
     </script>
 </body>
+
 </html>

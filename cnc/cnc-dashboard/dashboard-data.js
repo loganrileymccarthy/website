@@ -1717,108 +1717,284 @@ const dashboardData = {
 ],
     class2bThreads: [
     {
-        "size": "4-40 UNC",
-        "drill": "#43",
+        "size": "#0-80 UNF",
+        "minorMin": 0.0465,
+        "minorMax": 0.0514,
+        "pitchMin": 0.0519,
+        "pitchMax": 0.0542
+    },
+    {
+        "size": "#1-64 UNC",
+        "minorMin": 0.0561,
+        "minorMax": 0.0623,
+        "pitchMin": 0.0629,
+        "pitchMax": 0.0655
+    },
+    {
+        "size": "#1-72 UNF",
+        "minorMin": 0.0580,
+        "minorMax": 0.0634,
+        "pitchMin": 0.0640,
+        "pitchMax": 0.0665
+    },
+    {
+        "size": "#2-56 UNC",
+        "minorMin": 0.0667,
+        "minorMax": 0.0737,
+        "pitchMin": 0.0744,
+        "pitchMax": 0.0772
+    },
+    {
+        "size": "#2-64 UNF",
+        "minorMin": 0.0691,
+        "minorMax": 0.0753,
+        "pitchMin": 0.0759,
+        "pitchMax": 0.0786
+    },
+    {
+        "size": "#3-48 UNC",
+        "minorMin": 0.0764,
+        "minorMax": 0.0844,
+        "pitchMin": 0.0855,
+        "pitchMax": 0.0885
+    },
+    {
+        "size": "#3-56 UNF",
+        "minorMin": 0.0797,
+        "minorMax": 0.0867,
+        "pitchMin": 0.0874,
+        "pitchMax": 0.0902
+    },
+    {
+        "size": "#4-40 UNC",
         "minorMin": 0.0849,
         "minorMax": 0.0939,
         "pitchMin": 0.0958,
         "pitchMax": 0.0991
     },
     {
-        "size": "6-32 UNC",
-        "drill": "#36",
+        "size": "#4-48 UNF",
+        "minorMin": 0.0894,
+        "minorMax": 0.0974,
+        "pitchMin": 0.0985,
+        "pitchMax": 0.1016
+    },
+    {
+        "size": "#5-40 UNC",
+        "minorMin": 0.0979,
+        "minorMax": 0.1069,
+        "pitchMin": 0.1088,
+        "pitchMax": 0.1121
+    },
+    {
+        "size": "#5-44 UNF",
+        "minorMin": 0.1004,
+        "minorMax": 0.1089,
+        "pitchMin": 0.1102,
+        "pitchMax": 0.1134
+    },
+    {
+        "size": "#6-32 UNC",
         "minorMin": 0.1042,
         "minorMax": 0.1143,
         "pitchMin": 0.1177,
         "pitchMax": 0.1214
     },
     {
-        "size": "8-32 UNC",
-        "drill": "#29",
+        "size": "#6-40 UNF",
+        "minorMin": 0.1109,
+        "minorMax": 0.1199,
+        "pitchMin": 0.1218,
+        "pitchMax": 0.1252
+    },
+    {
+        "size": "#8-32 UNC",
         "minorMin": 0.1302,
         "minorMax": 0.1389,
         "pitchMin": 0.1437,
         "pitchMax": 0.1475
     },
     {
-        "size": "10-24 UNC",
-        "drill": "#25",
-        "minorMin": 0.135,
+        "size": "#8-36 UNF",
+        "minorMin": 0.1339,
+        "minorMax": 0.1424,
+        "pitchMin": 0.1460,
+        "pitchMax": 0.1496
+    },
+    {
+        "size": "#10-24 UNC",
+        "minorMin": 0.1350,
         "minorMax": 0.1494,
         "pitchMin": 0.1629,
         "pitchMax": 0.1672
     },
     {
-        "size": "10-32 UNF",
-        "drill": "#21",
+        "size": "#10-32 UNF",
         "minorMin": 0.1562,
         "minorMax": 0.1643,
         "pitchMin": 0.1697,
         "pitchMax": 0.1736
     },
     {
+        "size": "#12-24 UNC",
+        "minorMin": 0.1610,
+        "minorMax": 0.1754,
+        "pitchMin": 0.1889,
+        "pitchMax": 0.1933
+    },
+    {
+        "size": "#12-28 UNF",
+        "minorMin": 0.1770,
+        "minorMax": 0.1856,
+        "pitchMin": 0.1928,
+        "pitchMax": 0.1970
+    },
+    {
         "size": "1/4-20 UNC",
-        "drill": "#7",
-        "minorMin": 0.196,
-        "minorMax": 0.207,
+        "minorMin": 0.1960,
+        "minorMax": 0.2070,
         "pitchMin": 0.2175,
         "pitchMax": 0.2224
     },
     {
         "size": "1/4-28 UNF",
-        "drill": "#3",
-        "minorMin": 0.211,
-        "minorMax": 0.22,
+        "minorMin": 0.2110,
+        "minorMax": 0.2200,
         "pitchMin": 0.2268,
         "pitchMax": 0.2311
     },
     {
         "size": "5/16-18 UNC",
-        "drill": "F",
-        "minorMin": 0.252,
-        "minorMax": 0.265,
+        "minorMin": 0.2520,
+        "minorMax": 0.2650,
         "pitchMin": 0.2764,
         "pitchMax": 0.2817
     },
     {
         "size": "5/16-24 UNF",
-        "drill": "I",
-        "minorMin": 0.267,
-        "minorMax": 0.277,
+        "minorMin": 0.2670,
+        "minorMax": 0.2770,
         "pitchMin": 0.2854,
         "pitchMax": 0.2902
     },
     {
         "size": "3/8-16 UNC",
-        "drill": "5/16",
-        "minorMin": 0.307,
-        "minorMax": 0.321,
+        "minorMin": 0.3070,
+        "minorMax": 0.3210,
         "pitchMin": 0.3344,
         "pitchMax": 0.3401
     },
     {
         "size": "3/8-24 UNF",
-        "drill": "Q",
-        "minorMin": 0.33,
-        "minorMax": 0.34,
+        "minorMin": 0.3300,
+        "minorMax": 0.3400,
         "pitchMin": 0.3479,
         "pitchMax": 0.3528
     },
     {
+        "size": "7/16-14 UNC",
+        "minorMin": 0.3600,
+        "minorMax": 0.3760,
+        "pitchMin": 0.3911,
+        "pitchMax": 0.3973
+    },
+    {
+        "size": "7/16-20 UNF",
+        "minorMin": 0.3830,
+        "minorMax": 0.3950,
+        "pitchMin": 0.4050,
+        "pitchMax": 0.4104
+    },
+    {
         "size": "1/2-13 UNC",
-        "drill": "27/64",
-        "minorMin": 0.417,
-        "minorMax": 0.434,
-        "pitchMin": 0.45,
+        "minorMin": 0.4170,
+        "minorMax": 0.4340,
+        "pitchMin": 0.4500,
         "pitchMax": 0.4565
     },
     {
         "size": "1/2-20 UNF",
-        "drill": "29/64",
-        "minorMin": 0.446,
-        "minorMax": 0.457,
+        "minorMin": 0.4460,
+        "minorMax": 0.4570,
         "pitchMin": 0.4675,
         "pitchMax": 0.4731
+    },
+    {
+        "size": "9/16-12 UNC",
+        "minorMin": 0.4720,
+        "minorMax": 0.4900,
+        "pitchMin": 0.5084,
+        "pitchMax": 0.5152
+    },
+    {
+        "size": "9/16-18 UNF",
+        "minorMin": 0.5020,
+        "minorMax": 0.5150,
+        "pitchMin": 0.5264,
+        "pitchMax": 0.5323
+    },
+    {
+        "size": "5/8-11 UNC",
+        "minorMin": 0.5270,
+        "minorMax": 0.5460,
+        "pitchMin": 0.5660,
+        "pitchMax": 0.5732
+    },
+    {
+        "size": "5/8-18 UNF",
+        "minorMin": 0.5650,
+        "minorMax": 0.5780,
+        "pitchMin": 0.5889,
+        "pitchMax": 0.5949
+    },
+    {
+        "size": "3/4-10 UNC",
+        "minorMin": 0.6420,
+        "minorMax": 0.6630,
+        "pitchMin": 0.6850,
+        "pitchMax": 0.6927
+    },
+    {
+        "size": "3/4-16 UNF",
+        "minorMin": 0.6820,
+        "minorMax": 0.6960,
+        "pitchMin": 0.7094,
+        "pitchMax": 0.7159
+    },
+    {
+        "size": "7/8-9 UNC",
+        "minorMin": 0.7550,
+        "minorMax": 0.7780,
+        "pitchMin": 0.8028,
+        "pitchMax": 0.8110
+    },
+    {
+        "size": "7/8-14 UNF",
+        "minorMin": 0.7980,
+        "minorMax": 0.8140,
+        "pitchMin": 0.8286,
+        "pitchMax": 0.8356
+    },
+    {
+        "size": "1\"-8 UNC",
+        "minorMin": 0.8650,
+        "minorMax": 0.8900,
+        "pitchMin": 0.9188,
+        "pitchMax": 0.9276
+    },
+    {
+        "size": "1\"-12 UNF",
+        "minorMin": 0.9110,
+        "minorMax": 0.9280,
+        "pitchMin": 0.9459,
+        "pitchMax": 0.9535
+    },
+    {
+        "size": "1\"-14 UNF",
+        "minorMin": 0.9230,
+        "minorMax": 0.9390,
+        "pitchMin": 0.9536,
+        "pitchMax": 0.9609
     }
 ]
 };
