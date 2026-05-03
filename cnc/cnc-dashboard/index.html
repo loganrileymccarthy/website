@@ -190,7 +190,7 @@
                     </div>
 
                     <div class="calculator-panel">
-                        <h3>Tap RPM Calculator</h3>
+                        <h3>Tap Speed Calculator</h3>
                         <div class="calc-col">
                             <label>Tap Size</label>
                             <select id="tap-select">
@@ -235,8 +235,7 @@
                         <div class="tab-buttons">
                             <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
                             <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
-                            <button class="tab-btn" data-target="cut-tap-tab">Cut Taps</button>
-                            <button class="tab-btn" data-target="form-tap-tab">Form Taps</button>
+                            <button class="tab-btn" data-target="tap-sizes-tab">Tap Sizes</button>
                             <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
                         </div>
 
@@ -270,34 +269,17 @@
                             </table>
                         </div>
 
-                        <div id="cut-tap-tab" class="tab-content">
+                        <div id="tap-sizes-tab" class="tab-content">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Tap Size</th>
                                         <th>Type</th>
                                         <th>Cut Tap Drill</th>
-                                        <th>Decimal (in)</th>
-                                        <th>Decimal (mm)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="cuttap-tbody">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div id="form-tap-tab" class="tab-content">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Tap Size</th>
-                                        <th>Type</th>
                                         <th>Form Tap Drill</th>
-                                        <th>Decimal (in)</th>
-                                        <th>Decimal (mm)</th>
                                     </tr>
                                 </thead>
-                                <tbody id="formtap-tbody">
+                                <tbody id="taps-tbody">
                                 </tbody>
                             </table>
                         </div>
@@ -323,7 +305,7 @@
 
         if (tapSelect) {
             // Populate tap select
-            const uniqueTaps = [...new Set(dashboardData.cutTapSizes.map(t => t.size))];
+            const uniqueTaps = [...new Set(dashboardData.tapSizes.map(t => t.size))];
             uniqueTaps.forEach(size => {
                 const option = document.createElement('option');
                 option.value = size;
@@ -487,14 +469,23 @@
             `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
         );
 
-        populateTable('drills-tbody', dashboardData.drillSizes, row =>
+        const allDrills = [
+            ...(dashboardData.drillsFraction || []),
+            ...(dashboardData.drillsNumber || []),
+            ...(dashboardData.drillsLetter || [])
+        ].sort((a, b) => a.decimalIn - b.decimalIn);
+
+        populateTable('drills-tbody', allDrills, row =>
             `<tr><td>${row.size}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`
         );
 
-        const tapRowGen = row => `<tr><td>${row.size}</td><td>${row.type}</td><td>${row.drill}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`;
+        const tapRowGen = row => {
+            const cutDrill = row.pilotDiaCut || '-';
+            const formDrill = row.pilotDiaForm || '-';
+            return `<tr><td>${row.size}</td><td>${row.type}</td><td>${cutDrill}</td><td>${formDrill}</td></tr>`;
+        };
 
-        populateTable('cuttap-tbody', dashboardData.cutTapSizes, tapRowGen);
-        populateTable('formtap-tbody', dashboardData.formTapSizes, tapRowGen);
+        populateTable('taps-tbody', dashboardData.tapSizes, tapRowGen);
 
         // Chart.js Logic for Cutting Speed
         const initChart = () => {
