@@ -1750,6 +1750,430 @@ const dashboardData = {
             "pilotDiaFormDecimalIn": 0.9062,
             "pilotDiaFormDecimalMm": 23.019
         }
+    ],
+    "class6hCoarseThreads": [
+        {
+            "size": "M1",
+            "minorMin": 0.729,
+            "minorMax": 0.785,
+            "pitchMin": 0.838,
+            "pitchMax": 0.894
+        },
+        {
+            "size": "M1.2",
+            "minorMin": 0.929,
+            "minorMax": 0.985,
+            "pitchMin": 1.038,
+            "pitchMax": 1.094
+        },
+        {
+            "size": "M1.4",
+            "minorMin": 1.075,
+            "minorMax": 1.142,
+            "pitchMin": 1.205,
+            "pitchMax": 1.265
+        },
+        {
+            "size": "M1.6",
+            "minorMin": 1.221,
+            "minorMax": 1.321,
+            "pitchMin": 1.373,
+            "pitchMax": 1.458
+        },
+        {
+            "size": "M1.8",
+            "minorMin": 1.421,
+            "minorMax": 1.521,
+            "pitchMin": 1.573,
+            "pitchMax": 1.658
+        },
+        {
+            "size": "M2",
+            "minorMin": 1.567,
+            "minorMax": 1.679,
+            "pitchMin": 1.74,
+            "pitchMax": 1.83
+        },
+        {
+            "size": "M2.5",
+            "minorMin": 2.013,
+            "minorMax": 2.138,
+            "pitchMin": 2.208,
+            "pitchMax": 2.303
+        },
+        {
+            "size": "M3",
+            "minorMin": 2.459,
+            "minorMax": 2.599,
+            "pitchMin": 2.675,
+            "pitchMax": 2.775
+        },
+        {
+            "size": "M3.5",
+            "minorMin": 2.85,
+            "minorMax": 3.01,
+            "pitchMin": 3.11,
+            "pitchMax": 3.222
+        },
+        {
+            "size": "M4",
+            "minorMin": 3.242,
+            "minorMax": 3.422,
+            "pitchMin": 3.545,
+            "pitchMax": 3.663
+        },
+        {
+            "size": "M5",
+            "minorMin": 4.134,
+            "minorMax": 4.334,
+            "pitchMin": 4.48,
+            "pitchMax": 4.605
+        },
+        {
+            "size": "M6",
+            "minorMin": 4.917,
+            "minorMax": 5.153,
+            "pitchMin": 5.35,
+            "pitchMax": 5.5
+        },
+        {
+            "size": "M7",
+            "minorMin": 5.917,
+            "minorMax": 6.153,
+            "pitchMin": 6.35,
+            "pitchMax": 6.5
+        },
+        {
+            "size": "M8",
+            "minorMin": 6.647,
+            "minorMax": 6.912,
+            "pitchMin": 7.188,
+            "pitchMax": 7.348
+        },
+        {
+            "size": "M10",
+            "minorMin": 8.376,
+            "minorMax": 8.676,
+            "pitchMin": 9.026,
+            "pitchMax": 9.206
+        },
+        {
+            "size": "M12",
+            "minorMin": 10.106,
+            "minorMax": 10.441,
+            "pitchMin": 10.863,
+            "pitchMax": 11.063
+        },
+        {
+            "size": "M14",
+            "minorMin": 11.835,
+            "minorMax": 12.21,
+            "pitchMin": 12.701,
+            "pitchMax": 12.913
+        },
+        {
+            "size": "M16",
+            "minorMin": 13.835,
+            "minorMax": 14.21,
+            "pitchMin": 14.701,
+            "pitchMax": 14.913
+        },
+        {
+            "size": "M18",
+            "minorMin": 15.294,
+            "minorMax": 15.744,
+            "pitchMin": 16.376,
+            "pitchMax": 16.6
+        },
+        {
+            "size": "M20",
+            "minorMin": 17.294,
+            "minorMax": 17.744,
+            "pitchMin": 18.376,
+            "pitchMax": 18.6
+        },
+        {
+            "size": "M22",
+            "minorMin": 19.294,
+            "minorMax": 19.744,
+            "pitchMin": 20.376,
+            "pitchMax": 20.6
+        },
+        {
+            "size": "M24",
+            "minorMin": 20.752,
+            "minorMax": 21.252,
+            "pitchMin": 22.051,
+            "pitchMax": 22.316
+        },
+        {
+            "size": "M27",
+            "minorMin": 23.752,
+            "minorMax": 24.252,
+            "pitchMin": 25.051,
+            "pitchMax": 25.316
+        },
+        {
+            "size": "M30",
+            "minorMin": 26.211,
+            "minorMax": 26.771,
+            "pitchMin": 27.727,
+            "pitchMax": 28.007
+        },
+        {
+            "size": "M33",
+            "minorMin": 29.211,
+            "minorMax": 29.771,
+            "pitchMin": 30.727,
+            "pitchMax": 31.007
+        },
+        {
+            "size": "M36",
+            "minorMin": 31.67,
+            "minorMax": 32.27,
+            "pitchMin": 33.402,
+            "pitchMax": 33.702
+        },
+        {
+            "size": "M39",
+            "minorMin": 34.67,
+            "minorMax": 35.27,
+            "pitchMin": 36.402,
+            "pitchMax": 36.702
+        },
+        {
+            "size": "M42",
+            "minorMin": 37.129,
+            "minorMax": 37.799,
+            "pitchMin": 39.077,
+            "pitchMax": 39.392
+        },
+        {
+            "size": "M45",
+            "minorMin": 40.129,
+            "minorMax": 40.799,
+            "pitchMin": 42.077,
+            "pitchMax": 42.392
+        },
+        {
+            "size": "M48",
+            "minorMin": 42.587,
+            "minorMax": 43.297,
+            "pitchMin": 44.752,
+            "pitchMax": 45.087
+        },
+        {
+            "size": "M52",
+            "minorMin": 46.587,
+            "minorMax": 47.297,
+            "pitchMin": 48.752,
+            "pitchMax": 49.087
+        },
+        {
+            "size": "M56",
+            "minorMin": 50.046,
+            "minorMax": 50.796,
+            "pitchMin": 52.428,
+            "pitchMax": 52.783
+        },
+        {
+            "size": "M60",
+            "minorMin": 54.046,
+            "minorMax": 54.796,
+            "pitchMin": 56.428,
+            "pitchMax": 56.783
+        },
+        {
+            "size": "M64",
+            "minorMin": 57.505,
+            "minorMax": 58.305,
+            "pitchMin": 60.103,
+            "pitchMax": 60.478
+        }
+    ],
+    "class6hFineThreads": [
+        {
+            "size": "M8X1",
+            "minorMin": 6.917,
+            "minorMax": 7.153,
+            "pitchMin": 7.35,
+            "pitchMax": 7.5
+        },
+        {
+            "size": "M10X1",
+            "minorMin": 8.917,
+            "minorMax": 9.153,
+            "pitchMin": 9.35,
+            "pitchMax": 9.5
+        },
+        {
+            "size": "M10X1.25",
+            "minorMin": 8.647,
+            "minorMax": 8.912,
+            "pitchMin": 9.188,
+            "pitchMax": 9.348
+        },
+        {
+            "size": "M12X1.25",
+            "minorMin": 10.647,
+            "minorMax": 10.912,
+            "pitchMin": 11.188,
+            "pitchMax": 11.368
+        },
+        {
+            "size": "M12X1.5",
+            "minorMin": 10.376,
+            "minorMax": 10.676,
+            "pitchMin": 11.026,
+            "pitchMax": 11.216
+        },
+        {
+            "size": "M14X1.5",
+            "minorMin": 12.376,
+            "minorMax": 12.676,
+            "pitchMin": 13.026,
+            "pitchMax": 13.216
+        },
+        {
+            "size": "M16X1.5",
+            "minorMin": 14.376,
+            "minorMax": 14.676,
+            "pitchMin": 15.026,
+            "pitchMax": 15.216
+        },
+        {
+            "size": "M18X1.5",
+            "minorMin": 16.376,
+            "minorMax": 16.676,
+            "pitchMin": 17.026,
+            "pitchMax": 17.216
+        },
+        {
+            "size": "M18X2",
+            "minorMin": 15.835,
+            "minorMax": 16.21,
+            "pitchMin": 16.701,
+            "pitchMax": 16.913
+        },
+        {
+            "size": "M20X1.5",
+            "minorMin": 18.376,
+            "minorMax": 18.676,
+            "pitchMin": 19.026,
+            "pitchMax": 19.216
+        },
+        {
+            "size": "M20X2",
+            "minorMin": 17.835,
+            "minorMax": 18.21,
+            "pitchMin": 18.701,
+            "pitchMax": 18.913
+        },
+        {
+            "size": "M22X1.5",
+            "minorMin": 20.376,
+            "minorMax": 20.676,
+            "pitchMin": 21.026,
+            "pitchMax": 21.216
+        },
+        {
+            "size": "M22X2",
+            "minorMin": 19.835,
+            "minorMax": 20.21,
+            "pitchMin": 20.701,
+            "pitchMax": 20.913
+        },
+        {
+            "size": "M24X2",
+            "minorMin": 21.835,
+            "minorMax": 22.21,
+            "pitchMin": 22.701,
+            "pitchMax": 22.925
+        },
+        {
+            "size": "M27X2",
+            "minorMin": 24.835,
+            "minorMax": 25.21,
+            "pitchMin": 25.701,
+            "pitchMax": 25.925
+        },
+        {
+            "size": "M30X2",
+            "minorMin": 27.835,
+            "minorMax": 28.21,
+            "pitchMin": 28.701,
+            "pitchMax": 28.925
+        },
+        {
+            "size": "M33X2",
+            "minorMin": 30.835,
+            "minorMax": 31.21,
+            "pitchMin": 31.701,
+            "pitchMax": 31.925
+        },
+        {
+            "size": "M36X3",
+            "minorMin": 32.752,
+            "minorMax": 33.252,
+            "pitchMin": 34.051,
+            "pitchMax": 34.316
+        },
+        {
+            "size": "M39X3",
+            "minorMin": 35.752,
+            "minorMax": 36.252,
+            "pitchMin": 37.051,
+            "pitchMax": 37.316
+        },
+        {
+            "size": "M42X3",
+            "minorMin": 38.752,
+            "minorMax": 39.252,
+            "pitchMin": 40.051,
+            "pitchMax": 40.316
+        },
+        {
+            "size": "M45X3",
+            "minorMin": 41.752,
+            "minorMax": 42.252,
+            "pitchMin": 43.051,
+            "pitchMax": 43.316
+        },
+        {
+            "size": "M48X3",
+            "minorMin": 44.752,
+            "minorMax": 45.252,
+            "pitchMin": 46.051,
+            "pitchMax": 46.331
+        },
+        {
+            "size": "M52X4",
+            "minorMin": 47.67,
+            "minorMax": 48.27,
+            "pitchMin": 49.402,
+            "pitchMax": 49.717
+        },
+        {
+            "size": "M56X4",
+            "minorMin": 51.67,
+            "minorMax": 52.27,
+            "pitchMin": 53.402,
+            "pitchMax": 53.717
+        },
+        {
+            "size": "M60X4",
+            "minorMin": 55.67,
+            "minorMax": 56.27,
+            "pitchMin": 57.402,
+            "pitchMax": 57.717
+        },
+        {
+            "size": "M64X4",
+            "minorMin": 59.67,
+            "minorMax": 60.27,
+            "pitchMin": 61.402,
+            "pitchMax": 61.717
+        }
     ]
 };
 

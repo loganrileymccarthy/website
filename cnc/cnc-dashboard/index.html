@@ -234,6 +234,8 @@
                     <div class="tab-container">
                         <div class="tab-buttons">
                             <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
+                            <button class="tab-btn" data-target="class6h-coarse-tab">Class 6H Coarse</button>
+                            <button class="tab-btn" data-target="class6h-fine-tab">Class 6H Fine</button>
                             <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
                             <button class="tab-btn" data-target="tap-sizes-tab">Tap Sizes</button>
                             <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
@@ -251,6 +253,38 @@
                                     </tr>
                                 </thead>
                                 <tbody id="class2b-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="class6h-coarse-tab" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Thread Size</th>
+                                        <th>Minor Dia Min</th>
+                                        <th>Minor Dia Max</th>
+                                        <th>Pitch Dia Min</th>
+                                        <th>Pitch Dia Max</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="class6h-coarse-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="class6h-fine-tab" class="tab-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Thread Size</th>
+                                        <th>Minor Dia Min</th>
+                                        <th>Minor Dia Max</th>
+                                        <th>Pitch Dia Min</th>
+                                        <th>Pitch Dia Max</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="class6h-fine-tbody">
                                 </tbody>
                             </table>
                         </div>
@@ -466,6 +500,14 @@
         };
 
         populateTable('class2b-tbody', dashboardData.class2bThreads, row =>
+            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
+        );
+
+        populateTable('class6h-coarse-tbody', dashboardData.class6hCoarseThreads, row =>
+            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
+        );
+
+        populateTable('class6h-fine-tbody', dashboardData.class6hFineThreads, row =>
             `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
         );
 
