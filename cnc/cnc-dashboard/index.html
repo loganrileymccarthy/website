@@ -233,58 +233,51 @@
                 <div class="right-panel">
                     <div class="tab-container">
                         <div class="tab-buttons">
-                            <button class="tab-btn active" data-target="threads-tab">Class 2B Threads</button>
-                            <button class="tab-btn" data-target="class6h-coarse-tab">Class 6H Coarse</button>
-                            <button class="tab-btn" data-target="class6h-fine-tab">Class 6H Fine</button>
+                            <button class="tab-btn active" data-target="metric-threads-tab">Metric Threads</button>
+                            <button class="tab-btn" data-target="unified-threads-tab">Unified Threads</button>
                             <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
                             <button class="tab-btn" data-target="tap-sizes-tab">Tap Sizes</button>
                             <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
                         </div>
 
-                        <div id="threads-tab" class="tab-content active">
+                        <div id="metric-threads-tab" class="tab-content active">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Thread Size</th>
-                                        <th>Minor Dia Min</th>
-                                        <th>Minor Dia Max</th>
-                                        <th>Pitch Dia Min</th>
-                                        <th>Pitch Dia Max</th>
+                                        <th>Size</th>
+                                        <th>Class</th>
+                                        <th>Ext Major Max</th>
+                                        <th>Ext Major Min</th>
+                                        <th>Ext Pitch Max</th>
+                                        <th>Ext Pitch Min</th>
+                                        <th>Int Pitch Max</th>
+                                        <th>Int Pitch Min</th>
+                                        <th>Int Minor Max</th>
+                                        <th>Int Minor Min</th>
                                     </tr>
                                 </thead>
-                                <tbody id="class2b-tbody">
+                                <tbody id="metric-threads-tbody">
                                 </tbody>
                             </table>
                         </div>
 
-                        <div id="class6h-coarse-tab" class="tab-content">
+                        <div id="unified-threads-tab" class="tab-content">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Thread Size</th>
-                                        <th>Minor Dia Min</th>
-                                        <th>Minor Dia Max</th>
-                                        <th>Pitch Dia Min</th>
-                                        <th>Pitch Dia Max</th>
+                                        <th>Size</th>
+                                        <th>Class</th>
+                                        <th>Ext Major Max</th>
+                                        <th>Ext Major Min</th>
+                                        <th>Ext Pitch Max</th>
+                                        <th>Ext Pitch Min</th>
+                                        <th>Int Pitch Max</th>
+                                        <th>Int Pitch Min</th>
+                                        <th>Int Minor Max</th>
+                                        <th>Int Minor Min</th>
                                     </tr>
                                 </thead>
-                                <tbody id="class6h-coarse-tbody">
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div id="class6h-fine-tab" class="tab-content">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Thread Size</th>
-                                        <th>Minor Dia Min</th>
-                                        <th>Minor Dia Max</th>
-                                        <th>Pitch Dia Min</th>
-                                        <th>Pitch Dia Max</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="class6h-fine-tbody">
+                                <tbody id="unified-threads-tbody">
                                 </tbody>
                             </table>
                         </div>
@@ -499,17 +492,21 @@
             tbody.innerHTML = data.map(rowGenerator).join('');
         };
 
-        populateTable('class2b-tbody', dashboardData.class2bThreads, row =>
-            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
-        );
+        const threadRowGen = row => `<tr>
+            <td>${row.size}</td>
+            <td>${row.class || '-'}</td>
+            <td>${row.extMajorMax ? row.extMajorMax.toFixed(4) : '-'}</td>
+            <td>${row.extMajorMin ? row.extMajorMin.toFixed(4) : '-'}</td>
+            <td>${row.extPitchMax ? row.extPitchMax.toFixed(4) : '-'}</td>
+            <td>${row.extPitchMin ? row.extPitchMin.toFixed(4) : '-'}</td>
+            <td>${row.intPitchMax ? row.intPitchMax.toFixed(4) : '-'}</td>
+            <td>${row.intPitchMin ? row.intPitchMin.toFixed(4) : '-'}</td>
+            <td>${row.intMinorMax ? row.intMinorMax.toFixed(4) : '-'}</td>
+            <td>${row.intMinorMin ? row.intMinorMin.toFixed(4) : '-'}</td>
+        </tr>`;
 
-        populateTable('class6h-coarse-tbody', dashboardData.class6hCoarseThreads, row =>
-            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
-        );
-
-        populateTable('class6h-fine-tbody', dashboardData.class6hFineThreads, row =>
-            `<tr><td>${row.size}</td><td>${row.minorMin.toFixed(4)}</td><td>${row.minorMax.toFixed(4)}</td><td>${row.pitchMin.toFixed(4)}</td><td>${row.pitchMax.toFixed(4)}</td></tr>`
-        );
+        populateTable('metric-threads-tbody', dashboardData.metricThreads, threadRowGen);
+        populateTable('unified-threads-tbody', dashboardData.unifiedThreads, threadRowGen);
 
         const allDrills = [
             ...(dashboardData.drillsFraction || []),
