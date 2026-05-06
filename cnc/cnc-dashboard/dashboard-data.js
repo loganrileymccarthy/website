@@ -1,5 +1,3 @@
-// Auto-generated Dashboard Data
-
 const dashboardData = {
     "drillsNumber": [
         {
@@ -847,628 +845,6 @@ const dashboardData = {
             "decimalMm": 25.4
         }
     ],
-    "tapSizes": [
-        {
-            "size": "#0-80 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "3/64",
-            "pilotDiaCutDecimalIn": 0.0469,
-            "pilotDiaCutDecimalMm": 1.191,
-            "pilotDiaForm": "#54",
-            "pilotDiaFormDecimalIn": 0.055,
-            "pilotDiaFormDecimalMm": 1.397
-        },
-        {
-            "size": "#1-64 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#53",
-            "pilotDiaCutDecimalIn": 0.0595,
-            "pilotDiaCutDecimalMm": 1.511,
-            "pilotDiaForm": "#51",
-            "pilotDiaFormDecimalIn": 0.067,
-            "pilotDiaFormDecimalMm": 1.702
-        },
-        {
-            "size": "#1-72 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#53",
-            "pilotDiaCutDecimalIn": 0.0595,
-            "pilotDiaCutDecimalMm": 1.511,
-            "pilotDiaForm": "#51",
-            "pilotDiaFormDecimalIn": 0.067,
-            "pilotDiaFormDecimalMm": 1.702
-        },
-        {
-            "size": "#2-56 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#50",
-            "pilotDiaCutDecimalIn": 0.07,
-            "pilotDiaCutDecimalMm": 1.778,
-            "pilotDiaForm": "5/64",
-            "pilotDiaFormDecimalIn": 0.0781,
-            "pilotDiaFormDecimalMm": 1.984
-        },
-        {
-            "size": "#2-64 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#50",
-            "pilotDiaCutDecimalIn": 0.07,
-            "pilotDiaCutDecimalMm": 1.778,
-            "pilotDiaForm": "#47",
-            "pilotDiaFormDecimalIn": 0.0785,
-            "pilotDiaFormDecimalMm": 1.994
-        },
-        {
-            "size": "#3-48 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#47",
-            "pilotDiaCutDecimalIn": 0.0785,
-            "pilotDiaCutDecimalMm": 1.994,
-            "pilotDiaForm": "#43",
-            "pilotDiaFormDecimalIn": 0.089,
-            "pilotDiaFormDecimalMm": 2.261
-        },
-        {
-            "size": "#3-56 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#45",
-            "pilotDiaCutDecimalIn": 0.082,
-            "pilotDiaCutDecimalMm": 2.083,
-            "pilotDiaForm": "#43",
-            "pilotDiaFormDecimalIn": 0.089,
-            "pilotDiaFormDecimalMm": 2.261
-        },
-        {
-            "size": "#4-40 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#43",
-            "pilotDiaCutDecimalIn": 0.089,
-            "pilotDiaCutDecimalMm": 2.261,
-            "pilotDiaForm": "#38",
-            "pilotDiaFormDecimalIn": 0.1015,
-            "pilotDiaFormDecimalMm": 2.578
-        },
-        {
-            "size": "#4-48 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#42",
-            "pilotDiaCutDecimalIn": 0.0935,
-            "pilotDiaCutDecimalMm": 2.375,
-            "pilotDiaForm": "#37",
-            "pilotDiaFormDecimalIn": 0.104,
-            "pilotDiaFormDecimalMm": 2.642
-        },
-        {
-            "size": "#5-40 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#38",
-            "pilotDiaCutDecimalIn": 0.1015,
-            "pilotDiaCutDecimalMm": 2.578,
-            "pilotDiaForm": "#33",
-            "pilotDiaFormDecimalIn": 0.113,
-            "pilotDiaFormDecimalMm": 2.87
-        },
-        {
-            "size": "#5-44 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#37",
-            "pilotDiaCutDecimalIn": 0.104,
-            "pilotDiaCutDecimalMm": 2.642,
-            "pilotDiaForm": "#32",
-            "pilotDiaFormDecimalIn": 0.116,
-            "pilotDiaFormDecimalMm": 2.946
-        },
-        {
-            "size": "#6-32 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#36",
-            "pilotDiaCutDecimalIn": 0.1065,
-            "pilotDiaCutDecimalMm": 2.705,
-            "pilotDiaForm": "1/8",
-            "pilotDiaFormDecimalIn": 0.125,
-            "pilotDiaFormDecimalMm": 3.175
-        },
-        {
-            "size": "#6-40 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#33",
-            "pilotDiaCutDecimalIn": 0.113,
-            "pilotDiaCutDecimalMm": 2.87,
-            "pilotDiaForm": "#30",
-            "pilotDiaFormDecimalIn": 0.1285,
-            "pilotDiaFormDecimalMm": 3.264
-        },
-        {
-            "size": "#8-32 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#29",
-            "pilotDiaCutDecimalIn": 0.136,
-            "pilotDiaCutDecimalMm": 3.454,
-            "pilotDiaForm": "#25",
-            "pilotDiaFormDecimalIn": 0.1495,
-            "pilotDiaFormDecimalMm": 3.797
-        },
-        {
-            "size": "#8-36 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#29",
-            "pilotDiaCutDecimalIn": 0.136,
-            "pilotDiaCutDecimalMm": 3.454,
-            "pilotDiaForm": "#24",
-            "pilotDiaFormDecimalIn": 0.152,
-            "pilotDiaFormDecimalMm": 3.861
-        },
-        {
-            "size": "#10-24 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#25",
-            "pilotDiaCutDecimalIn": 0.1495,
-            "pilotDiaCutDecimalMm": 3.797,
-            "pilotDiaForm": "11/64",
-            "pilotDiaFormDecimalIn": 0.1719,
-            "pilotDiaFormDecimalMm": 4.366
-        },
-        {
-            "size": "#10-32 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#21",
-            "pilotDiaCutDecimalIn": 0.159,
-            "pilotDiaCutDecimalMm": 4.039,
-            "pilotDiaForm": "#16",
-            "pilotDiaFormDecimalIn": 0.177,
-            "pilotDiaFormDecimalMm": 4.496
-        },
-        {
-            "size": "#12-24 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#16",
-            "pilotDiaCutDecimalIn": 0.177,
-            "pilotDiaCutDecimalMm": 4.496,
-            "pilotDiaForm": "#8",
-            "pilotDiaFormDecimalIn": 0.199,
-            "pilotDiaFormDecimalMm": 5.055
-        },
-        {
-            "size": "#12-28 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#14",
-            "pilotDiaCutDecimalIn": 0.182,
-            "pilotDiaCutDecimalMm": 4.623,
-            "pilotDiaForm": "#7",
-            "pilotDiaFormDecimalIn": 0.201,
-            "pilotDiaFormDecimalMm": 5.105
-        },
-        {
-            "size": "1/4-20 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "#7",
-            "pilotDiaCutDecimalIn": 0.201,
-            "pilotDiaCutDecimalMm": 5.105,
-            "pilotDiaForm": "#1",
-            "pilotDiaFormDecimalIn": 0.228,
-            "pilotDiaFormDecimalMm": 5.791
-        },
-        {
-            "size": "1/4-28 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "#3",
-            "pilotDiaCutDecimalIn": 0.213,
-            "pilotDiaCutDecimalMm": 5.41,
-            "pilotDiaForm": "15/64",
-            "pilotDiaFormDecimalIn": 0.2344,
-            "pilotDiaFormDecimalMm": 5.953
-        },
-        {
-            "size": "5/16-18 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "F",
-            "pilotDiaCutDecimalIn": 0.257,
-            "pilotDiaCutDecimalMm": 6.528,
-            "pilotDiaForm": "L",
-            "pilotDiaFormDecimalIn": 0.29,
-            "pilotDiaFormDecimalMm": 7.366
-        },
-        {
-            "size": "5/16-24 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "I",
-            "pilotDiaCutDecimalIn": 0.272,
-            "pilotDiaCutDecimalMm": 6.909,
-            "pilotDiaForm": "M",
-            "pilotDiaFormDecimalIn": 0.295,
-            "pilotDiaFormDecimalMm": 7.493
-        },
-        {
-            "size": "3/8-16 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "5/16",
-            "pilotDiaCutDecimalIn": 0.3125,
-            "pilotDiaCutDecimalMm": 7.938,
-            "pilotDiaForm": "S",
-            "pilotDiaFormDecimalIn": 0.348,
-            "pilotDiaFormDecimalMm": 8.839
-        },
-        {
-            "size": "3/8-24 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "Q",
-            "pilotDiaCutDecimalIn": 0.332,
-            "pilotDiaCutDecimalMm": 8.433,
-            "pilotDiaForm": "T",
-            "pilotDiaFormDecimalIn": 0.358,
-            "pilotDiaFormDecimalMm": 9.093
-        },
-        {
-            "size": "7/16-14 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "U",
-            "pilotDiaCutDecimalIn": 0.368,
-            "pilotDiaCutDecimalMm": 9.347,
-            "pilotDiaForm": "13/32",
-            "pilotDiaFormDecimalIn": 0.4062,
-            "pilotDiaFormDecimalMm": 10.319
-        },
-        {
-            "size": "7/16-20 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "25/64",
-            "pilotDiaCutDecimalIn": 0.3906,
-            "pilotDiaCutDecimalMm": 9.922,
-            "pilotDiaForm": "Z",
-            "pilotDiaFormDecimalIn": 0.413,
-            "pilotDiaFormDecimalMm": 10.49
-        },
-        {
-            "size": "1/2-13 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "27/64",
-            "pilotDiaCutDecimalIn": 0.4219,
-            "pilotDiaCutDecimalMm": 10.716,
-            "pilotDiaForm": "15/32",
-            "pilotDiaFormDecimalIn": 0.4688,
-            "pilotDiaFormDecimalMm": 11.906
-        },
-        {
-            "size": "1/2-20 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "29/64",
-            "pilotDiaCutDecimalIn": 0.4531,
-            "pilotDiaCutDecimalMm": 11.509,
-            "pilotDiaForm": "31/64",
-            "pilotDiaFormDecimalIn": 0.4844,
-            "pilotDiaFormDecimalMm": 12.303
-        },
-        {
-            "size": "9/16-12 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "31/64",
-            "pilotDiaCutDecimalIn": 0.4844,
-            "pilotDiaCutDecimalMm": 12.303,
-            "pilotDiaForm": "17/32",
-            "pilotDiaFormDecimalIn": 0.5312,
-            "pilotDiaFormDecimalMm": 13.494
-        },
-        {
-            "size": "9/16-18 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "33/64",
-            "pilotDiaCutDecimalIn": 0.5156,
-            "pilotDiaCutDecimalMm": 13.097,
-            "pilotDiaForm": "17/32",
-            "pilotDiaFormDecimalIn": 0.5312,
-            "pilotDiaFormDecimalMm": 13.494
-        },
-        {
-            "size": "5/8-11 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "17/32",
-            "pilotDiaCutDecimalIn": 0.5312,
-            "pilotDiaCutDecimalMm": 13.494,
-            "pilotDiaForm": "37/64",
-            "pilotDiaFormDecimalIn": 0.5781,
-            "pilotDiaFormDecimalMm": 14.684
-        },
-        {
-            "size": "5/8-18 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "37/64",
-            "pilotDiaCutDecimalIn": 0.5781,
-            "pilotDiaCutDecimalMm": 14.684,
-            "pilotDiaForm": "19/32",
-            "pilotDiaFormDecimalIn": 0.5938,
-            "pilotDiaFormDecimalMm": 15.081
-        },
-        {
-            "size": "3/4-10 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "21/32",
-            "pilotDiaCutDecimalIn": 0.6562,
-            "pilotDiaCutDecimalMm": 16.669,
-            "pilotDiaForm": "45/64",
-            "pilotDiaFormDecimalIn": 0.7031,
-            "pilotDiaFormDecimalMm": 17.859
-        },
-        {
-            "size": "3/4-16 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "11/16",
-            "pilotDiaCutDecimalIn": 0.6875,
-            "pilotDiaCutDecimalMm": 17.462,
-            "pilotDiaForm": "23/32",
-            "pilotDiaFormDecimalIn": 0.7188,
-            "pilotDiaFormDecimalMm": 18.256
-        },
-        {
-            "size": "7/8-9 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "49/64",
-            "pilotDiaCutDecimalIn": 0.7656,
-            "pilotDiaCutDecimalMm": 19.447,
-            "pilotDiaForm": "53/64",
-            "pilotDiaFormDecimalIn": 0.8281,
-            "pilotDiaFormDecimalMm": 21.034
-        },
-        {
-            "size": "7/8-14 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "13/16",
-            "pilotDiaCutDecimalIn": 0.8125,
-            "pilotDiaCutDecimalMm": 20.637,
-            "pilotDiaForm": "27/32",
-            "pilotDiaFormDecimalIn": 0.8438,
-            "pilotDiaFormDecimalMm": 21.431
-        },
-        {
-            "size": "1\"-8 UNC",
-            "type": "Imperial",
-            "pilotDiaCut": "7/8",
-            "pilotDiaCutDecimalIn": 0.875,
-            "pilotDiaCutDecimalMm": 22.225,
-            "pilotDiaForm": "15/16",
-            "pilotDiaFormDecimalIn": 0.9375,
-            "pilotDiaFormDecimalMm": 23.812
-        },
-        {
-            "size": "1\"-12 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "59/64",
-            "pilotDiaCutDecimalIn": 0.9219,
-            "pilotDiaCutDecimalMm": 23.416,
-            "pilotDiaForm": "31/32",
-            "pilotDiaFormDecimalIn": 0.9688,
-            "pilotDiaFormDecimalMm": 24.606
-        },
-        {
-            "size": "1\"-14 UNF",
-            "type": "Imperial",
-            "pilotDiaCut": "15/16",
-            "pilotDiaCutDecimalIn": 0.9375,
-            "pilotDiaCutDecimalMm": 23.812,
-            "pilotDiaForm": "31/32",
-            "pilotDiaFormDecimalIn": 0.9688,
-            "pilotDiaFormDecimalMm": 24.606
-        },
-        {
-            "size": "M2.5 x 0.45",
-            "type": "Metric",
-            "pilotDiaCut": "#46",
-            "pilotDiaCutDecimalIn": 0.081,
-            "pilotDiaCutDecimalMm": 2.057,
-            "pilotDiaForm": "#43",
-            "pilotDiaFormDecimalIn": 0.089,
-            "pilotDiaFormDecimalMm": 2.261
-        },
-        {
-            "size": "M3 x 0.5",
-            "type": "Metric",
-            "pilotDiaCut": "#39",
-            "pilotDiaCutDecimalIn": 0.0995,
-            "pilotDiaCutDecimalMm": 2.527,
-            "pilotDiaForm": "7/64",
-            "pilotDiaFormDecimalIn": 0.1094,
-            "pilotDiaFormDecimalMm": 2.778
-        },
-        {
-            "size": "M4 x 0.7",
-            "type": "Metric",
-            "pilotDiaCut": "#30",
-            "pilotDiaCutDecimalIn": 0.1285,
-            "pilotDiaCutDecimalMm": 3.264,
-            "pilotDiaForm": "#27",
-            "pilotDiaFormDecimalIn": 0.144,
-            "pilotDiaFormDecimalMm": 3.658
-        },
-        {
-            "size": "M5 x 0.8",
-            "type": "Metric",
-            "pilotDiaCut": "#19",
-            "pilotDiaCutDecimalIn": 0.166,
-            "pilotDiaCutDecimalMm": 4.216,
-            "pilotDiaForm": "#14",
-            "pilotDiaFormDecimalIn": 0.182,
-            "pilotDiaFormDecimalMm": 4.623
-        },
-        {
-            "size": "M6 x 1.0",
-            "type": "Metric",
-            "pilotDiaCut": "#9",
-            "pilotDiaCutDecimalIn": 0.196,
-            "pilotDiaCutDecimalMm": 4.978,
-            "pilotDiaForm": "7/32",
-            "pilotDiaFormDecimalIn": 0.2188,
-            "pilotDiaFormDecimalMm": 5.556
-        },
-        {
-            "size": "M8 x 1.25",
-            "type": "Metric",
-            "pilotDiaCut": "17/64",
-            "pilotDiaCutDecimalIn": 0.2656,
-            "pilotDiaCutDecimalMm": 6.747,
-            "pilotDiaForm": "L",
-            "pilotDiaFormDecimalIn": 0.29,
-            "pilotDiaFormDecimalMm": 7.366
-        },
-        {
-            "size": "M10 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "11/32",
-            "pilotDiaCutDecimalIn": 0.3438,
-            "pilotDiaCutDecimalMm": 8.731,
-            "pilotDiaForm": "U",
-            "pilotDiaFormDecimalIn": 0.368,
-            "pilotDiaFormDecimalMm": 9.347
-        },
-        {
-            "size": "M10 x 1.25",
-            "type": "Metric",
-            "pilotDiaCut": "11/32",
-            "pilotDiaCutDecimalIn": 0.3438,
-            "pilotDiaCutDecimalMm": 8.731,
-            "pilotDiaForm": "U",
-            "pilotDiaFormDecimalIn": 0.368,
-            "pilotDiaFormDecimalMm": 9.347
-        },
-        {
-            "size": "M12 x 1.75",
-            "type": "Metric",
-            "pilotDiaCut": "13/32",
-            "pilotDiaCutDecimalIn": 0.4062,
-            "pilotDiaCutDecimalMm": 10.319,
-            "pilotDiaForm": "7/16",
-            "pilotDiaFormDecimalIn": 0.4375,
-            "pilotDiaFormDecimalMm": 11.112
-        },
-        {
-            "size": "M12 x 1.25",
-            "type": "Metric",
-            "pilotDiaCut": "27/64",
-            "pilotDiaCutDecimalIn": 0.4219,
-            "pilotDiaCutDecimalMm": 10.716,
-            "pilotDiaForm": "29/64",
-            "pilotDiaFormDecimalIn": 0.4531,
-            "pilotDiaFormDecimalMm": 11.509
-        },
-        {
-            "size": "M14 x 2.0",
-            "type": "Metric",
-            "pilotDiaCut": "15/32",
-            "pilotDiaCutDecimalIn": 0.4688,
-            "pilotDiaCutDecimalMm": 11.906,
-            "pilotDiaForm": "33/64",
-            "pilotDiaFormDecimalIn": 0.5156,
-            "pilotDiaFormDecimalMm": 13.097
-        },
-        {
-            "size": "M14 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "1/2",
-            "pilotDiaCutDecimalIn": 0.5,
-            "pilotDiaCutDecimalMm": 12.7,
-            "pilotDiaForm": "33/64",
-            "pilotDiaFormDecimalIn": 0.5156,
-            "pilotDiaFormDecimalMm": 13.097
-        },
-        {
-            "size": "M16 x 2.0",
-            "type": "Metric",
-            "pilotDiaCut": "35/64",
-            "pilotDiaCutDecimalIn": 0.5469,
-            "pilotDiaCutDecimalMm": 13.891,
-            "pilotDiaForm": "19/32",
-            "pilotDiaFormDecimalIn": 0.5938,
-            "pilotDiaFormDecimalMm": 15.081
-        },
-        {
-            "size": "M16 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "37/64",
-            "pilotDiaCutDecimalIn": 0.5781,
-            "pilotDiaCutDecimalMm": 14.684,
-            "pilotDiaForm": "19/32",
-            "pilotDiaFormDecimalIn": 0.5938,
-            "pilotDiaFormDecimalMm": 15.081
-        },
-        {
-            "size": "M18 x 2.5",
-            "type": "Metric",
-            "pilotDiaCut": "39/64",
-            "pilotDiaCutDecimalIn": 0.6094,
-            "pilotDiaCutDecimalMm": 15.478,
-            "pilotDiaForm": "21/32",
-            "pilotDiaFormDecimalIn": 0.6562,
-            "pilotDiaFormDecimalMm": 16.669
-        },
-        {
-            "size": "M18 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "21/32",
-            "pilotDiaCutDecimalIn": 0.6562,
-            "pilotDiaCutDecimalMm": 16.669,
-            "pilotDiaForm": "43/64",
-            "pilotDiaFormDecimalIn": 0.6719,
-            "pilotDiaFormDecimalMm": 17.066
-        },
-        {
-            "size": "M20 x 2.5",
-            "type": "Metric",
-            "pilotDiaCut": "11/16",
-            "pilotDiaCutDecimalIn": 0.6875,
-            "pilotDiaCutDecimalMm": 17.462,
-            "pilotDiaForm": "47/64",
-            "pilotDiaFormDecimalIn": 0.7344,
-            "pilotDiaFormDecimalMm": 18.653
-        },
-        {
-            "size": "M20 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "23/32",
-            "pilotDiaCutDecimalIn": 0.7188,
-            "pilotDiaCutDecimalMm": 18.256,
-            "pilotDiaForm": "49/64",
-            "pilotDiaFormDecimalIn": 0.7656,
-            "pilotDiaFormDecimalMm": 19.447
-        },
-        {
-            "size": "M22 x 2.5",
-            "type": "Metric",
-            "pilotDiaCut": "49/64",
-            "pilotDiaCutDecimalIn": 0.7656,
-            "pilotDiaCutDecimalMm": 19.447,
-            "pilotDiaForm": "13/16",
-            "pilotDiaFormDecimalIn": 0.8125,
-            "pilotDiaFormDecimalMm": 20.637
-        },
-        {
-            "size": "M22 x 1.5",
-            "type": "Metric",
-            "pilotDiaCut": "13/16",
-            "pilotDiaCutDecimalIn": 0.8125,
-            "pilotDiaCutDecimalMm": 20.637,
-            "pilotDiaForm": "27/32",
-            "pilotDiaFormDecimalIn": 0.8438,
-            "pilotDiaFormDecimalMm": 21.431
-        },
-        {
-            "size": "M24 x 3.0",
-            "type": "Metric",
-            "pilotDiaCut": "53/64",
-            "pilotDiaCutDecimalIn": 0.8281,
-            "pilotDiaCutDecimalMm": 21.034,
-            "pilotDiaForm": "57/64",
-            "pilotDiaFormDecimalIn": 0.8906,
-            "pilotDiaFormDecimalMm": 22.622
-        },
-        {
-            "size": "M24 x 2.0",
-            "type": "Metric",
-            "pilotDiaCut": "7/8",
-            "pilotDiaCutDecimalIn": 0.875,
-            "pilotDiaCutDecimalMm": 22.225,
-            "pilotDiaForm": "29/32",
-            "pilotDiaFormDecimalIn": 0.9062,
-            "pilotDiaFormDecimalMm": 23.019
-        }
-    ],
     "metricThreads": [
         {
             "size": "M1",
@@ -1552,7 +928,13 @@ const dashboardData = {
             "intPitchMax": 2.303,
             "intPitchMin": 2.208,
             "intMinorMax": 2.138,
-            "intMinorMin": 2.013
+            "intMinorMin": 2.013,
+            "pilotDiaCut": "#46",
+            "pilotDiaCutDecimalIn": 0.081,
+            "pilotDiaCutDecimalMm": 2.057,
+            "pilotDiaForm": "#43",
+            "pilotDiaFormDecimalIn": 0.089,
+            "pilotDiaFormDecimalMm": 2.261
         },
         {
             "size": "M3",
@@ -1564,7 +946,13 @@ const dashboardData = {
             "intPitchMax": 2.775,
             "intPitchMin": 2.675,
             "intMinorMax": 2.599,
-            "intMinorMin": 2.459
+            "intMinorMin": 2.459,
+            "pilotDiaCut": "#39",
+            "pilotDiaCutDecimalIn": 0.0995,
+            "pilotDiaCutDecimalMm": 2.527,
+            "pilotDiaForm": "7/64",
+            "pilotDiaFormDecimalIn": 0.1094,
+            "pilotDiaFormDecimalMm": 2.778
         },
         {
             "size": "M3.5",
@@ -1588,7 +976,13 @@ const dashboardData = {
             "intPitchMax": 3.663,
             "intPitchMin": 3.545,
             "intMinorMax": 3.422,
-            "intMinorMin": 3.242
+            "intMinorMin": 3.242,
+            "pilotDiaCut": "#30",
+            "pilotDiaCutDecimalIn": 0.1285,
+            "pilotDiaCutDecimalMm": 3.264,
+            "pilotDiaForm": "#27",
+            "pilotDiaFormDecimalIn": 0.144,
+            "pilotDiaFormDecimalMm": 3.658
         },
         {
             "size": "M5",
@@ -1600,7 +994,13 @@ const dashboardData = {
             "intPitchMax": 4.605,
             "intPitchMin": 4.48,
             "intMinorMax": 4.334,
-            "intMinorMin": 4.134
+            "intMinorMin": 4.134,
+            "pilotDiaCut": "#19",
+            "pilotDiaCutDecimalIn": 0.166,
+            "pilotDiaCutDecimalMm": 4.216,
+            "pilotDiaForm": "#14",
+            "pilotDiaFormDecimalIn": 0.182,
+            "pilotDiaFormDecimalMm": 4.623
         },
         {
             "size": "M6",
@@ -1612,7 +1012,13 @@ const dashboardData = {
             "intPitchMax": 5.5,
             "intPitchMin": 5.35,
             "intMinorMax": 5.153,
-            "intMinorMin": 4.917
+            "intMinorMin": 4.917,
+            "pilotDiaCut": "#9",
+            "pilotDiaCutDecimalIn": 0.196,
+            "pilotDiaCutDecimalMm": 4.978,
+            "pilotDiaForm": "7/32",
+            "pilotDiaFormDecimalIn": 0.2188,
+            "pilotDiaFormDecimalMm": 5.556
         },
         {
             "size": "M7",
@@ -1636,7 +1042,13 @@ const dashboardData = {
             "intPitchMax": 7.348,
             "intPitchMin": 7.188,
             "intMinorMax": 6.912,
-            "intMinorMin": 6.647
+            "intMinorMin": 6.647,
+            "pilotDiaCut": "17/64",
+            "pilotDiaCutDecimalIn": 0.2656,
+            "pilotDiaCutDecimalMm": 6.747,
+            "pilotDiaForm": "L",
+            "pilotDiaFormDecimalIn": 0.29,
+            "pilotDiaFormDecimalMm": 7.366
         },
         {
             "size": "M10",
@@ -1648,7 +1060,13 @@ const dashboardData = {
             "intPitchMax": 9.206,
             "intPitchMin": 9.026,
             "intMinorMax": 8.676,
-            "intMinorMin": 8.376
+            "intMinorMin": 8.376,
+            "pilotDiaCut": "11/32",
+            "pilotDiaCutDecimalIn": 0.3438,
+            "pilotDiaCutDecimalMm": 8.731,
+            "pilotDiaForm": "U",
+            "pilotDiaFormDecimalIn": 0.368,
+            "pilotDiaFormDecimalMm": 9.347
         },
         {
             "size": "M12",
@@ -1660,7 +1078,13 @@ const dashboardData = {
             "intPitchMax": 11.063,
             "intPitchMin": 10.863,
             "intMinorMax": 10.441,
-            "intMinorMin": 10.106
+            "intMinorMin": 10.106,
+            "pilotDiaCut": "27/64",
+            "pilotDiaCutDecimalIn": 0.4219,
+            "pilotDiaCutDecimalMm": 10.716,
+            "pilotDiaForm": "29/64",
+            "pilotDiaFormDecimalIn": 0.4531,
+            "pilotDiaFormDecimalMm": 11.509
         },
         {
             "size": "M14",
@@ -1672,7 +1096,13 @@ const dashboardData = {
             "intPitchMax": 12.913,
             "intPitchMin": 12.701,
             "intMinorMax": 12.21,
-            "intMinorMin": 11.835
+            "intMinorMin": 11.835,
+            "pilotDiaCut": "1/2",
+            "pilotDiaCutDecimalIn": 0.5,
+            "pilotDiaCutDecimalMm": 12.7,
+            "pilotDiaForm": "33/64",
+            "pilotDiaFormDecimalIn": 0.5156,
+            "pilotDiaFormDecimalMm": 13.097
         },
         {
             "size": "M16",
@@ -1684,7 +1114,13 @@ const dashboardData = {
             "intPitchMax": 14.913,
             "intPitchMin": 14.701,
             "intMinorMax": 14.21,
-            "intMinorMin": 13.835
+            "intMinorMin": 13.835,
+            "pilotDiaCut": "37/64",
+            "pilotDiaCutDecimalIn": 0.5781,
+            "pilotDiaCutDecimalMm": 14.684,
+            "pilotDiaForm": "19/32",
+            "pilotDiaFormDecimalIn": 0.5938,
+            "pilotDiaFormDecimalMm": 15.081
         },
         {
             "size": "M18",
@@ -1696,7 +1132,13 @@ const dashboardData = {
             "intPitchMax": 16.6,
             "intPitchMin": 16.376,
             "intMinorMax": 15.744,
-            "intMinorMin": 15.294
+            "intMinorMin": 15.294,
+            "pilotDiaCut": "21/32",
+            "pilotDiaCutDecimalIn": 0.6562,
+            "pilotDiaCutDecimalMm": 16.669,
+            "pilotDiaForm": "43/64",
+            "pilotDiaFormDecimalIn": 0.6719,
+            "pilotDiaFormDecimalMm": 17.066
         },
         {
             "size": "M20",
@@ -1708,7 +1150,13 @@ const dashboardData = {
             "intPitchMax": 18.6,
             "intPitchMin": 18.376,
             "intMinorMax": 17.744,
-            "intMinorMin": 17.294
+            "intMinorMin": 17.294,
+            "pilotDiaCut": "23/32",
+            "pilotDiaCutDecimalIn": 0.7188,
+            "pilotDiaCutDecimalMm": 18.256,
+            "pilotDiaForm": "49/64",
+            "pilotDiaFormDecimalIn": 0.7656,
+            "pilotDiaFormDecimalMm": 19.447
         },
         {
             "size": "M22",
@@ -1720,7 +1168,13 @@ const dashboardData = {
             "intPitchMax": 20.6,
             "intPitchMin": 20.376,
             "intMinorMax": 19.744,
-            "intMinorMin": 19.294
+            "intMinorMin": 19.294,
+            "pilotDiaCut": "13/16",
+            "pilotDiaCutDecimalIn": 0.8125,
+            "pilotDiaCutDecimalMm": 20.637,
+            "pilotDiaForm": "27/32",
+            "pilotDiaFormDecimalIn": 0.8438,
+            "pilotDiaFormDecimalMm": 21.431
         },
         {
             "size": "M24",
@@ -1732,7 +1186,13 @@ const dashboardData = {
             "intPitchMax": 22.316,
             "intPitchMin": 22.051,
             "intMinorMax": 21.252,
-            "intMinorMin": 20.752
+            "intMinorMin": 20.752,
+            "pilotDiaCut": "7/8",
+            "pilotDiaCutDecimalIn": 0.875,
+            "pilotDiaCutDecimalMm": 22.225,
+            "pilotDiaForm": "29/32",
+            "pilotDiaFormDecimalIn": 0.9062,
+            "pilotDiaFormDecimalMm": 23.019
         },
         {
             "size": "M27",
@@ -1912,7 +1372,13 @@ const dashboardData = {
             "intPitchMax": 9.348,
             "intPitchMin": 9.188,
             "intMinorMax": 8.912,
-            "intMinorMin": 8.647
+            "intMinorMin": 8.647,
+            "pilotDiaCut": "11/32",
+            "pilotDiaCutDecimalIn": 0.3438,
+            "pilotDiaCutDecimalMm": 8.731,
+            "pilotDiaForm": "U",
+            "pilotDiaFormDecimalIn": 0.368,
+            "pilotDiaFormDecimalMm": 9.347
         },
         {
             "size": "M12X1.25",
@@ -1924,7 +1390,13 @@ const dashboardData = {
             "intPitchMax": 11.368,
             "intPitchMin": 11.188,
             "intMinorMax": 10.912,
-            "intMinorMin": 10.647
+            "intMinorMin": 10.647,
+            "pilotDiaCut": "27/64",
+            "pilotDiaCutDecimalIn": 0.4219,
+            "pilotDiaCutDecimalMm": 10.716,
+            "pilotDiaForm": "29/64",
+            "pilotDiaFormDecimalIn": 0.4531,
+            "pilotDiaFormDecimalMm": 11.509
         },
         {
             "size": "M12X1.5",
@@ -1948,7 +1420,13 @@ const dashboardData = {
             "intPitchMax": 13.216,
             "intPitchMin": 13.026,
             "intMinorMax": 12.676,
-            "intMinorMin": 12.376
+            "intMinorMin": 12.376,
+            "pilotDiaCut": "1/2",
+            "pilotDiaCutDecimalIn": 0.5,
+            "pilotDiaCutDecimalMm": 12.7,
+            "pilotDiaForm": "33/64",
+            "pilotDiaFormDecimalIn": 0.5156,
+            "pilotDiaFormDecimalMm": 13.097
         },
         {
             "size": "M16X1.5",
@@ -1960,7 +1438,13 @@ const dashboardData = {
             "intPitchMax": 15.216,
             "intPitchMin": 15.026,
             "intMinorMax": 14.676,
-            "intMinorMin": 14.376
+            "intMinorMin": 14.376,
+            "pilotDiaCut": "37/64",
+            "pilotDiaCutDecimalIn": 0.5781,
+            "pilotDiaCutDecimalMm": 14.684,
+            "pilotDiaForm": "19/32",
+            "pilotDiaFormDecimalIn": 0.5938,
+            "pilotDiaFormDecimalMm": 15.081
         },
         {
             "size": "M18X1.5",
@@ -1972,7 +1456,13 @@ const dashboardData = {
             "intPitchMax": 17.216,
             "intPitchMin": 17.026,
             "intMinorMax": 16.676,
-            "intMinorMin": 16.376
+            "intMinorMin": 16.376,
+            "pilotDiaCut": "21/32",
+            "pilotDiaCutDecimalIn": 0.6562,
+            "pilotDiaCutDecimalMm": 16.669,
+            "pilotDiaForm": "43/64",
+            "pilotDiaFormDecimalIn": 0.6719,
+            "pilotDiaFormDecimalMm": 17.066
         },
         {
             "size": "M18X2",
@@ -1996,7 +1486,13 @@ const dashboardData = {
             "intPitchMax": 19.216,
             "intPitchMin": 19.026,
             "intMinorMax": 18.676,
-            "intMinorMin": 18.376
+            "intMinorMin": 18.376,
+            "pilotDiaCut": "23/32",
+            "pilotDiaCutDecimalIn": 0.7188,
+            "pilotDiaCutDecimalMm": 18.256,
+            "pilotDiaForm": "49/64",
+            "pilotDiaFormDecimalIn": 0.7656,
+            "pilotDiaFormDecimalMm": 19.447
         },
         {
             "size": "M20X2",
@@ -2020,7 +1516,13 @@ const dashboardData = {
             "intPitchMax": 21.216,
             "intPitchMin": 21.026,
             "intMinorMax": 20.676,
-            "intMinorMin": 20.376
+            "intMinorMin": 20.376,
+            "pilotDiaCut": "13/16",
+            "pilotDiaCutDecimalIn": 0.8125,
+            "pilotDiaCutDecimalMm": 20.637,
+            "pilotDiaForm": "27/32",
+            "pilotDiaFormDecimalIn": 0.8438,
+            "pilotDiaFormDecimalMm": 21.431
         },
         {
             "size": "M22X2",
@@ -2202,7 +1704,13 @@ const dashboardData = {
             "intPitchMax": 0.0542,
             "intPitchMin": 0.0519,
             "intMinorMax": 0.0514,
-            "intMinorMin": 0.0465
+            "intMinorMin": 0.0465,
+            "pilotDiaCut": "3/64",
+            "pilotDiaCutDecimalIn": 0.0469,
+            "pilotDiaCutDecimalMm": 1.191,
+            "pilotDiaForm": "#54",
+            "pilotDiaFormDecimalIn": 0.055,
+            "pilotDiaFormDecimalMm": 1.397
         },
         {
             "size": "0–80 UNF",
@@ -2214,7 +1722,13 @@ const dashboardData = {
             "intPitchMax": 0.0536,
             "intPitchMin": 0.0519,
             "intMinorMax": 0.0514,
-            "intMinorMin": 0.0465
+            "intMinorMin": 0.0465,
+            "pilotDiaCut": "3/64",
+            "pilotDiaCutDecimalIn": 0.0469,
+            "pilotDiaCutDecimalMm": 1.191,
+            "pilotDiaForm": "#54",
+            "pilotDiaFormDecimalIn": 0.055,
+            "pilotDiaFormDecimalMm": 1.397
         },
         {
             "size": "1–64 UNC",
@@ -2226,7 +1740,13 @@ const dashboardData = {
             "intPitchMax": 0.0655,
             "intPitchMin": 0.0629,
             "intMinorMax": 0.0623,
-            "intMinorMin": 0.0561
+            "intMinorMin": 0.0561,
+            "pilotDiaCut": "#53",
+            "pilotDiaCutDecimalIn": 0.0595,
+            "pilotDiaCutDecimalMm": 1.511,
+            "pilotDiaForm": "#51",
+            "pilotDiaFormDecimalIn": 0.067,
+            "pilotDiaFormDecimalMm": 1.702
         },
         {
             "size": "1–64 UNC",
@@ -2238,7 +1758,13 @@ const dashboardData = {
             "intPitchMax": 0.0648,
             "intPitchMin": 0.0629,
             "intMinorMax": 0.0623,
-            "intMinorMin": 0.0561
+            "intMinorMin": 0.0561,
+            "pilotDiaCut": "#53",
+            "pilotDiaCutDecimalIn": 0.0595,
+            "pilotDiaCutDecimalMm": 1.511,
+            "pilotDiaForm": "#51",
+            "pilotDiaFormDecimalIn": 0.067,
+            "pilotDiaFormDecimalMm": 1.702
         },
         {
             "size": "1–72 UNF",
@@ -2250,7 +1776,13 @@ const dashboardData = {
             "intPitchMax": 0.0665,
             "intPitchMin": 0.064,
             "intMinorMax": 0.0635,
-            "intMinorMin": 0.058
+            "intMinorMin": 0.058,
+            "pilotDiaCut": "#53",
+            "pilotDiaCutDecimalIn": 0.0595,
+            "pilotDiaCutDecimalMm": 1.511,
+            "pilotDiaForm": "#51",
+            "pilotDiaFormDecimalIn": 0.067,
+            "pilotDiaFormDecimalMm": 1.702
         },
         {
             "size": "1–72 UNF",
@@ -2262,7 +1794,13 @@ const dashboardData = {
             "intPitchMax": 0.0659,
             "intPitchMin": 0.064,
             "intMinorMax": 0.0635,
-            "intMinorMin": 0.058
+            "intMinorMin": 0.058,
+            "pilotDiaCut": "#53",
+            "pilotDiaCutDecimalIn": 0.0595,
+            "pilotDiaCutDecimalMm": 1.511,
+            "pilotDiaForm": "#51",
+            "pilotDiaFormDecimalIn": 0.067,
+            "pilotDiaFormDecimalMm": 1.702
         },
         {
             "size": "2–56 UNC",
@@ -2274,7 +1812,13 @@ const dashboardData = {
             "intPitchMax": 0.0772,
             "intPitchMin": 0.0744,
             "intMinorMax": 0.0737,
-            "intMinorMin": 0.0667
+            "intMinorMin": 0.0667,
+            "pilotDiaCut": "#50",
+            "pilotDiaCutDecimalIn": 0.07,
+            "pilotDiaCutDecimalMm": 1.778,
+            "pilotDiaForm": "5/64",
+            "pilotDiaFormDecimalIn": 0.0781,
+            "pilotDiaFormDecimalMm": 1.984
         },
         {
             "size": "2–56 UNC",
@@ -2286,7 +1830,13 @@ const dashboardData = {
             "intPitchMax": 0.0765,
             "intPitchMin": 0.0744,
             "intMinorMax": 0.0737,
-            "intMinorMin": 0.0667
+            "intMinorMin": 0.0667,
+            "pilotDiaCut": "#50",
+            "pilotDiaCutDecimalIn": 0.07,
+            "pilotDiaCutDecimalMm": 1.778,
+            "pilotDiaForm": "5/64",
+            "pilotDiaFormDecimalIn": 0.0781,
+            "pilotDiaFormDecimalMm": 1.984
         },
         {
             "size": "2–64 UNF",
@@ -2298,7 +1848,13 @@ const dashboardData = {
             "intPitchMax": 0.0786,
             "intPitchMin": 0.0759,
             "intMinorMax": 0.0753,
-            "intMinorMin": 0.0691
+            "intMinorMin": 0.0691,
+            "pilotDiaCut": "#50",
+            "pilotDiaCutDecimalIn": 0.07,
+            "pilotDiaCutDecimalMm": 1.778,
+            "pilotDiaForm": "#47",
+            "pilotDiaFormDecimalIn": 0.0785,
+            "pilotDiaFormDecimalMm": 1.994
         },
         {
             "size": "2–64 UNF",
@@ -2310,7 +1866,13 @@ const dashboardData = {
             "intPitchMax": 0.0779,
             "intPitchMin": 0.0759,
             "intMinorMax": 0.0753,
-            "intMinorMin": 0.0691
+            "intMinorMin": 0.0691,
+            "pilotDiaCut": "#50",
+            "pilotDiaCutDecimalIn": 0.07,
+            "pilotDiaCutDecimalMm": 1.778,
+            "pilotDiaForm": "#47",
+            "pilotDiaFormDecimalIn": 0.0785,
+            "pilotDiaFormDecimalMm": 1.994
         },
         {
             "size": "3–48 UNC",
@@ -2322,7 +1884,13 @@ const dashboardData = {
             "intPitchMax": 0.0885,
             "intPitchMin": 0.0855,
             "intMinorMax": 0.0845,
-            "intMinorMin": 0.0764
+            "intMinorMin": 0.0764,
+            "pilotDiaCut": "#47",
+            "pilotDiaCutDecimalIn": 0.0785,
+            "pilotDiaCutDecimalMm": 1.994,
+            "pilotDiaForm": "#43",
+            "pilotDiaFormDecimalIn": 0.089,
+            "pilotDiaFormDecimalMm": 2.261
         },
         {
             "size": "3–48 UNC",
@@ -2334,7 +1902,13 @@ const dashboardData = {
             "intPitchMax": 0.0877,
             "intPitchMin": 0.0855,
             "intMinorMax": 0.0845,
-            "intMinorMin": 0.0764
+            "intMinorMin": 0.0764,
+            "pilotDiaCut": "#47",
+            "pilotDiaCutDecimalIn": 0.0785,
+            "pilotDiaCutDecimalMm": 1.994,
+            "pilotDiaForm": "#43",
+            "pilotDiaFormDecimalIn": 0.089,
+            "pilotDiaFormDecimalMm": 2.261
         },
         {
             "size": "3–56 UNF",
@@ -2346,7 +1920,13 @@ const dashboardData = {
             "intPitchMax": 0.0902,
             "intPitchMin": 0.0874,
             "intMinorMax": 0.0865,
-            "intMinorMin": 0.0797
+            "intMinorMin": 0.0797,
+            "pilotDiaCut": "#45",
+            "pilotDiaCutDecimalIn": 0.082,
+            "pilotDiaCutDecimalMm": 2.083,
+            "pilotDiaForm": "#43",
+            "pilotDiaFormDecimalIn": 0.089,
+            "pilotDiaFormDecimalMm": 2.261
         },
         {
             "size": "3–56 UNF",
@@ -2358,7 +1938,13 @@ const dashboardData = {
             "intPitchMax": 0.0895,
             "intPitchMin": 0.0874,
             "intMinorMax": 0.0865,
-            "intMinorMin": 0.0797
+            "intMinorMin": 0.0797,
+            "pilotDiaCut": "#45",
+            "pilotDiaCutDecimalIn": 0.082,
+            "pilotDiaCutDecimalMm": 2.083,
+            "pilotDiaForm": "#43",
+            "pilotDiaFormDecimalIn": 0.089,
+            "pilotDiaFormDecimalMm": 2.261
         },
         {
             "size": "4–40 UNC",
@@ -2370,7 +1956,13 @@ const dashboardData = {
             "intPitchMax": 0.0991,
             "intPitchMin": 0.0958,
             "intMinorMax": 0.0939,
-            "intMinorMin": 0.0849
+            "intMinorMin": 0.0849,
+            "pilotDiaCut": "#43",
+            "pilotDiaCutDecimalIn": 0.089,
+            "pilotDiaCutDecimalMm": 2.261,
+            "pilotDiaForm": "#38",
+            "pilotDiaFormDecimalIn": 0.1015,
+            "pilotDiaFormDecimalMm": 2.578
         },
         {
             "size": "4–40 UNC",
@@ -2382,7 +1974,13 @@ const dashboardData = {
             "intPitchMax": 0.0982,
             "intPitchMin": 0.0958,
             "intMinorMax": 0.0939,
-            "intMinorMin": 0.0849
+            "intMinorMin": 0.0849,
+            "pilotDiaCut": "#43",
+            "pilotDiaCutDecimalIn": 0.089,
+            "pilotDiaCutDecimalMm": 2.261,
+            "pilotDiaForm": "#38",
+            "pilotDiaFormDecimalIn": 0.1015,
+            "pilotDiaFormDecimalMm": 2.578
         },
         {
             "size": "4–48 UNF",
@@ -2394,7 +1992,13 @@ const dashboardData = {
             "intPitchMax": 0.1016,
             "intPitchMin": 0.0985,
             "intMinorMax": 0.0968,
-            "intMinorMin": 0.0894
+            "intMinorMin": 0.0894,
+            "pilotDiaCut": "#42",
+            "pilotDiaCutDecimalIn": 0.0935,
+            "pilotDiaCutDecimalMm": 2.375,
+            "pilotDiaForm": "#37",
+            "pilotDiaFormDecimalIn": 0.104,
+            "pilotDiaFormDecimalMm": 2.642
         },
         {
             "size": "4–48 UNF",
@@ -2406,7 +2010,13 @@ const dashboardData = {
             "intPitchMax": 0.1008,
             "intPitchMin": 0.0985,
             "intMinorMax": 0.0968,
-            "intMinorMin": 0.0894
+            "intMinorMin": 0.0894,
+            "pilotDiaCut": "#42",
+            "pilotDiaCutDecimalIn": 0.0935,
+            "pilotDiaCutDecimalMm": 2.375,
+            "pilotDiaForm": "#37",
+            "pilotDiaFormDecimalIn": 0.104,
+            "pilotDiaFormDecimalMm": 2.642
         },
         {
             "size": "5–40 UNC",
@@ -2418,7 +2028,13 @@ const dashboardData = {
             "intPitchMax": 0.1121,
             "intPitchMin": 0.1088,
             "intMinorMax": 0.1062,
-            "intMinorMin": 0.0979
+            "intMinorMin": 0.0979,
+            "pilotDiaCut": "#38",
+            "pilotDiaCutDecimalIn": 0.1015,
+            "pilotDiaCutDecimalMm": 2.578,
+            "pilotDiaForm": "#33",
+            "pilotDiaFormDecimalIn": 0.113,
+            "pilotDiaFormDecimalMm": 2.87
         },
         {
             "size": "5–40 UNC",
@@ -2430,7 +2046,13 @@ const dashboardData = {
             "intPitchMax": 0.1113,
             "intPitchMin": 0.1088,
             "intMinorMax": 0.1062,
-            "intMinorMin": 0.0979
+            "intMinorMin": 0.0979,
+            "pilotDiaCut": "#38",
+            "pilotDiaCutDecimalIn": 0.1015,
+            "pilotDiaCutDecimalMm": 2.578,
+            "pilotDiaForm": "#33",
+            "pilotDiaFormDecimalIn": 0.113,
+            "pilotDiaFormDecimalMm": 2.87
         },
         {
             "size": "5–44 UNF",
@@ -2442,7 +2064,13 @@ const dashboardData = {
             "intPitchMax": 0.1134,
             "intPitchMin": 0.1102,
             "intMinorMax": 0.1079,
-            "intMinorMin": 0.1004
+            "intMinorMin": 0.1004,
+            "pilotDiaCut": "#37",
+            "pilotDiaCutDecimalIn": 0.104,
+            "pilotDiaCutDecimalMm": 2.642,
+            "pilotDiaForm": "#32",
+            "pilotDiaFormDecimalIn": 0.116,
+            "pilotDiaFormDecimalMm": 2.946
         },
         {
             "size": "5–44 UNF",
@@ -2454,7 +2082,13 @@ const dashboardData = {
             "intPitchMax": 0.1126,
             "intPitchMin": 0.1102,
             "intMinorMax": 0.1079,
-            "intMinorMin": 0.1004
+            "intMinorMin": 0.1004,
+            "pilotDiaCut": "#37",
+            "pilotDiaCutDecimalIn": 0.104,
+            "pilotDiaCutDecimalMm": 2.642,
+            "pilotDiaForm": "#32",
+            "pilotDiaFormDecimalIn": 0.116,
+            "pilotDiaFormDecimalMm": 2.946
         },
         {
             "size": "6–32 UNC",
@@ -2466,7 +2100,13 @@ const dashboardData = {
             "intPitchMax": 0.1214,
             "intPitchMin": 0.1177,
             "intMinorMax": 0.114,
-            "intMinorMin": 0.104
+            "intMinorMin": 0.104,
+            "pilotDiaCut": "#36",
+            "pilotDiaCutDecimalIn": 0.1065,
+            "pilotDiaCutDecimalMm": 2.705,
+            "pilotDiaForm": "1/8",
+            "pilotDiaFormDecimalIn": 0.125,
+            "pilotDiaFormDecimalMm": 3.175
         },
         {
             "size": "6–32 UNC",
@@ -2478,7 +2118,13 @@ const dashboardData = {
             "intPitchMax": 0.1204,
             "intPitchMin": 0.1177,
             "intMinorMax": 0.114,
-            "intMinorMin": 0.104
+            "intMinorMin": 0.104,
+            "pilotDiaCut": "#36",
+            "pilotDiaCutDecimalIn": 0.1065,
+            "pilotDiaCutDecimalMm": 2.705,
+            "pilotDiaForm": "1/8",
+            "pilotDiaFormDecimalIn": 0.125,
+            "pilotDiaFormDecimalMm": 3.175
         },
         {
             "size": "6–40 UNF",
@@ -2490,7 +2136,13 @@ const dashboardData = {
             "intPitchMax": 0.1252,
             "intPitchMin": 0.1218,
             "intMinorMax": 0.119,
-            "intMinorMin": 0.111
+            "intMinorMin": 0.111,
+            "pilotDiaCut": "#33",
+            "pilotDiaCutDecimalIn": 0.113,
+            "pilotDiaCutDecimalMm": 2.87,
+            "pilotDiaForm": "#30",
+            "pilotDiaFormDecimalIn": 0.1285,
+            "pilotDiaFormDecimalMm": 3.264
         },
         {
             "size": "6–40 UNF",
@@ -2502,7 +2154,13 @@ const dashboardData = {
             "intPitchMax": 0.1243,
             "intPitchMin": 0.1218,
             "intMinorMax": 0.1186,
-            "intMinorMin": 0.111
+            "intMinorMin": 0.111,
+            "pilotDiaCut": "#33",
+            "pilotDiaCutDecimalIn": 0.113,
+            "pilotDiaCutDecimalMm": 2.87,
+            "pilotDiaForm": "#30",
+            "pilotDiaFormDecimalIn": 0.1285,
+            "pilotDiaFormDecimalMm": 3.264
         },
         {
             "size": "8–32 UNC",
@@ -2514,7 +2172,13 @@ const dashboardData = {
             "intPitchMax": 0.1475,
             "intPitchMin": 0.1437,
             "intMinorMax": 0.139,
-            "intMinorMin": 0.13
+            "intMinorMin": 0.13,
+            "pilotDiaCut": "#29",
+            "pilotDiaCutDecimalIn": 0.136,
+            "pilotDiaCutDecimalMm": 3.454,
+            "pilotDiaForm": "#25",
+            "pilotDiaFormDecimalIn": 0.1495,
+            "pilotDiaFormDecimalMm": 3.797
         },
         {
             "size": "8–32 UNC",
@@ -2526,7 +2190,13 @@ const dashboardData = {
             "intPitchMax": 0.1465,
             "intPitchMin": 0.1437,
             "intMinorMax": 0.1389,
-            "intMinorMin": 0.13
+            "intMinorMin": 0.13,
+            "pilotDiaCut": "#29",
+            "pilotDiaCutDecimalIn": 0.136,
+            "pilotDiaCutDecimalMm": 3.454,
+            "pilotDiaForm": "#25",
+            "pilotDiaFormDecimalIn": 0.1495,
+            "pilotDiaFormDecimalMm": 3.797
         },
         {
             "size": "8–36 UNF",
@@ -2538,7 +2208,13 @@ const dashboardData = {
             "intPitchMax": 0.1496,
             "intPitchMin": 0.146,
             "intMinorMax": 0.142,
-            "intMinorMin": 0.134
+            "intMinorMin": 0.134,
+            "pilotDiaCut": "#29",
+            "pilotDiaCutDecimalIn": 0.136,
+            "pilotDiaCutDecimalMm": 3.454,
+            "pilotDiaForm": "#24",
+            "pilotDiaFormDecimalIn": 0.152,
+            "pilotDiaFormDecimalMm": 3.861
         },
         {
             "size": "8–36 UNF",
@@ -2550,7 +2226,13 @@ const dashboardData = {
             "intPitchMax": 0.1487,
             "intPitchMin": 0.146,
             "intMinorMax": 0.1416,
-            "intMinorMin": 0.134
+            "intMinorMin": 0.134,
+            "pilotDiaCut": "#29",
+            "pilotDiaCutDecimalIn": 0.136,
+            "pilotDiaCutDecimalMm": 3.454,
+            "pilotDiaForm": "#24",
+            "pilotDiaFormDecimalIn": 0.152,
+            "pilotDiaFormDecimalMm": 3.861
         },
         {
             "size": "10–24 UNC",
@@ -2562,7 +2244,13 @@ const dashboardData = {
             "intPitchMax": 0.1672,
             "intPitchMin": 0.1629,
             "intMinorMax": 0.156,
-            "intMinorMin": 0.145
+            "intMinorMin": 0.145,
+            "pilotDiaCut": "#25",
+            "pilotDiaCutDecimalIn": 0.1495,
+            "pilotDiaCutDecimalMm": 3.797,
+            "pilotDiaForm": "11/64",
+            "pilotDiaFormDecimalIn": 0.1719,
+            "pilotDiaFormDecimalMm": 4.366
         },
         {
             "size": "10–24 UNC",
@@ -2574,7 +2262,13 @@ const dashboardData = {
             "intPitchMax": 0.1661,
             "intPitchMin": 0.1629,
             "intMinorMax": 0.1555,
-            "intMinorMin": 0.145
+            "intMinorMin": 0.145,
+            "pilotDiaCut": "#25",
+            "pilotDiaCutDecimalIn": 0.1495,
+            "pilotDiaCutDecimalMm": 3.797,
+            "pilotDiaForm": "11/64",
+            "pilotDiaFormDecimalIn": 0.1719,
+            "pilotDiaFormDecimalMm": 4.366
         },
         {
             "size": "10–28 UNS",
@@ -2598,7 +2292,13 @@ const dashboardData = {
             "intPitchMax": 0.1736,
             "intPitchMin": 0.1697,
             "intMinorMax": 0.164,
-            "intMinorMin": 0.156
+            "intMinorMin": 0.156,
+            "pilotDiaCut": "#21",
+            "pilotDiaCutDecimalIn": 0.159,
+            "pilotDiaCutDecimalMm": 4.039,
+            "pilotDiaForm": "#16",
+            "pilotDiaFormDecimalIn": 0.177,
+            "pilotDiaFormDecimalMm": 4.496
         },
         {
             "size": "10–32 UNF",
@@ -2610,7 +2310,13 @@ const dashboardData = {
             "intPitchMax": 0.1726,
             "intPitchMin": 0.1697,
             "intMinorMax": 0.1641,
-            "intMinorMin": 0.156
+            "intMinorMin": 0.156,
+            "pilotDiaCut": "#21",
+            "pilotDiaCutDecimalIn": 0.159,
+            "pilotDiaCutDecimalMm": 4.039,
+            "pilotDiaForm": "#16",
+            "pilotDiaFormDecimalIn": 0.177,
+            "pilotDiaFormDecimalMm": 4.496
         },
         {
             "size": "10–36 UNS",
@@ -2670,7 +2376,13 @@ const dashboardData = {
             "intPitchMax": 0.1933,
             "intPitchMin": 0.1889,
             "intMinorMax": 0.181,
-            "intMinorMin": 0.171
+            "intMinorMin": 0.171,
+            "pilotDiaCut": "#16",
+            "pilotDiaCutDecimalIn": 0.177,
+            "pilotDiaCutDecimalMm": 4.496,
+            "pilotDiaForm": "#8",
+            "pilotDiaFormDecimalIn": 0.199,
+            "pilotDiaFormDecimalMm": 5.055
         },
         {
             "size": "12–24 UNC",
@@ -2682,7 +2394,13 @@ const dashboardData = {
             "intPitchMax": 0.1922,
             "intPitchMin": 0.1889,
             "intMinorMax": 0.1807,
-            "intMinorMin": 0.171
+            "intMinorMin": 0.171,
+            "pilotDiaCut": "#16",
+            "pilotDiaCutDecimalIn": 0.177,
+            "pilotDiaCutDecimalMm": 4.496,
+            "pilotDiaForm": "#8",
+            "pilotDiaFormDecimalIn": 0.199,
+            "pilotDiaFormDecimalMm": 5.055
         },
         {
             "size": "12–28 UNF",
@@ -2694,7 +2412,13 @@ const dashboardData = {
             "intPitchMax": 0.197,
             "intPitchMin": 0.1928,
             "intMinorMax": 0.186,
-            "intMinorMin": 0.177
+            "intMinorMin": 0.177,
+            "pilotDiaCut": "#14",
+            "pilotDiaCutDecimalIn": 0.182,
+            "pilotDiaCutDecimalMm": 4.623,
+            "pilotDiaForm": "#7",
+            "pilotDiaFormDecimalIn": 0.201,
+            "pilotDiaFormDecimalMm": 5.105
         },
         {
             "size": "12–28 UNF",
@@ -2706,7 +2430,13 @@ const dashboardData = {
             "intPitchMax": 0.1959,
             "intPitchMin": 0.1928,
             "intMinorMax": 0.1857,
-            "intMinorMin": 0.177
+            "intMinorMin": 0.177,
+            "pilotDiaCut": "#14",
+            "pilotDiaCutDecimalIn": 0.182,
+            "pilotDiaCutDecimalMm": 4.623,
+            "pilotDiaForm": "#7",
+            "pilotDiaFormDecimalIn": 0.201,
+            "pilotDiaFormDecimalMm": 5.105
         },
         {
             "size": "12–32 UNEF",
@@ -2790,7 +2520,13 @@ const dashboardData = {
             "intPitchMax": 0.2248,
             "intPitchMin": 0.2175,
             "intMinorMax": 0.207,
-            "intMinorMin": 0.196
+            "intMinorMin": 0.196,
+            "pilotDiaCut": "#7",
+            "pilotDiaCutDecimalIn": 0.201,
+            "pilotDiaCutDecimalMm": 5.105,
+            "pilotDiaForm": "#1",
+            "pilotDiaFormDecimalIn": 0.228,
+            "pilotDiaFormDecimalMm": 5.791
         },
         {
             "size": "1/4–20 UNC",
@@ -2802,7 +2538,13 @@ const dashboardData = {
             "intPitchMax": 0.2224,
             "intPitchMin": 0.2175,
             "intMinorMax": 0.207,
-            "intMinorMin": 0.196
+            "intMinorMin": 0.196,
+            "pilotDiaCut": "#7",
+            "pilotDiaCutDecimalIn": 0.201,
+            "pilotDiaCutDecimalMm": 5.105,
+            "pilotDiaForm": "#1",
+            "pilotDiaFormDecimalIn": 0.228,
+            "pilotDiaFormDecimalMm": 5.791
         },
         {
             "size": "1/4–20 UNC",
@@ -2814,7 +2556,13 @@ const dashboardData = {
             "intPitchMax": 0.2211,
             "intPitchMin": 0.2175,
             "intMinorMax": 0.2067,
-            "intMinorMin": 0.196
+            "intMinorMin": 0.196,
+            "pilotDiaCut": "#7",
+            "pilotDiaCutDecimalIn": 0.201,
+            "pilotDiaCutDecimalMm": 5.105,
+            "pilotDiaForm": "#1",
+            "pilotDiaFormDecimalIn": 0.228,
+            "pilotDiaFormDecimalMm": 5.791
         },
         {
             "size": "1/4–24 UNS",
@@ -2850,7 +2598,13 @@ const dashboardData = {
             "intPitchMax": 0.2333,
             "intPitchMin": 0.2268,
             "intMinorMax": 0.22,
-            "intMinorMin": 0.211
+            "intMinorMin": 0.211,
+            "pilotDiaCut": "#3",
+            "pilotDiaCutDecimalIn": 0.213,
+            "pilotDiaCutDecimalMm": 5.41,
+            "pilotDiaForm": "15/64",
+            "pilotDiaFormDecimalIn": 0.2344,
+            "pilotDiaFormDecimalMm": 5.953
         },
         {
             "size": "1/4–28 UNF",
@@ -2862,7 +2616,13 @@ const dashboardData = {
             "intPitchMax": 0.2311,
             "intPitchMin": 0.2268,
             "intMinorMax": 0.22,
-            "intMinorMin": 0.211
+            "intMinorMin": 0.211,
+            "pilotDiaCut": "#3",
+            "pilotDiaCutDecimalIn": 0.213,
+            "pilotDiaCutDecimalMm": 5.41,
+            "pilotDiaForm": "15/64",
+            "pilotDiaFormDecimalIn": 0.2344,
+            "pilotDiaFormDecimalMm": 5.953
         },
         {
             "size": "1/4–28 UNF",
@@ -2874,7 +2634,13 @@ const dashboardData = {
             "intPitchMax": 0.23,
             "intPitchMin": 0.2268,
             "intMinorMax": 0.219,
-            "intMinorMin": 0.211
+            "intMinorMin": 0.211,
+            "pilotDiaCut": "#3",
+            "pilotDiaCutDecimalIn": 0.213,
+            "pilotDiaCutDecimalMm": 5.41,
+            "pilotDiaForm": "15/64",
+            "pilotDiaFormDecimalIn": 0.2344,
+            "pilotDiaFormDecimalMm": 5.953
         },
         {
             "size": "1/4–32 UNEF",
@@ -2958,7 +2724,13 @@ const dashboardData = {
             "intPitchMax": 0.2843,
             "intPitchMin": 0.2764,
             "intMinorMax": 0.265,
-            "intMinorMin": 0.252
+            "intMinorMin": 0.252,
+            "pilotDiaCut": "F",
+            "pilotDiaCutDecimalIn": 0.257,
+            "pilotDiaCutDecimalMm": 6.528,
+            "pilotDiaForm": "L",
+            "pilotDiaFormDecimalIn": 0.29,
+            "pilotDiaFormDecimalMm": 7.366
         },
         {
             "size": "5/16–18 UNC",
@@ -2970,7 +2742,13 @@ const dashboardData = {
             "intPitchMax": 0.2817,
             "intPitchMin": 0.2764,
             "intMinorMax": 0.265,
-            "intMinorMin": 0.252
+            "intMinorMin": 0.252,
+            "pilotDiaCut": "F",
+            "pilotDiaCutDecimalIn": 0.257,
+            "pilotDiaCutDecimalMm": 6.528,
+            "pilotDiaForm": "L",
+            "pilotDiaFormDecimalIn": 0.29,
+            "pilotDiaFormDecimalMm": 7.366
         },
         {
             "size": "5/16–18 UNC",
@@ -2982,7 +2760,13 @@ const dashboardData = {
             "intPitchMax": 0.2803,
             "intPitchMin": 0.2764,
             "intMinorMax": 0.263,
-            "intMinorMin": 0.252
+            "intMinorMin": 0.252,
+            "pilotDiaCut": "F",
+            "pilotDiaCutDecimalIn": 0.257,
+            "pilotDiaCutDecimalMm": 6.528,
+            "pilotDiaForm": "L",
+            "pilotDiaFormDecimalIn": 0.29,
+            "pilotDiaFormDecimalMm": 7.366
         },
         {
             "size": "5/16–20 UN",
@@ -3018,7 +2802,13 @@ const dashboardData = {
             "intPitchMax": 0.2925,
             "intPitchMin": 0.2854,
             "intMinorMax": 0.277,
-            "intMinorMin": 0.267
+            "intMinorMin": 0.267,
+            "pilotDiaCut": "I",
+            "pilotDiaCutDecimalIn": 0.272,
+            "pilotDiaCutDecimalMm": 6.909,
+            "pilotDiaForm": "M",
+            "pilotDiaFormDecimalIn": 0.295,
+            "pilotDiaFormDecimalMm": 7.493
         },
         {
             "size": "5/16–24 UNF",
@@ -3030,7 +2820,13 @@ const dashboardData = {
             "intPitchMax": 0.2902,
             "intPitchMin": 0.2854,
             "intMinorMax": 0.277,
-            "intMinorMin": 0.267
+            "intMinorMin": 0.267,
+            "pilotDiaCut": "I",
+            "pilotDiaCutDecimalIn": 0.272,
+            "pilotDiaCutDecimalMm": 6.909,
+            "pilotDiaForm": "M",
+            "pilotDiaFormDecimalIn": 0.295,
+            "pilotDiaFormDecimalMm": 7.493
         },
         {
             "size": "5/16–24 UNF",
@@ -3042,7 +2838,13 @@ const dashboardData = {
             "intPitchMax": 0.289,
             "intPitchMin": 0.2854,
             "intMinorMax": 0.2754,
-            "intMinorMin": 0.267
+            "intMinorMin": 0.267,
+            "pilotDiaCut": "I",
+            "pilotDiaCutDecimalIn": 0.272,
+            "pilotDiaCutDecimalMm": 6.909,
+            "pilotDiaForm": "M",
+            "pilotDiaFormDecimalIn": 0.295,
+            "pilotDiaFormDecimalMm": 7.493
         },
         {
             "size": "5/16–27 UNS",
@@ -3150,7 +2952,13 @@ const dashboardData = {
             "intPitchMax": 0.3429,
             "intPitchMin": 0.3344,
             "intMinorMax": 0.321,
-            "intMinorMin": 0.307
+            "intMinorMin": 0.307,
+            "pilotDiaCut": "5/16",
+            "pilotDiaCutDecimalIn": 0.3125,
+            "pilotDiaCutDecimalMm": 7.938,
+            "pilotDiaForm": "S",
+            "pilotDiaFormDecimalIn": 0.348,
+            "pilotDiaFormDecimalMm": 8.839
         },
         {
             "size": "3/8–16 UNC",
@@ -3162,7 +2970,13 @@ const dashboardData = {
             "intPitchMax": 0.3401,
             "intPitchMin": 0.3344,
             "intMinorMax": 0.321,
-            "intMinorMin": 0.307
+            "intMinorMin": 0.307,
+            "pilotDiaCut": "5/16",
+            "pilotDiaCutDecimalIn": 0.3125,
+            "pilotDiaCutDecimalMm": 7.938,
+            "pilotDiaForm": "S",
+            "pilotDiaFormDecimalIn": 0.348,
+            "pilotDiaFormDecimalMm": 8.839
         },
         {
             "size": "3/8–16 UNC",
@@ -3174,7 +2988,13 @@ const dashboardData = {
             "intPitchMax": 0.3387,
             "intPitchMin": 0.3344,
             "intMinorMax": 0.3182,
-            "intMinorMin": 0.307
+            "intMinorMin": 0.307,
+            "pilotDiaCut": "5/16",
+            "pilotDiaCutDecimalIn": 0.3125,
+            "pilotDiaCutDecimalMm": 7.938,
+            "pilotDiaForm": "S",
+            "pilotDiaFormDecimalIn": 0.348,
+            "pilotDiaFormDecimalMm": 8.839
         },
         {
             "size": "3/8–18 UNS",
@@ -3222,7 +3042,13 @@ const dashboardData = {
             "intPitchMax": 0.3553,
             "intPitchMin": 0.3479,
             "intMinorMax": 0.34,
-            "intMinorMin": 0.33
+            "intMinorMin": 0.33,
+            "pilotDiaCut": "Q",
+            "pilotDiaCutDecimalIn": 0.332,
+            "pilotDiaCutDecimalMm": 8.433,
+            "pilotDiaForm": "T",
+            "pilotDiaFormDecimalIn": 0.358,
+            "pilotDiaFormDecimalMm": 9.093
         },
         {
             "size": "3/8–24 UNF",
@@ -3234,7 +3060,13 @@ const dashboardData = {
             "intPitchMax": 0.3528,
             "intPitchMin": 0.3479,
             "intMinorMax": 0.34,
-            "intMinorMin": 0.33
+            "intMinorMin": 0.33,
+            "pilotDiaCut": "Q",
+            "pilotDiaCutDecimalIn": 0.332,
+            "pilotDiaCutDecimalMm": 8.433,
+            "pilotDiaForm": "T",
+            "pilotDiaFormDecimalIn": 0.358,
+            "pilotDiaFormDecimalMm": 9.093
         },
         {
             "size": "3/8–24 UNF",
@@ -3246,7 +3078,13 @@ const dashboardData = {
             "intPitchMax": 0.3516,
             "intPitchMin": 0.3479,
             "intMinorMax": 0.3372,
-            "intMinorMin": 0.33
+            "intMinorMin": 0.33,
+            "pilotDiaCut": "Q",
+            "pilotDiaCutDecimalIn": 0.332,
+            "pilotDiaCutDecimalMm": 8.433,
+            "pilotDiaForm": "T",
+            "pilotDiaFormDecimalIn": 0.358,
+            "pilotDiaFormDecimalMm": 9.093
         },
         {
             "size": "3/8–27 UNS",
@@ -3354,7 +3192,13 @@ const dashboardData = {
             "intPitchMax": 0.4003,
             "intPitchMin": 0.3911,
             "intMinorMax": 0.376,
-            "intMinorMin": 0.36
+            "intMinorMin": 0.36,
+            "pilotDiaCut": "U",
+            "pilotDiaCutDecimalIn": 0.368,
+            "pilotDiaCutDecimalMm": 9.347,
+            "pilotDiaForm": "13/32",
+            "pilotDiaFormDecimalIn": 0.4062,
+            "pilotDiaFormDecimalMm": 10.319
         },
         {
             "size": "7/16–14 UNC",
@@ -3366,7 +3210,13 @@ const dashboardData = {
             "intPitchMax": 0.3972,
             "intPitchMin": 0.3911,
             "intMinorMax": 0.376,
-            "intMinorMin": 0.36
+            "intMinorMin": 0.36,
+            "pilotDiaCut": "U",
+            "pilotDiaCutDecimalIn": 0.368,
+            "pilotDiaCutDecimalMm": 9.347,
+            "pilotDiaForm": "13/32",
+            "pilotDiaFormDecimalIn": 0.4062,
+            "pilotDiaFormDecimalMm": 10.319
         },
         {
             "size": "7/16–14 UNC",
@@ -3378,7 +3228,13 @@ const dashboardData = {
             "intPitchMax": 0.3957,
             "intPitchMin": 0.3911,
             "intMinorMax": 0.3717,
-            "intMinorMin": 0.36
+            "intMinorMin": 0.36,
+            "pilotDiaCut": "U",
+            "pilotDiaCutDecimalIn": 0.368,
+            "pilotDiaCutDecimalMm": 9.347,
+            "pilotDiaForm": "13/32",
+            "pilotDiaFormDecimalIn": 0.4062,
+            "pilotDiaFormDecimalMm": 10.319
         },
         {
             "size": "7/16–16 UN",
@@ -3426,7 +3282,13 @@ const dashboardData = {
             "intPitchMax": 0.4131,
             "intPitchMin": 0.405,
             "intMinorMax": 0.395,
-            "intMinorMin": 0.383
+            "intMinorMin": 0.383,
+            "pilotDiaCut": "25/64",
+            "pilotDiaCutDecimalIn": 0.3906,
+            "pilotDiaCutDecimalMm": 9.922,
+            "pilotDiaForm": "Z",
+            "pilotDiaFormDecimalIn": 0.413,
+            "pilotDiaFormDecimalMm": 10.49
         },
         {
             "size": "7/16–20 UNF",
@@ -3438,7 +3300,13 @@ const dashboardData = {
             "intPitchMax": 0.4104,
             "intPitchMin": 0.405,
             "intMinorMax": 0.395,
-            "intMinorMin": 0.383
+            "intMinorMin": 0.383,
+            "pilotDiaCut": "25/64",
+            "pilotDiaCutDecimalIn": 0.3906,
+            "pilotDiaCutDecimalMm": 9.922,
+            "pilotDiaForm": "Z",
+            "pilotDiaFormDecimalIn": 0.413,
+            "pilotDiaFormDecimalMm": 10.49
         },
         {
             "size": "7/16–20 UNF",
@@ -3450,7 +3318,13 @@ const dashboardData = {
             "intPitchMax": 0.4091,
             "intPitchMin": 0.405,
             "intMinorMax": 0.3916,
-            "intMinorMin": 0.383
+            "intMinorMin": 0.383,
+            "pilotDiaCut": "25/64",
+            "pilotDiaCutDecimalIn": 0.3906,
+            "pilotDiaCutDecimalMm": 9.922,
+            "pilotDiaForm": "Z",
+            "pilotDiaFormDecimalIn": 0.413,
+            "pilotDiaFormDecimalMm": 10.49
         },
         {
             "size": "7/16–24 UNS",
@@ -3558,7 +3432,13 @@ const dashboardData = {
             "intPitchMax": 0.4597,
             "intPitchMin": 0.45,
             "intMinorMax": 0.434,
-            "intMinorMin": 0.417
+            "intMinorMin": 0.417,
+            "pilotDiaCut": "27/64",
+            "pilotDiaCutDecimalIn": 0.4219,
+            "pilotDiaCutDecimalMm": 10.716,
+            "pilotDiaForm": "15/32",
+            "pilotDiaFormDecimalIn": 0.4688,
+            "pilotDiaFormDecimalMm": 11.906
         },
         {
             "size": "1/2–13 UNC",
@@ -3570,7 +3450,13 @@ const dashboardData = {
             "intPitchMax": 0.4565,
             "intPitchMin": 0.45,
             "intMinorMax": 0.434,
-            "intMinorMin": 0.417
+            "intMinorMin": 0.417,
+            "pilotDiaCut": "27/64",
+            "pilotDiaCutDecimalIn": 0.4219,
+            "pilotDiaCutDecimalMm": 10.716,
+            "pilotDiaForm": "15/32",
+            "pilotDiaFormDecimalIn": 0.4688,
+            "pilotDiaFormDecimalMm": 11.906
         },
         {
             "size": "1/2–13 UNC",
@@ -3582,7 +3468,13 @@ const dashboardData = {
             "intPitchMax": 0.4548,
             "intPitchMin": 0.45,
             "intMinorMax": 0.4284,
-            "intMinorMin": 0.417
+            "intMinorMin": 0.417,
+            "pilotDiaCut": "27/64",
+            "pilotDiaCutDecimalIn": 0.4219,
+            "pilotDiaCutDecimalMm": 10.716,
+            "pilotDiaForm": "15/32",
+            "pilotDiaFormDecimalIn": 0.4688,
+            "pilotDiaFormDecimalMm": 11.906
         },
         {
             "size": "1/2–14 UNS",
@@ -3642,7 +3534,13 @@ const dashboardData = {
             "intPitchMax": 0.4759,
             "intPitchMin": 0.4675,
             "intMinorMax": 0.457,
-            "intMinorMin": 0.446
+            "intMinorMin": 0.446,
+            "pilotDiaCut": "29/64",
+            "pilotDiaCutDecimalIn": 0.4531,
+            "pilotDiaCutDecimalMm": 11.509,
+            "pilotDiaForm": "31/64",
+            "pilotDiaFormDecimalIn": 0.4844,
+            "pilotDiaFormDecimalMm": 12.303
         },
         {
             "size": "1/2–20 UNF",
@@ -3654,7 +3552,13 @@ const dashboardData = {
             "intPitchMax": 0.4731,
             "intPitchMin": 0.4675,
             "intMinorMax": 0.457,
-            "intMinorMin": 0.446
+            "intMinorMin": 0.446,
+            "pilotDiaCut": "29/64",
+            "pilotDiaCutDecimalIn": 0.4531,
+            "pilotDiaCutDecimalMm": 11.509,
+            "pilotDiaForm": "31/64",
+            "pilotDiaFormDecimalIn": 0.4844,
+            "pilotDiaFormDecimalMm": 12.303
         },
         {
             "size": "1/2–20 UNF",
@@ -3666,7 +3570,13 @@ const dashboardData = {
             "intPitchMax": 0.4717,
             "intPitchMin": 0.4675,
             "intMinorMax": 0.4537,
-            "intMinorMin": 0.446
+            "intMinorMin": 0.446,
+            "pilotDiaCut": "29/64",
+            "pilotDiaCutDecimalIn": 0.4531,
+            "pilotDiaCutDecimalMm": 11.509,
+            "pilotDiaForm": "31/64",
+            "pilotDiaFormDecimalIn": 0.4844,
+            "pilotDiaFormDecimalMm": 12.303
         },
         {
             "size": "1/2–24 UNS",
@@ -3750,7 +3660,13 @@ const dashboardData = {
             "intPitchMax": 0.5186,
             "intPitchMin": 0.5084,
             "intMinorMax": 0.49,
-            "intMinorMin": 0.472
+            "intMinorMin": 0.472,
+            "pilotDiaCut": "31/64",
+            "pilotDiaCutDecimalIn": 0.4844,
+            "pilotDiaCutDecimalMm": 12.303,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–12 UNC",
@@ -3762,7 +3678,13 @@ const dashboardData = {
             "intPitchMax": 0.5152,
             "intPitchMin": 0.5084,
             "intMinorMax": 0.49,
-            "intMinorMin": 0.472
+            "intMinorMin": 0.472,
+            "pilotDiaCut": "31/64",
+            "pilotDiaCutDecimalIn": 0.4844,
+            "pilotDiaCutDecimalMm": 12.303,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–12 UNC",
@@ -3774,7 +3696,13 @@ const dashboardData = {
             "intPitchMax": 0.5135,
             "intPitchMin": 0.5084,
             "intMinorMax": 0.4843,
-            "intMinorMin": 0.472
+            "intMinorMin": 0.472,
+            "pilotDiaCut": "31/64",
+            "pilotDiaCutDecimalIn": 0.4844,
+            "pilotDiaCutDecimalMm": 12.303,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–14 UNS",
@@ -3822,7 +3750,13 @@ const dashboardData = {
             "intPitchMax": 0.5353,
             "intPitchMin": 0.5264,
             "intMinorMax": 0.515,
-            "intMinorMin": 0.502
+            "intMinorMin": 0.502,
+            "pilotDiaCut": "33/64",
+            "pilotDiaCutDecimalIn": 0.5156,
+            "pilotDiaCutDecimalMm": 13.097,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–18 UNF",
@@ -3834,7 +3768,13 @@ const dashboardData = {
             "intPitchMax": 0.5323,
             "intPitchMin": 0.5264,
             "intMinorMax": 0.515,
-            "intMinorMin": 0.502
+            "intMinorMin": 0.502,
+            "pilotDiaCut": "33/64",
+            "pilotDiaCutDecimalIn": 0.5156,
+            "pilotDiaCutDecimalMm": 13.097,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–18 UNF",
@@ -3846,7 +3786,13 @@ const dashboardData = {
             "intPitchMax": 0.5308,
             "intPitchMin": 0.5264,
             "intMinorMax": 0.5106,
-            "intMinorMin": 0.502
+            "intMinorMin": 0.502,
+            "pilotDiaCut": "33/64",
+            "pilotDiaCutDecimalIn": 0.5156,
+            "pilotDiaCutDecimalMm": 13.097,
+            "pilotDiaForm": "17/32",
+            "pilotDiaFormDecimalIn": 0.5312,
+            "pilotDiaFormDecimalMm": 13.494
         },
         {
             "size": "9/16–20 UN",
@@ -3966,7 +3912,13 @@ const dashboardData = {
             "intPitchMax": 0.5767,
             "intPitchMin": 0.566,
             "intMinorMax": 0.546,
-            "intMinorMin": 0.527
+            "intMinorMin": 0.527,
+            "pilotDiaCut": "17/32",
+            "pilotDiaCutDecimalIn": 0.5312,
+            "pilotDiaCutDecimalMm": 13.494,
+            "pilotDiaForm": "37/64",
+            "pilotDiaFormDecimalIn": 0.5781,
+            "pilotDiaFormDecimalMm": 14.684
         },
         {
             "size": "5/8–11 UNC",
@@ -3978,7 +3930,13 @@ const dashboardData = {
             "intPitchMax": 0.5732,
             "intPitchMin": 0.566,
             "intMinorMax": 0.546,
-            "intMinorMin": 0.527
+            "intMinorMin": 0.527,
+            "pilotDiaCut": "17/32",
+            "pilotDiaCutDecimalIn": 0.5312,
+            "pilotDiaCutDecimalMm": 13.494,
+            "pilotDiaForm": "37/64",
+            "pilotDiaFormDecimalIn": 0.5781,
+            "pilotDiaFormDecimalMm": 14.684
         },
         {
             "size": "5/8–11 UNC",
@@ -3990,7 +3948,13 @@ const dashboardData = {
             "intPitchMax": 0.5714,
             "intPitchMin": 0.566,
             "intMinorMax": 0.5391,
-            "intMinorMin": 0.527
+            "intMinorMin": 0.527,
+            "pilotDiaCut": "17/32",
+            "pilotDiaCutDecimalIn": 0.5312,
+            "pilotDiaCutDecimalMm": 13.494,
+            "pilotDiaForm": "37/64",
+            "pilotDiaFormDecimalIn": 0.5781,
+            "pilotDiaFormDecimalMm": 14.684
         },
         {
             "size": "5/8–12 UN",
@@ -4062,7 +4026,13 @@ const dashboardData = {
             "intPitchMax": 0.598,
             "intPitchMin": 0.5889,
             "intMinorMax": 0.578,
-            "intMinorMin": 0.565
+            "intMinorMin": 0.565,
+            "pilotDiaCut": "37/64",
+            "pilotDiaCutDecimalIn": 0.5781,
+            "pilotDiaCutDecimalMm": 14.684,
+            "pilotDiaForm": "19/32",
+            "pilotDiaFormDecimalIn": 0.5938,
+            "pilotDiaFormDecimalMm": 15.081
         },
         {
             "size": "5/8–18 UNF",
@@ -4074,7 +4044,13 @@ const dashboardData = {
             "intPitchMax": 0.5949,
             "intPitchMin": 0.5889,
             "intMinorMax": 0.578,
-            "intMinorMin": 0.565
+            "intMinorMin": 0.565,
+            "pilotDiaCut": "37/64",
+            "pilotDiaCutDecimalIn": 0.5781,
+            "pilotDiaCutDecimalMm": 14.684,
+            "pilotDiaForm": "19/32",
+            "pilotDiaFormDecimalIn": 0.5938,
+            "pilotDiaFormDecimalMm": 15.081
         },
         {
             "size": "5/8–18 UNF",
@@ -4086,7 +4062,13 @@ const dashboardData = {
             "intPitchMax": 0.5934,
             "intPitchMin": 0.5889,
             "intMinorMax": 0.573,
-            "intMinorMin": 0.565
+            "intMinorMin": 0.565,
+            "pilotDiaCut": "37/64",
+            "pilotDiaCutDecimalIn": 0.5781,
+            "pilotDiaCutDecimalMm": 14.684,
+            "pilotDiaForm": "19/32",
+            "pilotDiaFormDecimalIn": 0.5938,
+            "pilotDiaFormDecimalMm": 15.081
         },
         {
             "size": "5/8–20 UN",
@@ -4350,7 +4332,13 @@ const dashboardData = {
             "intPitchMax": 0.6965,
             "intPitchMin": 0.685,
             "intMinorMax": 0.663,
-            "intMinorMin": 0.642
+            "intMinorMin": 0.642,
+            "pilotDiaCut": "21/32",
+            "pilotDiaCutDecimalIn": 0.6562,
+            "pilotDiaCutDecimalMm": 16.669,
+            "pilotDiaForm": "45/64",
+            "pilotDiaFormDecimalIn": 0.7031,
+            "pilotDiaFormDecimalMm": 17.859
         },
         {
             "size": "3/4–10 UNC",
@@ -4362,7 +4350,13 @@ const dashboardData = {
             "intPitchMax": 0.6927,
             "intPitchMin": 0.685,
             "intMinorMax": 0.663,
-            "intMinorMin": 0.642
+            "intMinorMin": 0.642,
+            "pilotDiaCut": "21/32",
+            "pilotDiaCutDecimalIn": 0.6562,
+            "pilotDiaCutDecimalMm": 16.669,
+            "pilotDiaForm": "45/64",
+            "pilotDiaFormDecimalIn": 0.7031,
+            "pilotDiaFormDecimalMm": 17.859
         },
         {
             "size": "3/4–10 UNC",
@@ -4374,7 +4368,13 @@ const dashboardData = {
             "intPitchMax": 0.6907,
             "intPitchMin": 0.685,
             "intMinorMax": 0.6545,
-            "intMinorMin": 0.642
+            "intMinorMin": 0.642,
+            "pilotDiaCut": "21/32",
+            "pilotDiaCutDecimalIn": 0.6562,
+            "pilotDiaCutDecimalMm": 16.669,
+            "pilotDiaForm": "45/64",
+            "pilotDiaFormDecimalIn": 0.7031,
+            "pilotDiaFormDecimalMm": 17.859
         },
         {
             "size": "3/4–12 UN",
@@ -4422,7 +4422,13 @@ const dashboardData = {
             "intPitchMax": 0.7192,
             "intPitchMin": 0.7094,
             "intMinorMax": 0.696,
-            "intMinorMin": 0.682
+            "intMinorMin": 0.682,
+            "pilotDiaCut": "11/16",
+            "pilotDiaCutDecimalIn": 0.6875,
+            "pilotDiaCutDecimalMm": 17.462,
+            "pilotDiaForm": "23/32",
+            "pilotDiaFormDecimalIn": 0.7188,
+            "pilotDiaFormDecimalMm": 18.256
         },
         {
             "size": "3/4–16 UNF",
@@ -4434,7 +4440,13 @@ const dashboardData = {
             "intPitchMax": 0.7159,
             "intPitchMin": 0.7094,
             "intMinorMax": 0.696,
-            "intMinorMin": 0.682
+            "intMinorMin": 0.682,
+            "pilotDiaCut": "11/16",
+            "pilotDiaCutDecimalIn": 0.6875,
+            "pilotDiaCutDecimalMm": 17.462,
+            "pilotDiaForm": "23/32",
+            "pilotDiaFormDecimalIn": 0.7188,
+            "pilotDiaFormDecimalMm": 18.256
         },
         {
             "size": "3/4–16 UNF",
@@ -4446,7 +4458,13 @@ const dashboardData = {
             "intPitchMax": 0.7143,
             "intPitchMin": 0.7094,
             "intMinorMax": 0.6908,
-            "intMinorMin": 0.682
+            "intMinorMin": 0.682,
+            "pilotDiaCut": "11/16",
+            "pilotDiaCutDecimalIn": 0.6875,
+            "pilotDiaCutDecimalMm": 17.462,
+            "pilotDiaForm": "23/32",
+            "pilotDiaFormDecimalIn": 0.7188,
+            "pilotDiaFormDecimalMm": 18.256
         },
         {
             "size": "3/4–18 UNS",
@@ -4686,7 +4704,13 @@ const dashboardData = {
             "intPitchMax": 0.8151,
             "intPitchMin": 0.8028,
             "intMinorMax": 0.778,
-            "intMinorMin": 0.755
+            "intMinorMin": 0.755,
+            "pilotDiaCut": "49/64",
+            "pilotDiaCutDecimalIn": 0.7656,
+            "pilotDiaCutDecimalMm": 19.447,
+            "pilotDiaForm": "53/64",
+            "pilotDiaFormDecimalIn": 0.8281,
+            "pilotDiaFormDecimalMm": 21.034
         },
         {
             "size": "7/8–9 UNC",
@@ -4698,7 +4722,13 @@ const dashboardData = {
             "intPitchMax": 0.811,
             "intPitchMin": 0.8028,
             "intMinorMax": 0.778,
-            "intMinorMin": 0.755
+            "intMinorMin": 0.755,
+            "pilotDiaCut": "49/64",
+            "pilotDiaCutDecimalIn": 0.7656,
+            "pilotDiaCutDecimalMm": 19.447,
+            "pilotDiaForm": "53/64",
+            "pilotDiaFormDecimalIn": 0.8281,
+            "pilotDiaFormDecimalMm": 21.034
         },
         {
             "size": "7/8–9 UNC",
@@ -4710,7 +4740,13 @@ const dashboardData = {
             "intPitchMax": 0.8089,
             "intPitchMin": 0.8028,
             "intMinorMax": 0.7681,
-            "intMinorMin": 0.755
+            "intMinorMin": 0.755,
+            "pilotDiaCut": "49/64",
+            "pilotDiaCutDecimalIn": 0.7656,
+            "pilotDiaCutDecimalMm": 19.447,
+            "pilotDiaForm": "53/64",
+            "pilotDiaFormDecimalIn": 0.8281,
+            "pilotDiaFormDecimalMm": 21.034
         },
         {
             "size": "7/8–10 UNS",
@@ -4758,7 +4794,13 @@ const dashboardData = {
             "intPitchMax": 0.8392,
             "intPitchMin": 0.8286,
             "intMinorMax": 0.814,
-            "intMinorMin": 0.798
+            "intMinorMin": 0.798,
+            "pilotDiaCut": "13/16",
+            "pilotDiaCutDecimalIn": 0.8125,
+            "pilotDiaCutDecimalMm": 20.637,
+            "pilotDiaForm": "27/32",
+            "pilotDiaFormDecimalIn": 0.8438,
+            "pilotDiaFormDecimalMm": 21.431
         },
         {
             "size": "7/8–14 UNF",
@@ -4770,7 +4812,13 @@ const dashboardData = {
             "intPitchMax": 0.8356,
             "intPitchMin": 0.8286,
             "intMinorMax": 0.814,
-            "intMinorMin": 0.798
+            "intMinorMin": 0.798,
+            "pilotDiaCut": "13/16",
+            "pilotDiaCutDecimalIn": 0.8125,
+            "pilotDiaCutDecimalMm": 20.637,
+            "pilotDiaForm": "27/32",
+            "pilotDiaFormDecimalIn": 0.8438,
+            "pilotDiaFormDecimalMm": 21.431
         },
         {
             "size": "7/8–14 UNF",
@@ -4782,7 +4830,13 @@ const dashboardData = {
             "intPitchMax": 0.8339,
             "intPitchMin": 0.8286,
             "intMinorMax": 0.8068,
-            "intMinorMin": 0.798
+            "intMinorMin": 0.798,
+            "pilotDiaCut": "13/16",
+            "pilotDiaCutDecimalIn": 0.8125,
+            "pilotDiaCutDecimalMm": 20.637,
+            "pilotDiaForm": "27/32",
+            "pilotDiaFormDecimalIn": 0.8438,
+            "pilotDiaFormDecimalMm": 21.431
         },
         {
             "size": "7/8–16 UN",
@@ -5046,7 +5100,13 @@ const dashboardData = {
             "intPitchMax": 0.932,
             "intPitchMin": 0.9188,
             "intMinorMax": 0.89,
-            "intMinorMin": 0.865
+            "intMinorMin": 0.865,
+            "pilotDiaCut": "7/8",
+            "pilotDiaCutDecimalIn": 0.875,
+            "pilotDiaCutDecimalMm": 22.225,
+            "pilotDiaForm": "15/16",
+            "pilotDiaFormDecimalIn": 0.9375,
+            "pilotDiaFormDecimalMm": 23.812
         },
         {
             "size": "1–8 UNC",
@@ -5058,7 +5118,13 @@ const dashboardData = {
             "intPitchMax": 0.9276,
             "intPitchMin": 0.9188,
             "intMinorMax": 0.89,
-            "intMinorMin": 0.865
+            "intMinorMin": 0.865,
+            "pilotDiaCut": "7/8",
+            "pilotDiaCutDecimalIn": 0.875,
+            "pilotDiaCutDecimalMm": 22.225,
+            "pilotDiaForm": "15/16",
+            "pilotDiaFormDecimalIn": 0.9375,
+            "pilotDiaFormDecimalMm": 23.812
         },
         {
             "size": "1–8 UNC",
@@ -5070,7 +5136,13 @@ const dashboardData = {
             "intPitchMax": 0.9254,
             "intPitchMin": 0.9188,
             "intMinorMax": 0.8797,
-            "intMinorMin": 0.865
+            "intMinorMin": 0.865,
+            "pilotDiaCut": "7/8",
+            "pilotDiaCutDecimalIn": 0.875,
+            "pilotDiaCutDecimalMm": 22.225,
+            "pilotDiaForm": "15/16",
+            "pilotDiaFormDecimalIn": 0.9375,
+            "pilotDiaFormDecimalMm": 23.812
         },
         {
             "size": "1–10 UNS",
@@ -5094,7 +5166,13 @@ const dashboardData = {
             "intPitchMax": 0.9573,
             "intPitchMin": 0.9459,
             "intMinorMax": 0.928,
-            "intMinorMin": 0.91
+            "intMinorMin": 0.91,
+            "pilotDiaCut": "59/64",
+            "pilotDiaCutDecimalIn": 0.9219,
+            "pilotDiaCutDecimalMm": 23.416,
+            "pilotDiaForm": "31/32",
+            "pilotDiaFormDecimalIn": 0.9688,
+            "pilotDiaFormDecimalMm": 24.606
         },
         {
             "size": "1–12 UNF",
@@ -5106,7 +5184,13 @@ const dashboardData = {
             "intPitchMax": 0.9535,
             "intPitchMin": 0.9459,
             "intMinorMax": 0.928,
-            "intMinorMin": 0.91
+            "intMinorMin": 0.91,
+            "pilotDiaCut": "59/64",
+            "pilotDiaCutDecimalIn": 0.9219,
+            "pilotDiaCutDecimalMm": 23.416,
+            "pilotDiaForm": "31/32",
+            "pilotDiaFormDecimalIn": 0.9688,
+            "pilotDiaFormDecimalMm": 24.606
         },
         {
             "size": "1–12 UNF",
@@ -5118,7 +5202,13 @@ const dashboardData = {
             "intPitchMax": 0.9516,
             "intPitchMin": 0.9459,
             "intMinorMax": 0.9198,
-            "intMinorMin": 0.91
+            "intMinorMin": 0.91,
+            "pilotDiaCut": "59/64",
+            "pilotDiaCutDecimalIn": 0.9219,
+            "pilotDiaCutDecimalMm": 23.416,
+            "pilotDiaForm": "31/32",
+            "pilotDiaFormDecimalIn": 0.9688,
+            "pilotDiaFormDecimalMm": 24.606
         },
         {
             "size": "1–14 UNS",

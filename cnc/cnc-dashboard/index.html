@@ -235,8 +235,8 @@
                         <div class="tab-buttons">
                             <button class="tab-btn active" data-target="metric-threads-tab">Metric Threads</button>
                             <button class="tab-btn" data-target="unified-threads-tab">Unified Threads</button>
-                            <button class="tab-btn" data-target="drills-tab">Drill Sizes</button>
-                            <button class="tab-btn" data-target="tap-sizes-tab">Tap Sizes</button>
+                            <button class="tab-btn" data-target="pilot-sizes-tab">Pilot Sizes</button>
+                            <button class="tab-btn" data-target="drill-sizes-tab">Drill Sizes</button>
                             <button class="tab-btn" data-target="cutting-speed-tab">Cutting Speed</button>
                         </div>
 
@@ -282,7 +282,7 @@
                             </table>
                         </div>
 
-                        <div id="drills-tab" class="tab-content">
+                        <div id="drill-sizes-tab" class="tab-content">
                             <table>
                                 <thead>
                                     <tr>
@@ -296,12 +296,11 @@
                             </table>
                         </div>
 
-                        <div id="tap-sizes-tab" class="tab-content">
+                        <div id="pilot-sizes-tab" class="tab-content">
                             <table>
                                 <thead>
                                     <tr>
                                         <th>Tap Size</th>
-                                        <th>Type</th>
                                         <th>Cut Tap Drill</th>
                                         <th>Form Tap Drill</th>
                                     </tr>
@@ -332,7 +331,11 @@
 
         if (tapSelect) {
             // Populate tap select
-            const uniqueTaps = [...new Set(dashboardData.tapSizes.map(t => t.size))];
+            const allSizes = [
+                ...(dashboardData.metricThreads || []).map(t => t.size),
+                ...(dashboardData.unifiedThreads || []).map(t => t.size)
+            ];
+            const uniqueTaps = [...new Set(allSizes)];
             uniqueTaps.forEach(size => {
                 const option = document.createElement('option');
                 option.value = size;
@@ -345,24 +348,43 @@
                 let diaIn = 0;
                 let tpi = 0;
 
-                if (sizeStr.startsWith('M')) {
-                    // Metric e.g., "M2.5 x 0.45", "M6 x 1.0"
-                    let parts = sizeStr.substring(1).split('x').map(p => p.trim());
+                // Normalize dashes for parsing
+                sizeStr = sizeStr.replace(/–/g, '-').trim();
+
+                if (sizeStr.toUpperCase().startsWith('M')) {
+                    // Metric e.g., "M2.5 x 0.45", "M6", "M8X1"
+                    let parts = sizeStr.substring(1).split(/x/i).map(p => p.trim());
                     diaIn = parseFloat(parts[0]) / 25.4;
-                    let pitchMm = parseFloat(parts[1]);
+                    let pitchMm;
+                    if (parts.length > 1) {
+                        pitchMm = parseFloat(parts[1]);
+                    } else {
+                        // Estimate pitch from major and pitch diameters if it's a coarse thread missing the pitch
+                        const thread = (dashboardData.metricThreads || []).find(t => t.size.toUpperCase() === sizeStr.toUpperCase());
+                        if (thread && thread.extMajorMax && thread.extPitchMax) {
+                            pitchMm = (thread.extMajorMax - thread.extPitchMax) / 0.6495;
+                            pitchMm = Math.round(pitchMm * 100) / 100;
+                        } else {
+                            pitchMm = 1.0; // Fallback
+                        }
+                    }
                     tpi = 25.4 / pitchMm;
                 } else {
-                    // Imperial e.g., "#0-80 UNF", "1/4-20 UNC", "1\"-8 UNC"
+                    // Imperial e.g., "#0-80 UNF", "1/4-20 UNC", "1\"-8 UNC", "0-80 UNF"
                     let parts = sizeStr.split('-');
                     let diaPart = parts[0];
-                    let tpiPart = parts[1].split(' ')[0];
+                    let tpiPart = parts[1] ? parts[1].split(' ')[0] : '0';
                     tpi = parseFloat(tpiPart);
 
                     if (diaPart.startsWith('#')) {
                         let num = parseInt(diaPart.substring(1));
                         diaIn = num * 0.013 + 0.060;
+                    } else if (diaPart.length <= 2 && !diaPart.includes('/') && parseInt(diaPart) <= 12) {
+                        // Handle cases like "0-80" without '#'
+                        let num = parseInt(diaPart);
+                        diaIn = num * 0.013 + 0.060;
                     } else {
-                        diaPart = diaPart.replace('"', '').trim();
+                        diaPart = diaPart.replace(/"/g, '').trim();
                         if (diaPart.includes('/')) {
                             let [n, d] = diaPart.split('/');
                             diaIn = parseFloat(n) / parseFloat(d);
@@ -521,10 +543,17 @@
         const tapRowGen = row => {
             const cutDrill = row.pilotDiaCut || '-';
             const formDrill = row.pilotDiaForm || '-';
-            return `<tr><td>${row.size}</td><td>${row.type}</td><td>${cutDrill}</td><td>${formDrill}</td></tr>`;
+            return `<tr><td>${row.size}</td><td>${cutDrill}</td><td>${formDrill}</td></tr>`;
         };
 
-        populateTable('taps-tbody', dashboardData.tapSizes, tapRowGen);
+        const allThreadsWithPilots = [
+            ...(dashboardData.metricThreads || []),
+            ...(dashboardData.unifiedThreads || [])
+        ].filter(t => t.pilotDiaCut || t.pilotDiaForm);
+
+        const uniquePilotThreads = Array.from(new Map(allThreadsWithPilots.map(t => [t.size, t])).values());
+
+        populateTable('taps-tbody', uniquePilotThreads, tapRowGen);
 
         // Chart.js Logic for Cutting Speed
         const initChart = () => {
