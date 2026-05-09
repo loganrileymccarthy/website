@@ -88,11 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let toolMeasurements = {};
     let headerComments = [];
 
-    // --- Panel Toggle ---
-    togglePanelBtn.addEventListener('click', () => {
-        controlsPanel.classList.toggle('collapsed');
-    });
-
     // --- Draggable Panel Resizer ---
     const panelResizer = document.getElementById('panel-resizer');
     let isResizing = false;
