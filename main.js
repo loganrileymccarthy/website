@@ -3,13 +3,13 @@ class MyHeader extends HTMLElement {
 		this.innerHTML = `
 		<header>
       		<h1>
-				<a href="https://loganrileymccarthy.com/index.html" class="homeButton">&#x2694 LRM &#x2694</a>
+				<a href="/index.html" class="homeButton">&#x2694 LRM &#x2694</a>
 			</h1>
 			<p>
-				<a href="https://loganrileymccarthy.com/about.html">about</a> // 
-				<a href="https://loganrileymccarthy.com/cnc.html">cnc</a> //
-				<a href="https://loganrileymccarthy.com/fungi.html">fungi</a> //
-				<a href="https://loganrileymccarthy.com/other-stuff.html">other stuff</a>
+				<a href="/about.html">about</a> // 
+				<a href="/cnc.html">cnc</a> //
+				<a href="/fungi.html">fungi</a> //
+				<a href="/other-stuff.html">other stuff</a>
     		</p>
     	</header>
 	`

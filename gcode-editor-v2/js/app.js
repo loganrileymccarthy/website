@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const codeEditor = document.getElementById('code-editor');
     const editorContainer = document.getElementById('editor-container');
     const controlsPanel = document.getElementById('controls-panel');
-    const togglePanelBtn = document.getElementById('toggle-panel-btn');
 
     //const statusDot = document.querySelector('.status-indicator .dot');
     const statFilename = document.getElementById('stat-filename');
@@ -200,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Show Controls
             controlsPanel.classList.remove('hidden');
-            togglePanelBtn.classList.remove('hidden');
 
             //statusDot.classList.remove('empty');
             //statusDot.classList.add('active');
@@ -233,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show Editor and Controls
         editorContainer.classList.remove('hidden');
         controlsPanel.classList.remove('hidden');
-        togglePanelBtn.classList.remove('hidden');
 
         //statusDot.classList.remove('empty');
         //statusDot.classList.add('active');
@@ -777,7 +774,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         editorContainer.classList.add('hidden');
         controlsPanel.classList.add('hidden');
-        togglePanelBtn.classList.add('hidden');
         controlsPanel.classList.remove('collapsed');
 
         //statusDot.classList.add('empty');
