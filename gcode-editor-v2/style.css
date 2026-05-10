@@ -27,7 +27,7 @@ body { /* Keep page from growing/shrinking */
     flex: 1;
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    padding: 10px 10px 24px 10px;
     overflow: hidden;
     transition: width var(--transition-smooth);
 }
@@ -79,12 +79,13 @@ body { /* Keep page from growing/shrinking */
     color: var(--text-muted);
     font-size: 13px;
     font-weight: 500;
-    padding: 0 5px 10px 5px;
+    padding: 0px 3px 5px 3px;
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: var(--transition-fast);
     white-space: nowrap;
     margin-bottom: 0px;
+    border-radius: 0px;
 }
 .mod-tab:hover {
     color: var(--text-main);
@@ -142,7 +143,7 @@ body { /* Keep page from growing/shrinking */
     background: var(--primary);
 }
 .panel-inner {
-    padding: 10px;
+    padding: 10px 10px 24px 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
