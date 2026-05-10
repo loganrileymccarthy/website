@@ -200,8 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show Controls
             controlsPanel.classList.remove('hidden');
 
-            //statusDot.classList.remove('empty');
-            //statusDot.classList.add('active');
             statFilename.value = fileMeta.name;
 
             parseGCodeIntoOperations(currentRawCode);
@@ -903,8 +901,8 @@ document.addEventListener('DOMContentLoaded', () => {
             out += "(*** BEGIN VARIABLES ***) \n";
             out += "(VARIABLES) \n";
             if (useProbing || useLengthCheck || useVarTools || useVarZones) {
-                if (useProbing) out += `(#801: probing toggle) \n`;
-                if (useLengthCheck) out += `(#800: tool length measurement toggle) \n`;
+                if (useProbing) out += `(#800: probing toggle) \n`;
+                if (useLengthCheck) out += `(Uses length measurement macro P1) \n`;
                 out += "\n";
             }
         }
@@ -973,7 +971,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (useProbing) {
             out += "(*** BEGIN PROBE TOGGLE ***) \n";
-            out += "IF [#801 EQ 1] GOTO31 \n";
+            out += "IF [#800 EQ 1] GOTO31 \n";
             out += "N0 \n";
             out += "(*** END PROBE TOGGLE ***) \n\n";
         }
@@ -983,21 +981,13 @@ document.addEventListener('DOMContentLoaded', () => {
             out += `N${op.nCode} (${op.description ? op.description : ''}) \n`;
 
             if (useLengthCheck && op.tool && toolMeasurements[op.tool] && toolMeasurements[op.tool].measure !== false) {
-                out += `(*** BEGIN LENGTH CHECK ***) \n`;
-                out += `IF [#${2000 + parseInt(op.tool)} NE 10.0] GOTO${parseInt(op.nCode) * 100} \n\n`;
-                out += `(MEASURE TOOL ${op.tool})\n`;
-                out += `G53 G0 Z0 \n`;
-
                 let tRef = useVarTools ? `#${toolVars[op.tool]}` : op.tool;
-                out += `T${tRef} M06 \n`;
                 const tLength = toolMeasurements[op.tool]?.length || "0.0";
                 const tDiameter = toolMeasurements[op.tool]?.diameter || "0.0";
-                out += `M0 \n`;
-                out += `(BLOW OFF PROBE) \n`;
-                out += `G65 P9995 T${tRef} A0.0 B1.0 C2.0 E${tLength} D${tDiameter} \n`;
-                out += `G53 G0 Z0 \n\n`;
-                out += `N${parseInt(op.nCode) * 100} \n`;
-                out += `(*** END LENGTH CHECK ***) \n\n`;
+                out += `G65 P1 T${tRef}. A1. `;
+                if (tLength !== "0.0") out += `E${tLength}. `;
+                if (tDiameter !== "0.0") out += `D${tDiameter}. `;
+                out += `(MEASURE TOOL ${tRef}) \n\n`;
             }
 
 

@@ -2,7 +2,6 @@ function stripInjectedCode(code) {
     let lines = code.split(/\r?\n/);
     let out = [];
     let inProbingBlock = false;
-    let inLengthBlock = false;
     let inDelineatedBlock = false;
 
     for (let i = 0; i < lines.length; i++) {
@@ -34,14 +33,7 @@ function stripInjectedCode(code) {
         if (trimmed.includes('(probing toggle)')) continue;
         if (trimmed === 'N0' && i > 0 && lines[i - 1].includes('(probing toggle)')) continue;
 
-        if (trimmed.includes('(length measurement toggle)')) {
-            inLengthBlock = true;
-            continue;
-        }
-        if (inLengthBlock) {
-            if (trimmed.match(/^N\d+/) && parseInt(trimmed.substring(1)) >= 100) {
-                inLengthBlock = false;
-            }
+        if (trimmed.match(/^G65\s+P1\b/i)) {
             continue;
         }
 
@@ -240,10 +232,25 @@ function parseGcodeIntoOperations(code) {
                         newHeaderLines.push(headerLines[i]);
                     } else {
                         let inner = line.slice(1, -1).trim();
-                        const isTimestamped = /\d{1,2}\/\d{1,2}\/\d{4},\s*\d{1,2}:\d{2}/.test(inner);
+                        const dateRegex = /\b((?:\d{1,2}([\-\/])\d{1,2}\2\d{2,4}|\d{4}([\-\/])\d{1,2}\3\d{1,2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{4})(?:(?:\s+|,\s*|\s+at\s+)\d{1,2}:\d{2}(?::\d{2})?(?:\s*[aApP][mM])?)?)\b/i;
+                        const match = inner.match(dateRegex);
 
-                        if (inner && inner !== 'VARIABLES' && isTimestamped) {
-                            headerComments.push(inner);
+                        if (inner && inner !== 'VARIABLES' && match) {
+                            let dateStr = match[1].replace(/\bat\b/i, '');
+                            let parsedDate = new Date(dateStr);
+                            if (!isNaN(parsedDate.getTime())) {
+                                const stamp = `${parsedDate.getMonth() + 1}/${parsedDate.getDate()}/${parsedDate.getFullYear()}, ${parsedDate.getHours().toString().padStart(2, '0')}:${parsedDate.getMinutes().toString().padStart(2, '0')}`;
+                                let additionalText = inner.replace(match[0], '').trim();
+                                additionalText = additionalText.replace(/^[-:,\s]+|[-:,\s]+$/g, '').replace(/\s+/g, ' ');
+                                
+                                if (additionalText) {
+                                    headerComments.push(`${stamp} - ${additionalText}`);
+                                } else {
+                                    headerComments.push(`${stamp}`);
+                                }
+                            } else {
+                                newHeaderLines.push(headerLines[i]);
+                            }
                         } else {
                             newHeaderLines.push(headerLines[i]);
                         }
