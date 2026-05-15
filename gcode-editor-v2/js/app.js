@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
             zonesContainer.innerHTML = '';
             const entries = Object.entries(workZonesCount);
             if (entries.length === 0) {
-                zonesContainer.innerHTML = `<span style="color: var(--text-muted); font-size: 13px;">No work zones found</span>`;
+                zonesContainer.innerHTML = `<span style="color: var(--text-main); font-size: 13px;">No work zones found</span>`;
             } else {
                 entries.forEach(([zone, count]) => {
                     const chip = document.createElement('div');
