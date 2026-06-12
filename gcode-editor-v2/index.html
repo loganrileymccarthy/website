@@ -76,157 +76,156 @@
                 <aside id="controls-panel" class="controls-panel hidden">
                     <div id="panel-resizer" class="panel-resizer"></div>
                     <div class="panel-inner">
-                        <div class="settings-section form-card">
+                        <div class="settings-section form-card" style="flex: 1;">
                             <div class="mod-tabs">
-                                <button class="mod-tab active" data-target="mod-header">Header</button>
-                                <button class="mod-tab" data-target="mod-probing">Probing</button>
-                                <button class="mod-tab" data-target="mod-length">Length Setting</button>
-                                <button class="mod-tab" data-target="mod-tools">Variable Tools</button>
-                                <button class="mod-tab" data-target="mod-zones">Variable Zones</button>
+                                <button class="mod-tab active" data-target="mod-sequence">Sequence Detail</button>
+                                <button class="mod-tab" data-target="mod-advanced">Advanced Features</button>
                             </div>
 
-                            <div class="mod-content active" id="mod-header">
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="header-stamp-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="header-stamp-toggle">Timestamped Updates</label>
-                                </div>
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="header-tools-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="header-tools-toggle">Tool List</label>
-                                </div>
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="header-vars-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="header-vars-toggle">Variables List</label>
-                                </div>
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="header-safety-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="header-safety-toggle">Safety Lines</label>
-                                </div>
-                            </div>
-
-                            <!-- History Container -->
-                            <div id="header-comments-config" class="probing-config hidden">
-                                <h4
-                                style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">
-                                Timestamps</h4>
-                                <div id="header-comments-list"
-                                    style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
-                                    <!-- Injected by JS -->
-                                </div>
-                                <div style="display: flex; gap: 8px;">
-                                    <input type="text" id="new-comment-input" class="inline-input extra-wide"
-                                        placeholder="Describe update...">
-                                    <button id="btn-add-comment" class="action-btn"
-                                        style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
-                                </div>
-                            </div>
-                        
-
-                            <div class="mod-content" id="mod-probing">
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="probing-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="probing-toggle">Enable Probing (#800)</label>
-                                </div>
-
-                                <!-- Probing Configuration (shown when probing is enabled) -->
-                                <div id="probing-config" class="probing-config hidden">
-                                    <div id="probing-cycles-list">
-                                        <!-- Probe cycle cards injected by JS -->
+                            <div class="mod-content" id="mod-advanced">
+                                <!-- GCode Header Block -->
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="margin-bottom: 12px; font-size: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">GCode Header Generation</h3>
+                                    <div class="settings-grid">
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="header-stamp-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="header-stamp-toggle">Timestamped Updates</label>
+                                        </div>
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="header-tools-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="header-tools-toggle">Tool List</label>
+                                        </div>
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="header-vars-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="header-vars-toggle">Variables List</label>
+                                        </div>
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="header-safety-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="header-safety-toggle">Safety Lines</label>
+                                        </div>
                                     </div>
-                                    <button id="btn-add-probe" class="action-btn"
-                                        style="margin-top: 10px; width: 100%; justify-content: center;">
-                                        <i class="ph ph-plus"></i> Add Probe Cycle
-                                    </button>
-                                </div>
-                            </div>
-                        
-
-                            <div class="mod-content" id="mod-length">
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="length-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="length-toggle">Enable Length Measurement</label>
-                                </div>
-                                <div id="length-config" class="probing-config hidden">
-                                    <!--<h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Tool Measurements</h4>-->
-                                    <div id="tool-measurements-list" style="display: flex; flex-direction: column; gap: 8px;">
-                                        <!-- Injected by JS -->
+                                    
+                                    <!-- History Container -->
+                                    <div id="header-comments-config" class="probing-config hidden" style="margin-top: 12px;">
+                                        <h4 style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Timestamps</h4>
+                                        <div id="header-comments-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+                                            <!-- Injected by JS -->
+                                        </div>
+                                        <div style="display: flex; gap: 8px;">
+                                            <input type="text" id="new-comment-input" class="inline-input extra-wide" placeholder="Describe update...">
+                                            <button id="btn-add-comment" class="action-btn" style="padding: 4px 12px; height: 32px;"><i class="ph ph-plus"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="mod-content" id="mod-tools">
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="var-tools-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="var-tools-toggle">Enable Variable Tools (#801-#850)</label>
+                                <!-- Probing & Measurement Block -->
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="margin-bottom: 12px; font-size: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Probing & Measurement</h3>
+                                    <div class="settings-grid">
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="probing-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="probing-toggle">Enable Probing (#800)</label>
+                                        </div>
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="length-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="length-toggle">Enable Length Measurement</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Probing Configuration (shown when probing is enabled) -->
+                                    <div id="probing-config" class="probing-config hidden" style="margin-top: 12px;">
+                                        <div id="probing-cycles-list">
+                                            <!-- Probe cycle cards injected by JS -->
+                                        </div>
+                                        <button id="btn-add-probe" class="action-btn" style="margin-top: 10px; width: 100%; justify-content: center;">
+                                            <i class="ph ph-plus"></i> Add Probe Cycle
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="length-config" class="probing-config hidden" style="margin-top: 12px;">
+                                        <div id="tool-measurements-list" style="display: flex; flex-direction: column; gap: 8px;">
+                                            <!-- Injected by JS -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Variables & Zones Block -->
+                                <div style="margin-bottom: 24px;">
+                                    <h3 style="margin-bottom: 12px; font-size: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Variables & Zones</h3>
+                                    <div class="settings-grid">
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="var-tools-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="var-tools-toggle">Enable Variable Tools (#801-#850)</label>
+                                        </div>
+                                        <div class="input-group" style="padding-top: 0; border: none;">
+                                            <label class="switch">
+                                                <input type="checkbox" id="var-zones-toggle">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <label for="var-zones-toggle">Enable Variable Work Zones (#851-#856)</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="mod-content" id="mod-zones">
-                                <div class="input-group" style="padding-top: 0; border: none;">
-                                    <label class="switch">
-                                        <input type="checkbox" id="var-zones-toggle">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <label for="var-zones-toggle">Enable Variable Work Zones (#851-#856)</label>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <!-- Sequence Detail Section -->
-                        <div class="table-section form-card printable-section">
-                            <div class="table-header">
-                                <h1 style="margin-bottom: 8px;">Sequence Detail</h1>
-                                <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
-                                    <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
-                                </button>
-                            </div>
-                            <div class="zones-container" id="zones-container"
-                                style="max-height: max-content; margin-bottom: 24px;">
-                                <!-- Data populated by JS -->
-                            </div>
-                            <div class="table-container">
-                                <table id="ops-table">
-                                    <thead>
-                                        <tr>
-                                            <th>N</th>
-                                            <th>Tool</th>
-                                            <th>Description</th>
-                                            <th title="Program Stop">M00</th>
-                                            <th title="Optional Stop">M01</th>
-                                            <th title="Coolant">M08</th>
-                                            <th>Subs</th>
-                                            <th>Feed</th>
-                                            <th>Speed</th>
-                                            <th>Min Z</th>
-                                            <th>X Range</th>
-                                            <th>Y Range</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ops-table-body">
+                            <!-- Sequence Detail Section (Now a Tab) -->
+                            <div class="mod-content active printable-section" id="mod-sequence">
+                                <div style="display: flex; flex-direction: column; height: 100%; min-height: 0;">
+                                    <div class="table-header">
+                                        <h1 style="margin-bottom: 8px;">Sequence Detail</h1>
+                                        <button id="btn-print" class="action-btn" style="padding: 6px 12px;">
+                                            <i class="ph ph-printer"></i> <span class="btn-text">Print</span>
+                                        </button>
+                                    </div>
+                                    <div class="zones-container" id="zones-container"
+                                        style="max-height: max-content; margin-bottom: 24px;">
                                         <!-- Data populated by JS -->
-                                    </tbody>
-                                </table>
+                                    </div>
+                                    <div class="table-container">
+                                        <table id="ops-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>N</th>
+                                                    <th>Tool</th>
+                                                    <th>Description</th>
+                                                    <th title="Program Stop">M00</th>
+                                                    <th title="Optional Stop">M01</th>
+                                                    <th title="Coolant">M08</th>
+                                                    <th>Subs</th>
+                                                    <th>Feed</th>
+                                                    <th>Speed</th>
+                                                    <th>Min Z</th>
+                                                    <th>X Range</th>
+                                                    <th>Y Range</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ops-table-body">
+                                                <!-- Data populated by JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

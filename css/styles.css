@@ -297,6 +297,7 @@ img {
   align-items: stretch;
   gap: 10px;
   flex: 1;
+  min-width: 0;
   width: 100%;
   height: 100%;
 }
@@ -592,6 +593,7 @@ input:checked+.slider:before {
     }
 
     .printable-section {
+        display: block !important;
         position: static;
         left: 0;
         top: 0;
@@ -674,8 +676,9 @@ input:checked+.slider:before {
     .top-nav,
     .workspace,
     .editor-container,
-    .settings-section,
-    .actions-section {
+    .actions-section,
+    .mod-tabs,
+    .mod-content:not(.printable-section) {
         display: none !important;
     }
 
