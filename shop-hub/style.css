@@ -1,0 +1,139 @@
+/* color palette */
+:root {
+  --bg-color: #b2b2b2;
+  --bg-color-2: #f0f0f0;
+  --bg-color-3: #c0c0c0;
+  --text-color: #485e74;
+  --text-color-2: #fff;
+  --border-color: #8493a1;
+  --neutral-button: #92bde7;
+  --neutral-button-hover: #6aa3e9;
+  --danger-button: #e79292;
+  --danger-button-hover: #d87171;
+}
+
+/* ====================== MAIN LAYOUT ====================== */
+*{
+  box-sizing: border-box;
+}
+body{
+  background:var(--bg-color);
+  color:var(--text-color);
+  line-height:1.6;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  padding:1em;
+}
+.container{
+  max-width:1170px;
+  margin-left:auto;
+  margin-right:auto;
+  padding:1em;
+}
+.wrapper > *{
+  padding: 1em;
+}
+/* LARGE SCREENS */
+@media(min-width:700px){
+  .wrapper{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+  .wrapper > *{
+    padding:2em;
+  }
+}
+
+/* ====================== ELEMENTS ====================== */
+ul{
+  list-style: none;
+  padding:0;
+}
+input, textarea{
+  width: 100%;
+  padding: 1em;
+  border: none;
+  resize: none;
+}
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap:20px;
+}
+form label{
+  display:block;
+}
+form p{
+  margin:0;
+}
+form .full{
+  grid-column: 1 / 3;
+}
+
+/* ====================== CLASSES ====================== */
+/* PAGE SECTIONS */
+.menu-block{
+  background:var(--bg-color-3);
+  color:var(--text-color);
+}
+.app-content{
+  background:var(--bg-color-2);
+}
+.alert{
+  text-align: center;
+  padding:10px;
+  background:#79c879;
+  color:var(--text-color-2);
+  margin-bottom:10px;
+  display:none;
+}
+/* PARTS LIST */
+.parts-list {
+  padding: 0;
+  margin: 0;
+}
+.part-item {
+  background: var(--bg-color-2);
+  border: 1px solid var(--text-color);
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.part-details {
+  line-height: 1.4;
+}
+/* BUTTONS */
+.submit-btn{
+  background: var(--neutral-button);
+  color: var(--text-color-2);
+  border: 0;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.submit-btn:hover{
+  background: var(--neutral-button-hover);
+}
+.delete-btn {
+  background: var(--danger-button);
+  color: var(--text-color-2);
+  border: 0;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.delete-btn:hover {
+  background: var(--danger-button-hover);
+}
+.edit-btn {
+  background: var(--neutral-button);
+  color: var(--text-color-2);
+  border: 0;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.edit-btn:hover {
+  background: var(--neutral-button-hover);
+}

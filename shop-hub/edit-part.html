@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub - Add/Edit Part</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="menu-block">
+        <h3>Add/Edit Part</h3>
+        <ul>
+          <li><a href="parts.html">View Parts List</a></li>
+        </ul>
+      </div>
+      <div class="app-content">
+        <div class="alert">Created part!</div>
+        <form id="inputForm">
+          <p>
+            <label>Part Number</label>
+            <input type="number" name="partNum" id="partNum" required>
+          </p>
+          <p>
+            <label>Setup Time</label>
+            <input type="number" name="setup" id="setup" required>
+          </p>
+          <p>
+            <label>Cycle Time</label>
+            <input type="number" name="cycle" id="cycle">
+          </p>
+          <p class="full">
+            <label>Note</label>
+            <textarea name="message" rows="5" id="note"></textarea>
+          </p>
+          <div class="full" id="toolSelection">
+            <label>Assigned Tools</label>
+            <div id="toolsCheckboxes">Loading tools...</div>
+          </div>
+          <p class="full">
+            <button class="submit-btn" type="submit">Submit</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="edit-part.js"></script>
+</body>
+</html>

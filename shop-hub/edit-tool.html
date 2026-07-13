@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub - Add/Edit Tool</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="menu-block">
+        <h3>Add/Edit Tool</h3>
+        <ul>
+          <li><a href="tools.html">View Tools List</a></li>
+        </ul>
+      </div>
+      <div class="app-content">
+        <div class="alert">Created tool!</div>
+        <form id="inputForm">
+          <p class="full">
+            <label>Tool Name (ID)</label>
+            <input type="text" name="toolName" id="toolName" required>
+          </p>
+          <p>
+            <label>Type</label>
+            <input type="number" name="type" id="type">
+          </p>
+          <p>
+            <label>Material</label>
+            <input type="number" name="material" id="material">
+          </p>
+          <p>
+            <label>Brand</label>
+            <input type="number" name="brand" id="brand">
+          </p>
+          <p>
+            <label>Flutes</label>
+            <input type="number" name="flutes" id="flutes">
+          </p>
+          <p>
+            <label>Diameter</label>
+            <input type="number" step="any" name="diameter" id="diameter">
+          </p>
+          <p>
+            <label>Cutting Length</label>
+            <input type="number" step="any" name="cuttingLength" id="cuttingLength">
+          </p>
+          <p class="full">
+            <button class="submit-btn" type="submit">Submit</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="edit-tool.js"></script>
+</body>
+</html>

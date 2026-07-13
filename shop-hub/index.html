@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hub-menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+    .hub-card {
+      background: var(--bg-color-2);
+      border: 1px solid var(--border-color);
+      padding: 2em;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+    .hub-card:hover {
+      background: var(--bg-color-3);
+    }
+    .hub-card a {
+      display: block;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="app-content" style="grid-column: 1 / 3;">
+        <div class="hub-menu">
+          <div class="hub-card">
+            <a href="parts.html">Manage Parts</a>
+          </div>
+          <div class="hub-card">
+            <a href="tools.html">Manage Tools</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
