@@ -8,92 +8,627 @@
     <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
-            background-image: url('../images/slug_01.jpg');
+            background-color: #121212;
+            color: #ffffff;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        .numberGroup {
+        
+        .main-layout {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
-        .number {
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 800px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
-        .rollButton {
+        .right-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .right-panel h2 {
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            color: #ddd;
+        }
+
+        .history-card {
+            background-color: #2a2a2a;
+            color: #eee;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #444;
+            transition: background-color 0.1s;
+        }
+
+        .history-card:hover {
+            background-color: #333;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .history-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .history-header span {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .history-summary {
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        .history-details {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #555;
+            font-size: 0.85rem;
+        }
+
+        .history-details table {
+            width: 100%;
+            font-size: 0.8rem;
+            color: #eee;
+        }
+        
+        .history-details th, .history-details td {
+            padding: 2px 4px;
+        }
+
+        .dice-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            padding: 15px 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 20px auto;
+            flex-wrap: wrap;
+        }
+        
+        .die-box {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            font-family: 'Courier New', monospace;
+            background-color: #2a2a2a;
+            color: #000;
+            border-radius: 8px;
+            padding: 8px;
+            width: 45px;
+        }
+        
+        .die-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            line-height: 1;
+        }
+
+        .roll-btn-compact {
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            margin-left: 10px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .roll-btn-compact:hover {
+            background-color: #45a049;
+        }
+        .roll-btn-compact:active {
+            transform: translateY(2px);
+        }
+
+        .setup-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .setup-section input {
+            margin: 5px;
+            padding: 8px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #2a2a2a;
+            color: white;
+            width: 150px;
+        }
+        
+        .setup-section input::placeholder {
+            color: #888;
+        }
+
+        .game-id-container {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        
+        .game-id-container input {
+            width: 200px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background-color: #1e1e1e;
+        }
+
+        #playerInputs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .game-section {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .table-wrapper {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .main-score-table {
+            border-collapse: collapse;
+            background-color: #2a2a2a;
+            color: #eee;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            border: 1px solid #444;
+        }
+        .main-score-table th, .main-score-table td {
+            border: 1px solid #444;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        .main-score-table th {
+            background-color: #1e1e1e;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            color: #fff;
+        }
+        .main-score-table .category-name {
+            text-align: left;
+            font-weight: bold;
+            background-color: #222;
+            white-space: nowrap;
+        }
+        .score-input {
+            width: 45px;
+            text-align: center;
+            font-size: 0.95rem;
+            padding: 4px;
+            border: 1px solid #555;
+            border-radius: 3px;
+            background-color: #1e1e1e;
+            color: white;
+        }
+        .main-score-table .total-row td {
+            background-color: #153e18;
+            color: #81ff8f;
+            font-weight: bold;
+        }
+        
+        .action-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .action-btn:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
-    <script type=module src=../main.js></script>
+    <script type="module" src="../main.js"></script>
     <my-header></my-header>
     <main>
-        <br>
-        <br>
-        <div class="numberGroup">
-            <div class="number">
-                <p class="diceNumber" id="number1">_</p>
-                <input type="checkbox" id="checkbox1"></input>
+        <div class="main-layout">
+            <div class="left-panel">
+                <div class="setup-section" id="setupSection">
+                    <div class="game-id-container">
+                        <label for="gameIdInput">Game ID:</label>
+                        <input type="text" id="gameIdInput" placeholder="e.g. Game-123">
+                        <p style="font-size: 0.8rem; margin: 5px 0;">Use an existing ID to overwrite</p>
+                    </div>
+                    <p>Enter player names (leave blank for unused slots, up to 8):</p>
+                    <div id="playerInputs">
+                        <input type="text" placeholder="Player 1" id="p1">
+                        <input type="text" placeholder="Player 2" id="p2">
+                        <input type="text" placeholder="Player 3" id="p3">
+                        <input type="text" placeholder="Player 4" id="p4">
+                        <input type="text" placeholder="Player 5" id="p5">
+                        <input type="text" placeholder="Player 6" id="p6">
+                        <input type="text" placeholder="Player 7" id="p7">
+                        <input type="text" placeholder="Player 8" id="p8">
+                    </div>
+                    <button class="action-btn" id="startGameBtn">Start Game</button>
+                </div>
+
+                <div class="game-section" id="gameSection">
+                    <div class="table-wrapper">
+                        <h3 id="activeGameIdDisplay" style="margin-top:0;"></h3>
+                        <div class="dice-container">
+                            <div class="die-box">
+                                <p class="die-value" id="number1">-</p>
+                                <input type="checkbox" id="checkbox1" title="Hold">
+                            </div>
+                            <div class="die-box">
+                                <p class="die-value" id="number2">-</p>
+                                <input type="checkbox" id="checkbox2" title="Hold">
+                            </div>
+                            <div class="die-box">
+                                <p class="die-value" id="number3">-</p>
+                                <input type="checkbox" id="checkbox3" title="Hold">
+                            </div>
+                            <div class="die-box">
+                                <p class="die-value" id="number4">-</p>
+                                <input type="checkbox" id="checkbox4" title="Hold">
+                            </div>
+                            <div class="die-box">
+                                <p class="die-value" id="number5">-</p>
+                                <input type="checkbox" id="checkbox5" title="Hold">
+                            </div>
+                            <button class="roll-btn-compact" id="rollBtn">🎲 Roll</button>
+                        </div>
+                        <div id="tableContainer"></div>
+                        <div class="alert" id="saveAlert">Game Saved Successfully!</div>
+                        <button class="action-btn" id="saveGameBtn">Save Game to Database</button>
+                    </div>
+                </div>
             </div>
-            <div class="number">
-                <p class="diceNumber" id="number2">_</p>
-                <input type="checkbox" id="checkbox2"></input>
-            </div>
-            <div class="number">
-                <p class="diceNumber" id="number3">_</p>
-                <input type="checkbox" id="checkbox3"></input>
-            </div>
-            <div class="number">
-                <p class="diceNumber" id="number4">_</p>
-                <input type="checkbox" id="checkbox4"></input>
-            </div>
-            <div class="number">
-                <p class="diceNumber" id="number5">_</p>
-                <input type="checkbox" id="checkbox5"></input>
+
+            <div class="right-panel">
+                <h2>Game History</h2>
+                <div id="historyContainer">
+                    <p style="text-align:center;">Loading history...</p>
+                </div>
             </div>
         </div>
-        <br>
-        <div class="rollButton">
-            <button onclick="random()">🎲</button>
-            <br>
-            <br>
-            <br>
-            <a href="https://docs.google.com/spreadsheets/d/1_10if-sraWmUhuBYBkTVswW4hXwP8cPm76mhv9OyTH4">LINK</a>
-        </div>
-        <p align="center">
-            <iframe 
-                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRrTzQx3mve6LZCUdJYNHlxZDWj9gO46Y2Ma2uFUmb4nDSWgvstfILK0eWIOmFlB8ozA-sufOAQw4zf/pubhtml?widget=true&amp;headers=false"
-                height="650"
-                width=80%
-            ></iframe>
-        </p>
-        
-        <script>
-          
-          let ch1 = document.getElementById('checkbox1');
-          let ch2 = document.getElementById('checkbox2');
-          let ch3 = document.getElementById('checkbox3');
-          let ch4 = document.getElementById('checkbox4');
-          let ch5 = document.getElementById('checkbox5');
-        
-        function random(){
-            if (ch1.checked == false) document.getElementById("number1").innerHTML = Math.floor(Math.random() * 6) + 1;
-            if (ch2.checked == false) document.getElementById("number2").innerHTML = Math.floor(Math.random() * 6) + 1;
-            if (ch3.checked == false) document.getElementById("number3").innerHTML = Math.floor(Math.random() * 6) + 1;
-            if (ch4.checked == false) document.getElementById("number4").innerHTML = Math.floor(Math.random() * 6) + 1;
-            if (ch5.checked == false) document.getElementById("number5").innerHTML = Math.floor(Math.random() * 6) + 1;
-        }
-        
+
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+            import { getFirestore, collection, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyB4I0WPotQxl53oggTaHHwMRlqdBWZS_lM",
+                authDomain: "yahtzee-d809a.firebaseapp.com",
+                projectId: "yahtzee-d809a",
+                storageBucket: "yahtzee-d809a.firebasestorage.app",
+                messagingSenderId: "244230275475",
+                appId: "1:244230275475:web:02322d2bd81a17673b2866"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            // Pre-fill a random game ID on load
+            document.getElementById('gameIdInput').value = 'Game-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+            // Scoring configuration
+            let players = [];
+            let currentGameId = "";
+
+            const categories = [
+                { id: 'aces', name: 'Aces (1s)', section: 'upper' },
+                { id: 'twos', name: 'Twos (2s)', section: 'upper' },
+                { id: 'threes', name: 'Threes (3s)', section: 'upper' },
+                { id: 'fours', name: 'Fours (4s)', section: 'upper' },
+                { id: 'fives', name: 'Fives (5s)', section: 'upper' },
+                { id: 'sixes', name: 'Sixes (6s)', section: 'upper' },
+                { id: 'upper_subtotal', name: 'Total Score', isTotal: true },
+                { id: 'bonus', name: 'Bonus (if >= 63)', isTotal: true },
+                { id: 'upper_total', name: 'TOTAL Upper', isTotal: true },
+                { id: '3ok', name: '3 of a kind', section: 'lower' },
+                { id: '4ok', name: '4 of a kind', section: 'lower' },
+                { id: 'fullhouse', name: 'Full House (25)', section: 'lower' },
+                { id: 'smstraight', name: 'Sm. Straight (30)', section: 'lower' },
+                { id: 'lgstraight', name: 'Lg. Straight (40)', section: 'lower' },
+                { id: 'yahtzee', name: 'YAHTZEE (50)', section: 'lower' },
+                { id: 'chance', name: 'Chance', section: 'lower' },
+                { id: 'lower_total', name: 'TOTAL Lower', isTotal: true },
+                { id: 'grand_total', name: 'GRAND TOTAL', isTotal: true }
+            ];
+
+            // Load History
+            async function loadHistory() {
+                const historyContainer = document.getElementById('historyContainer');
+                try {
+                    const querySnapshot = await getDocs(collection(db, "games"));
+                    historyContainer.innerHTML = '';
+                    
+                    if(querySnapshot.empty) {
+                        historyContainer.innerHTML = '<p style="text-align:center;">No past games found.</p>';
+                        return;
+                    }
+
+                    const games = [];
+                    querySnapshot.forEach((docSnap) => {
+                        games.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+
+                    // Sort by date descending
+                    games.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                    games.forEach(game => {
+                        const dateStr = new Date(game.date).toLocaleDateString() + ' ' + new Date(game.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        
+                        // Build summary text (e.g. Logan: 120 | Bob: 90)
+                        const playerSummaries = (game.players || []).map(p => `${p.name}: ${p.scores.grand_total || 0}`).join(' | ');
+
+                        const card = document.createElement('div');
+                        card.className = 'history-card';
+                        
+                        let detailsHtml = `<table><thead><tr><th>Category</th>`;
+                        game.players.forEach(p => detailsHtml += `<th>${p.name}</th>`);
+                        detailsHtml += `</tr></thead><tbody>`;
+                        
+                        categories.forEach(cat => {
+                            const isTotal = cat.isTotal;
+                            const label = isTotal ? `<strong>${cat.name}</strong>` : cat.name;
+                            const bgStyle = isTotal ? ' style="background-color: #222;"' : '';
+                            detailsHtml += `<tr${bgStyle}><td>${label}</td>`;
+                            game.players.forEach(p => {
+                                detailsHtml += `<td>${p.scores[cat.id] !== undefined ? p.scores[cat.id] : ''}</td>`;
+                            });
+                            detailsHtml += `</tr>`;
+                        });
+                        detailsHtml += `</tbody></table>`;
+
+                        card.innerHTML = `
+                            <div class="history-header">
+                                <h3>${game.id}</h3>
+                                <span>${dateStr}</span>
+                            </div>
+                            <div class="history-summary">${playerSummaries}</div>
+                            <div class="history-details">
+                                ${detailsHtml}
+                                <p style="text-align:center; margin: 5px 0 0 0; font-size: 0.8rem; color: #666;">(Click again to collapse)</p>
+                            </div>
+                        `;
+
+                        card.addEventListener('click', () => {
+                            const details = card.querySelector('.history-details');
+                            details.style.display = details.style.display === 'block' ? 'none' : 'block';
+                        });
+
+                        historyContainer.appendChild(card);
+                    });
+
+                } catch(e) {
+                    console.error("Error fetching history: ", e);
+                    historyContainer.innerHTML = '<p style="text-align:center; color: #ffcccc;">Error loading history.</p>';
+                }
+            }
+
+            // Call load history on page load
+            loadHistory();
+
+
+            // Dice roll logic
+            document.getElementById('rollBtn').addEventListener('click', () => {
+                for(let i=1; i<=5; i++) {
+                    const cb = document.getElementById('checkbox'+i);
+                    if (!cb.checked) {
+                        document.getElementById('number'+i).innerText = Math.floor(Math.random() * 6) + 1;
+                    }
+                }
+            });
+
+
+
+            // Start Game flow
+            document.getElementById('startGameBtn').addEventListener('click', () => {
+                currentGameId = document.getElementById('gameIdInput').value.trim();
+                if (!currentGameId) {
+                    alert("Please enter a Game ID.");
+                    return;
+                }
+
+                players = [];
+                for(let i=1; i<=8; i++) {
+                    const val = document.getElementById('p'+i).value.trim();
+                    if(val) players.push(val);
+                }
+                
+                if (players.length === 0) {
+                    alert('Please enter at least one player name.');
+                    return;
+                }
+                
+                document.getElementById('setupSection').style.display = 'none';
+                document.getElementById('gameSection').style.display = 'flex';
+                document.getElementById('activeGameIdDisplay').innerText = "Playing: " + currentGameId;
+                renderTable();
+            });
+
+            function renderTable() {
+                const container = document.getElementById('tableContainer');
+                let html = '<table class="main-score-table"><thead><tr><th>Category</th>';
+                
+                players.forEach(p => {
+                    html += `<th>${p}</th>`;
+                });
+                html += '</tr></thead><tbody>';
+
+                categories.forEach(cat => {
+                    const rowClass = cat.isTotal ? 'total-row' : '';
+                    html += `<tr class="${rowClass}">`;
+                    html += `<td class="category-name">${cat.name}</td>`;
+                    
+                    players.forEach((p, pIdx) => {
+                        if (cat.isTotal) {
+                            html += `<td id="cell_${pIdx}_${cat.id}">0</td>`;
+                        } else {
+                            html += `<td><input type="number" min="0" class="score-input" data-player="${pIdx}" data-category="${cat.id}"></td>`;
+                        }
+                    });
+                    html += '</tr>';
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+
+                document.querySelectorAll('.score-input').forEach(input => {
+                    input.addEventListener('input', calculateTotals);
+                });
+            }
+
+            function calculateTotals() {
+                players.forEach((p, pIdx) => {
+                    let upperSum = 0;
+                    let lowerSum = 0;
+                    
+                    document.querySelectorAll(`.score-input[data-player="${pIdx}"]`).forEach(input => {
+                        const val = parseInt(input.value) || 0;
+                        const catId = input.dataset.category;
+                        const catDef = categories.find(c => c.id === catId);
+                        
+                        if (catDef && catDef.section === 'upper') {
+                            upperSum += val;
+                        } else if (catDef && catDef.section === 'lower') {
+                            lowerSum += val;
+                        }
+                    });
+
+                    document.getElementById(`cell_${pIdx}_upper_subtotal`).innerText = upperSum;
+                    
+                    const bonus = upperSum >= 63 ? 35 : 0;
+                    document.getElementById(`cell_${pIdx}_bonus`).innerText = bonus;
+                    
+                    const upperTotal = upperSum + bonus;
+                    document.getElementById(`cell_${pIdx}_upper_total`).innerText = upperTotal;
+                    
+                    document.getElementById(`cell_${pIdx}_lower_total`).innerText = lowerSum;
+                    
+                    const grandTotal = upperTotal + lowerSum;
+                    document.getElementById(`cell_${pIdx}_grand_total`).innerText = grandTotal;
+                });
+            }
+
+            // Save to Firebase using setDoc
+            document.getElementById('saveGameBtn').addEventListener('click', async () => {
+                const saveBtn = document.getElementById('saveGameBtn');
+                saveBtn.disabled = true;
+                saveBtn.innerText = 'Saving...';
+                
+                const gameData = {
+                    date: new Date().toISOString(), // This updates the timestamp to the last save
+                    players: []
+                };
+
+                players.forEach((p, pIdx) => {
+                    const pData = { name: p, scores: {} };
+                    
+                    document.querySelectorAll(`.score-input[data-player="${pIdx}"]`).forEach(input => {
+                        pData.scores[input.dataset.category] = parseInt(input.value) || 0;
+                    });
+                    
+                    pData.scores['upper_subtotal'] = parseInt(document.getElementById(`cell_${pIdx}_upper_subtotal`).innerText);
+                    pData.scores['bonus'] = parseInt(document.getElementById(`cell_${pIdx}_bonus`).innerText);
+                    pData.scores['upper_total'] = parseInt(document.getElementById(`cell_${pIdx}_upper_total`).innerText);
+                    pData.scores['lower_total'] = parseInt(document.getElementById(`cell_${pIdx}_lower_total`).innerText);
+                    pData.scores['grand_total'] = parseInt(document.getElementById(`cell_${pIdx}_grand_total`).innerText);
+                    
+                    gameData.players.push(pData);
+                });
+
+                try {
+                    await setDoc(doc(db, "games", currentGameId), gameData);
+                    const alertEl = document.getElementById('saveAlert');
+                    alertEl.style.display = 'block';
+                    setTimeout(() => { alertEl.style.display = 'none'; }, 3000);
+                    
+                    // Reload history sidebar to show the newly saved/updated game
+                    loadHistory();
+                } catch (e) {
+                    console.error("Error adding document: ", e);
+                    alert("Error saving game. Check console for details.");
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerText = 'Save Game to Database';
+                }
+            });
         </script>
     </main>
     <my-footer></my-footer>

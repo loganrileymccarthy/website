@@ -180,9 +180,9 @@ input[type="text"]:focus {
 }
 
 input[type="checkbox"] {
-  width: .75em;
-  height: .75em;
-  accent-color: yellow;
+  width: 1.5em;
+  height: 1.5em;
+  accent-color: purple;
 }
 
 select {
