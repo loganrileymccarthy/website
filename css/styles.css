@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Agave Nerd Font";
+  src: url("fonts/AgaveNerdFont-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
     /* Color Palette */
     --bg-dark: #0f1115;
@@ -20,7 +27,7 @@
 
     /* Typography */
     /*--font-family: 'Outfit', sans-serif;*/
-    --font-family: 'Courier New', monospace;
+    --font-family: "Agave Nerd Font", monospace;
 
     /* Effects */
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -35,7 +42,7 @@
 /*GLOBAL*/
 * {
   box-sizing: border-box;
-  font-family: 'Courier New', monospace;
+  font-family: "Agave Nerd Font", monospace;
 }
 
 /*MAIN SIZING*/
@@ -77,14 +84,14 @@ footer {
 
 /*TEXT STYLES*/
 h1 {
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-weight: bold;
   font-size: 24px;
   color: white;
 }
 
 h2 {
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-weight: normal;
   font-size: 20px;
   color: white;
@@ -92,7 +99,7 @@ h2 {
 }
 
 p {
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-weight: normal;
   font-size: 12px;
   color: white;
@@ -113,7 +120,7 @@ label {
   display: block;
   margin-bottom: 8px;
   color: white;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-weight: 600;
   font-size: 14px;
 }
@@ -126,7 +133,7 @@ textarea {
   border-radius: 4px;
   background-color: #2a2a2a;
   color: white;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-size: 14px;
   resize: vertical;
   text-wrap: nowrap;
@@ -145,7 +152,7 @@ input[type="number"] {
   border-radius: 4px;
   background-color: #2a2a2a;
   color: white;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-size: 14px;
   transition: border-color 0.3s;
 }
@@ -168,7 +175,7 @@ input[type="text"] {
   border-radius: 4px;
   background-color: #2a2a2a;
   color: white;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-size: 14px;
   transition: border-color 0.3s;
 }
@@ -191,7 +198,7 @@ select {
   border-radius: 4px;
   background-color: #2a2a2a;
   color: white;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-size: 14px;
   transition: border-color 0.3s;
 }
@@ -204,7 +211,7 @@ select:focus {
 
 button {
   background-color: #a1a1a1;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   border-style: none;
   border-radius: 4px;
   padding: 10px 20px;
@@ -237,7 +244,7 @@ table {
   border: 1px solid #444;
   border-radius: 4px;
   border-collapse: collapse;
-  font-family: 'Courier New', monospace;
+  /*font-family: 'Courier New', monospace;*/
   font-size: 14px;
   color: white;
 }
@@ -372,7 +379,7 @@ img {
     flex: 1;
     background: #0d0f12;
     color: #aeb6e0;
-    font-family: 'Consolas', 'Monaco', monospace;
+    /*font-family: 'Consolas', 'Monaco', monospace;*/
     font-size: 14px;
     line-height: 1.5;
     padding: 24px;

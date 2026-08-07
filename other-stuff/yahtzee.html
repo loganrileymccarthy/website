@@ -15,6 +15,10 @@
             padding: 0;
         }
         
+        header {
+            text-align: center;
+        }
+
         .main-layout {
             display: flex;
             flex-direction: row;
@@ -232,13 +236,13 @@
             border-collapse: collapse;
             background-color: #2a2a2a;
             color: #eee;
-            margin: 0 auto;
+            margin: 0 0;
             font-size: 0.9rem;
             border: 1px solid #444;
         }
         .main-score-table th, .main-score-table td {
             border: 1px solid #444;
-            padding: 6px 10px;
+            padding: 5px 5px;
             text-align: center;
         }
         .main-score-table th {
@@ -253,6 +257,31 @@
             background-color: #222;
             white-space: nowrap;
         }
+        .number-input-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        .spin-btn {
+            width: 22px;
+            height: 24px;
+            background-color: #3a3a3a;
+            color: #ccc;
+            border: 1px solid #555;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .spin-btn:hover {
+            background-color: #555;
+            color: white;
+        }
         .score-input {
             width: 45px;
             text-align: center;
@@ -262,6 +291,21 @@
             border-radius: 3px;
             background-color: #1e1e1e;
             color: white;
+            -moz-appearance: textfield !important;
+        }
+        
+        /* Hide native spin buttons entirely */
+        .score-input::-webkit-inner-spin-button,
+        .score-input::-webkit-outer-spin-button {
+            -webkit-appearance: none !important;
+            display: none !important;
+        }
+        .score-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #4CAF50;
+            margin: 4px 0px;
         }
         .main-score-table .total-row td {
             background-color: #153e18;
@@ -390,23 +434,24 @@
             let currentGameId = "";
 
             const categories = [
-                { id: 'aces', name: 'Aces (1s)', section: 'upper' },
-                { id: 'twos', name: 'Twos (2s)', section: 'upper' },
-                { id: 'threes', name: 'Threes (3s)', section: 'upper' },
-                { id: 'fours', name: 'Fours (4s)', section: 'upper' },
-                { id: 'fives', name: 'Fives (5s)', section: 'upper' },
-                { id: 'sixes', name: 'Sixes (6s)', section: 'upper' },
-                { id: 'upper_subtotal', name: 'Total Score', isTotal: true },
-                { id: 'bonus', name: 'Bonus (if >= 63)', isTotal: true },
-                { id: 'upper_total', name: 'TOTAL Upper', isTotal: true },
+                { id: 'aces', name: '1s', section: 'upper', step: 1 },
+                { id: 'twos', name: '2s', section: 'upper', step: 2 },
+                { id: 'threes', name: '3s', section: 'upper', step: 3 },
+                { id: 'fours', name: '4s', section: 'upper', step: 4 },
+                { id: 'fives', name: '5s', section: 'upper', step: 5 },
+                { id: 'sixes', name: '6s', section: 'upper', step: 6 },
+                { id: 'upper_subtotal', name: 'Upper Subtotal', isTotal: true },
+                { id: 'bonus', name: 'Bonus (>=63)', isTotal: true },
+                { id: 'upper_total', name: 'Upper Total', isTotal: true },
                 { id: '3ok', name: '3 of a kind', section: 'lower' },
                 { id: '4ok', name: '4 of a kind', section: 'lower' },
-                { id: 'fullhouse', name: 'Full House (25)', section: 'lower' },
-                { id: 'smstraight', name: 'Sm. Straight (30)', section: 'lower' },
-                { id: 'lgstraight', name: 'Lg. Straight (40)', section: 'lower' },
-                { id: 'yahtzee', name: 'YAHTZEE (50)', section: 'lower' },
+                { id: 'fullhouse', name: 'Full House (25)', section: 'lower', type: 'checkbox', value: 25 },
+                { id: 'smstraight', name: 'Sm. Straight (30)', section: 'lower', type: 'checkbox', value: 30 },
+                { id: 'lgstraight', name: 'Lg. Straight (40)', section: 'lower', type: 'checkbox', value: 40 },
+                { id: 'yahtzee', name: 'YAHTZEE (50)', section: 'lower', type: 'checkbox', value: 50 },
+                { id: 'yahtzeebonus', name: 'YAHTZEE Bonus (100)', section: 'lower', type: 'multi-checkbox', count: 5, value: 100 },
                 { id: 'chance', name: 'Chance', section: 'lower' },
-                { id: 'lower_total', name: 'TOTAL Lower', isTotal: true },
+                { id: 'lower_total', name: 'Lower Total', isTotal: true },
                 { id: 'grand_total', name: 'GRAND TOTAL', isTotal: true }
             ];
 
@@ -431,7 +476,7 @@
                     games.sort((a, b) => new Date(b.date) - new Date(a.date));
 
                     games.forEach(game => {
-                        const dateStr = new Date(game.date).toLocaleDateString() + ' ' + new Date(game.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        const dateStr = new Date(game.date).toLocaleDateString() + ' ' + new Date(game.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false});
                         
                         // Build summary text (e.g. Logan: 120 | Bob: 90)
                         const playerSummaries = (game.players || []).map(p => `${p.name}: ${p.scores.grand_total || 0}`).join(' | ');
@@ -539,8 +584,23 @@
                     players.forEach((p, pIdx) => {
                         if (cat.isTotal) {
                             html += `<td id="cell_${pIdx}_${cat.id}">0</td>`;
+                        } else if (cat.type === 'checkbox') {
+                            html += `<td><input type="checkbox" class="score-input score-checkbox" data-player="${pIdx}" data-category="${cat.id}" data-value="${cat.value}"></td>`;
+                        } else if (cat.type === 'multi-checkbox') {
+                            html += `<td style="white-space: nowrap;">`;
+                            for (let i = 0; i < cat.count; i++) {
+                                html += `<input type="checkbox" class="score-input score-checkbox" data-player="${pIdx}" data-category="${cat.id}" data-value="${cat.value}">`;
+                            }
+                            html += `</td>`;
                         } else {
-                            html += `<td><input type="number" min="0" class="score-input" data-player="${pIdx}" data-category="${cat.id}"></td>`;
+                            const stepAttr = cat.step ? `step="${cat.step}"` : 'step="1"';
+                            html += `<td>
+                                <div class="number-input-wrapper">
+                                    <button type="button" class="spin-btn spin-down">-</button>
+                                    <button type="button" class="spin-btn spin-up">+</button>
+                                    <input type="number" min="0" ${stepAttr} class="score-input" data-player="${pIdx}" data-category="${cat.id}">
+                                </div>
+                            </td>`;
                         }
                     });
                     html += '</tr>';
@@ -551,6 +611,26 @@
 
                 document.querySelectorAll('.score-input').forEach(input => {
                     input.addEventListener('input', calculateTotals);
+                    input.addEventListener('change', calculateTotals);
+                });
+
+                document.querySelectorAll('.spin-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const wrapper = e.target.closest('.number-input-wrapper');
+                        const input = wrapper.querySelector('.score-input');
+                        const step = parseInt(input.getAttribute('step')) || 1;
+                        let val = parseInt(input.value) || 0;
+                        
+                        if (e.target.classList.contains('spin-up')) {
+                            val += step;
+                        } else {
+                            val -= step;
+                            if (val < 0) val = 0;
+                        }
+                        
+                        input.value = val;
+                        input.dispatchEvent(new Event('input'));
+                    });
                 });
             }
 
@@ -560,7 +640,12 @@
                     let lowerSum = 0;
                     
                     document.querySelectorAll(`.score-input[data-player="${pIdx}"]`).forEach(input => {
-                        const val = parseInt(input.value) || 0;
+                        let val = 0;
+                        if (input.type === 'checkbox') {
+                            val = input.checked ? parseInt(input.dataset.value) : 0;
+                        } else {
+                            val = parseInt(input.value) || 0;
+                        }
                         const catId = input.dataset.category;
                         const catDef = categories.find(c => c.id === catId);
                         
@@ -601,7 +686,14 @@
                     const pData = { name: p, scores: {} };
                     
                     document.querySelectorAll(`.score-input[data-player="${pIdx}"]`).forEach(input => {
-                        pData.scores[input.dataset.category] = parseInt(input.value) || 0;
+                        let val = 0;
+                        if (input.type === 'checkbox') {
+                            val = input.checked ? parseInt(input.dataset.value) : 0;
+                        } else {
+                            val = parseInt(input.value) || 0;
+                        }
+                        const catId = input.dataset.category;
+                        pData.scores[catId] = (pData.scores[catId] || 0) + val;
                     });
                     
                     pData.scores['upper_subtotal'] = parseInt(document.getElementById(`cell_${pIdx}_upper_subtotal`).innerText);
