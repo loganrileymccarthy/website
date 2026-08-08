@@ -33,9 +33,20 @@
             flex: 1;
             min-width: 300px;
             max-width: 800px;
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        .left-panel::-webkit-scrollbar {
+            display: none;
         }
 
         .right-panel {
@@ -48,6 +59,12 @@
             padding: 20px;
             max-height: 80vh;
             overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        .right-panel::-webkit-scrollbar {
+            display: none;
         }
 
         .right-panel h2 {
@@ -224,10 +241,7 @@
         }
 
         .table-wrapper {
-            background-color: #1e1e1e;
-            border: 1px solid #333;
             padding: 20px;
-            border-radius: 10px;
             overflow-x: auto;
             width: 100%;
         }
@@ -329,6 +343,59 @@
             background-color: #45a049;
         }
 
+        .secondary-btn {
+            background-color: #666;
+            margin-top: 0;
+            padding: 8px 15px;
+            font-size: 1rem;
+        }
+        .secondary-btn:hover {
+            background-color: #777;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .game-title-edit, .game-date-edit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-title-edit h3 {
+            margin: 0;
+        }
+
+        .game-title-edit input {
+            font-size: 24px;
+            font-weight: bold;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+
+        .game-date-edit input {
+            font-size: 14px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        
+        .game-date-edit input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
         .alert {
             display: none;
             background-color: #4CAF50;
@@ -371,7 +438,17 @@
 
                 <div class="game-section" id="gameSection">
                     <div class="table-wrapper">
-                        <h3 id="activeGameIdDisplay" style="margin-top:0;"></h3>
+                        <div class="game-header">
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div class="game-title-edit">
+                                    <input type="text" id="activeGameIdDisplay" title="Edit Game ID">
+                                </div>
+                                <div class="game-date-edit">
+                                    <input type="datetime-local" id="gameDateInput" title="Edit Game Date">
+                                </div>
+                            </div>
+                            <button class="action-btn secondary-btn" id="returnSetupBtn">Return to Setup</button>
+                        </div>
                         <div class="dice-container">
                             <div class="die-box">
                                 <p class="die-value" id="number1">-</p>
@@ -397,7 +474,7 @@
                         </div>
                         <div id="tableContainer"></div>
                         <div class="alert" id="saveAlert">Game Saved Successfully!</div>
-                        <button class="action-btn" id="saveGameBtn">Save Game to Database</button>
+                        <button class="action-btn" id="saveGameBtn">Save Game</button>
                     </div>
                 </div>
             </div>
@@ -427,7 +504,7 @@
             const db = getFirestore(app);
 
             // Pre-fill a random game ID on load
-            document.getElementById('gameIdInput').value = 'Game-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById('gameIdInput').value = Math.random().toString(36).substr(2, 6).toUpperCase();
 
             // Scoring configuration
             let players = [];
@@ -563,8 +640,23 @@
                 
                 document.getElementById('setupSection').style.display = 'none';
                 document.getElementById('gameSection').style.display = 'flex';
-                document.getElementById('activeGameIdDisplay').innerText = "Playing: " + currentGameId;
+                document.getElementById('activeGameIdDisplay').value = currentGameId;
+                
+                // Set default date to now
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                document.getElementById('gameDateInput').value = now.toISOString().slice(0, 16);
+                
                 renderTable();
+            });
+
+            document.getElementById('activeGameIdDisplay').addEventListener('input', (e) => {
+                currentGameId = e.target.value.trim();
+            });
+
+            document.getElementById('returnSetupBtn').addEventListener('click', () => {
+                document.getElementById('gameSection').style.display = 'none';
+                document.getElementById('setupSection').style.display = 'flex';
             });
 
             function renderTable() {
@@ -673,12 +765,20 @@
 
             // Save to Firebase using setDoc
             document.getElementById('saveGameBtn').addEventListener('click', async () => {
+                if (!currentGameId) {
+                    alert("Please enter a valid Game ID before saving.");
+                    return;
+                }
+                
                 const saveBtn = document.getElementById('saveGameBtn');
                 saveBtn.disabled = true;
                 saveBtn.innerText = 'Saving...';
                 
+                const dateVal = document.getElementById('gameDateInput').value;
+                const gameDate = dateVal ? new Date(dateVal).toISOString() : new Date().toISOString();
+                
                 const gameData = {
-                    date: new Date().toISOString(), // This updates the timestamp to the last save
+                    date: gameDate,
                     players: []
                 };
 
@@ -718,7 +818,7 @@
                     alert("Error saving game. Check console for details.");
                 } finally {
                     saveBtn.disabled = false;
-                    saveBtn.innerText = 'Save Game to Database';
+                    saveBtn.innerText = 'Save Game';
                 }
             });
         </script>
