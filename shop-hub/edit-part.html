@@ -8,6 +8,140 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ---- Sequence of Operations builder ---- */
+    #operationsSection {
+      border-top: 2px solid var(--border-color);
+      padding-top: 1em;
+      margin-top: 0.5em;
+    }
+    #operationsSection > .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75em;
+    }
+    #operationsSection > .section-header label {
+      font-weight: bold;
+      font-size: 1em;
+    }
+    .op-card {
+      background: var(--bg-color-3);
+      border: 1px solid var(--border-color);
+      padding: 1em;
+      margin-bottom: 1em;
+    }
+    .op-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      margin-bottom: 0.75em;
+    }
+    .op-card-header input[type="text"] {
+      flex: 1;
+      padding: 0.4em 0.6em;
+      font-family: inherit;
+      font-size: 0.95em;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color-2);
+    }
+    .op-card-header .remove-op-btn {
+      background: var(--danger-button);
+      color: var(--text-color-2);
+      border: 0;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .op-card-header .remove-op-btn:hover {
+      background: var(--danger-button-hover);
+    }
+    .op-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0.6em;
+      font-size: 0.9em;
+    }
+    .op-table th {
+      background: var(--bg-color);
+      padding: 0.4em 0.6em;
+      text-align: left;
+      border: 1px solid var(--border-color);
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .op-table td {
+      border: 1px solid var(--border-color);
+      padding: 0;
+    }
+    .op-table td input {
+      width: 100%;
+      border: none;
+      padding: 0.4em 0.6em;
+      background: var(--bg-color-2);
+      font-family: inherit;
+      font-size: 0.9em;
+    }
+    .op-table td input:focus {
+      outline: 2px solid var(--neutral-button);
+    }
+    .op-table td select.col-toolid {
+      width: 100%;
+      border: none;
+      padding: 0.4em 0.4em;
+      background: var(--bg-color-2);
+      font-family: inherit;
+      font-size: 0.88em;
+      color: var(--text-color);
+      cursor: pointer;
+      appearance: auto;
+    }
+    .op-table td select.col-toolid:focus {
+      outline: 2px solid var(--neutral-button);
+    }
+    .op-table .remove-row-btn {
+      background: transparent;
+      color: var(--danger-button-hover);
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      padding: 0.3em 0.5em;
+      line-height: 1;
+    }
+    .op-table .remove-row-btn:hover {
+      color: #b00;
+    }
+    .add-row-btn {
+      background: transparent;
+      border: 1px dashed var(--border-color);
+      color: var(--text-color);
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 0.82em;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .add-row-btn:hover {
+      background: var(--bg-color);
+    }
+    #addOpBtn {
+      background: var(--neutral-button);
+      color: var(--text-color-2);
+      border: 0;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      font-family: inherit;
+    }
+    #addOpBtn:hover {
+      background: var(--neutral-button-hover);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -38,10 +172,18 @@
             <label>Note</label>
             <textarea name="message" rows="5" id="note"></textarea>
           </p>
-          <div class="full" id="toolSelection">
-            <label>Assigned Tools</label>
-            <div id="toolsCheckboxes">Loading tools...</div>
+
+          <!-- Sequence of Operations -->
+          <div class="full" id="operationsSection">
+            <div class="section-header">
+              <label>Sequence of Operations</label>
+              <button type="button" id="addOpBtn">+ Add Operation</button>
+            </div>
+            <div id="operationsContainer">
+              <!-- operation cards injected here -->
+            </div>
           </div>
+
           <p class="full">
             <button class="submit-btn" type="submit">Submit</button>
           </p>

@@ -1,8 +1,8 @@
-//get firebase functions
+// get firebase functions
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-//locate my firebase database and give access
+// locate my firebase database and give access
 const firebaseConfig = {
   apiKey: "AIzaSyCKOYAiEH5YqwYEC_y_4upwcNb5D2FVo7M",
   authDomain: "protobase-cd3df.firebaseapp.com",
@@ -14,71 +14,211 @@ const firebaseConfig = {
   measurementId: "G-FZM8W21VEG"
 };
 
-// initialize my firebase project as app
 const app = initializeApp(firebaseConfig);
-
-// get the firestore from my firebase project
 const db = getFirestore(app);
 
 // Check for Edit Mode
 const urlParams = new URLSearchParams(window.location.search);
 const editId = urlParams.get('id');
 
-async function initializePage() {
-  await loadTools();
-  if (editId) {
-    loadPartForEdit(editId);
-  }
-}
+const operationsContainer = document.getElementById('operationsContainer');
 
-async function loadTools() {
-  const toolsContainer = document.getElementById('toolsCheckboxes');
+// ─── Tools cache (loaded once, shared by all dropdowns) ───────────────────────
+// Each entry: { id, label }  e.g. { id: "T01", label: "T01 — 0.5\" diam, 4 fl" }
+let toolOptions = [];
+
+async function loadToolOptions() {
   try {
     const querySnapshot = await getDocs(collection(db, "tools"));
-    toolsContainer.innerHTML = ''; // clear loading text
-    
-    if (querySnapshot.empty) {
-      toolsContainer.innerHTML = 'No tools found.';
-      return;
-    }
-
-    querySnapshot.forEach((docSnap) => {
+    toolOptions = [];
+    querySnapshot.forEach(docSnap => {
       const tool = docSnap.data();
       const id = docSnap.id;
-      
-      const label = document.createElement('label');
-      label.style.display = 'block';
-      label.style.fontWeight = 'normal';
-      label.style.marginBottom = '5px';
-      
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.name = 'tools';
-      checkbox.value = id;
-      checkbox.style.width = 'auto'; // override the 100% width from css
-      checkbox.style.marginRight = '10px';
-      
-      // Build the display text
-      let text = ` ${id}`;
-      if (tool.diameter || tool.flutes) {
-        text += ` (`;
-        if (tool.diameter) text += `${tool.diameter}" diam`;
-        if (tool.diameter && tool.flutes) text += `, `;
-        if (tool.flutes) text += `${tool.flutes} flutes`;
-        text += `)`;
-      }
-      
-      label.appendChild(checkbox);
-      label.appendChild(document.createTextNode(text));
-      toolsContainer.appendChild(label);
+      const parts = [];
+      if (tool.diameter) parts.push(`${tool.diameter}" diam`);
+      if (tool.flutes)   parts.push(`${tool.flutes} fl`);
+      if (tool.type)     parts.push(`${tool.type}`);
+      const descriptor = parts.length > 0 ? ` — ${parts.join(', ')}` : '';
+      toolOptions.push({ id, label: `${id}${descriptor}` });
     });
-  } catch (error) {
-    console.error("Error loading tools:", error);
-    toolsContainer.innerHTML = 'Error loading tools.';
+    // Sort alphabetically by id
+    toolOptions.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+  } catch (err) {
+    console.error("Error loading tools for dropdowns:", err);
   }
 }
 
-initializePage();
+// ─── Build a <select> for the Tool ID column ──────────────────────────────────
+function buildToolSelect(selectedId = '') {
+  const sel = document.createElement('select');
+  sel.className = 'col-toolid';
+
+  const blank = document.createElement('option');
+  blank.value = '';
+  blank.textContent = '— select tool —';
+  sel.appendChild(blank);
+
+  toolOptions.forEach(opt => {
+    const option = document.createElement('option');
+    option.value = opt.id;
+    option.textContent = opt.label;
+    if (opt.id === selectedId) option.selected = true;
+    sel.appendChild(option);
+  });
+
+  return sel;
+}
+
+// ─── Operation Card Builder ───────────────────────────────────────────────────
+
+/**
+ * Adds a row to an operation card's table body.
+ * @param {HTMLElement} tbody - The <tbody> to append to.
+ * @param {object} [data]     - Optional pre-fill: { toolId, description, minZ }
+ */
+function addRow(tbody, data = {}) {
+  const tr = document.createElement('tr');
+
+  // Tool ID cell — dropdown
+  const tdTool = document.createElement('td');
+  tdTool.appendChild(buildToolSelect(data.toolId || ''));
+
+  // Toolpath Description cell
+  const tdDesc = document.createElement('td');
+  const descInput = document.createElement('input');
+  descInput.type = 'text';
+  descInput.placeholder = 'Face mill top';
+  descInput.className = 'col-desc';
+  descInput.value = data.description || '';
+  tdDesc.appendChild(descInput);
+
+  // Min Z cell
+  const tdMinZ = document.createElement('td');
+  const minZInput = document.createElement('input');
+  minZInput.type = 'text';
+  minZInput.placeholder = '-0.500';
+  minZInput.className = 'col-minz';
+  minZInput.value = data.minZ || '';
+  tdMinZ.appendChild(minZInput);
+
+  // Remove row cell
+  const tdRemove = document.createElement('td');
+  tdRemove.style.width = '2em';
+  tdRemove.style.textAlign = 'center';
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.className = 'remove-row-btn';
+  removeBtn.title = 'Remove row';
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => tr.remove());
+  tdRemove.appendChild(removeBtn);
+
+  tr.appendChild(tdTool);
+  tr.appendChild(tdDesc);
+  tr.appendChild(tdMinZ);
+  tr.appendChild(tdRemove);
+  tbody.appendChild(tr);
+}
+
+/**
+ * Creates and appends a new operation card to the operations container.
+ * @param {object} [data] - Optional pre-fill: { name, steps[] }
+ */
+function addOperationCard(data = {}) {
+  const card = document.createElement('div');
+  card.className = 'op-card';
+
+  // ─── Card header (name input + remove button) ─────────────────────────────
+  const header = document.createElement('div');
+  header.className = 'op-card-header';
+
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Operation name (e.g. Op 10 - Top Side)';
+  nameInput.className = 'op-name';
+  nameInput.value = data.name || '';
+
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.className = 'remove-op-btn';
+  removeBtn.textContent = '✕ Remove';
+  removeBtn.addEventListener('click', () => card.remove());
+
+  header.appendChild(nameInput);
+  header.appendChild(removeBtn);
+
+  // ─── Steps table ──────────────────────────────────────────────────────────
+  const table = document.createElement('table');
+  table.className = 'op-table';
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th style="width:180px;">Tool ID</th>
+        <th>Toolpath Description</th>
+        <th style="width:90px;">Min Z</th>
+        <th style="width:2em;"></th>
+      </tr>
+    </thead>
+  `;
+  const tbody = document.createElement('tbody');
+  table.appendChild(tbody);
+
+  // Pre-fill rows if we have steps data
+  if (data.steps && data.steps.length > 0) {
+    data.steps.forEach(step => addRow(tbody, step));
+  } else {
+    addRow(tbody); // start with one empty row
+  }
+
+  // ─── Add Row button ───────────────────────────────────────────────────────
+  const addRowBtn = document.createElement('button');
+  addRowBtn.type = 'button';
+  addRowBtn.className = 'add-row-btn';
+  addRowBtn.textContent = '+ Add Step';
+  addRowBtn.addEventListener('click', () => addRow(tbody));
+
+  card.appendChild(header);
+  card.appendChild(table);
+  card.appendChild(addRowBtn);
+
+  operationsContainer.appendChild(card);
+}
+
+// ─── Add Operation button ─────────────────────────────────────────────────────
+document.getElementById('addOpBtn').addEventListener('click', () => addOperationCard());
+
+// ─── Read all operation cards into a data structure ───────────────────────────
+function collectOperations() {
+  const cards = operationsContainer.querySelectorAll('.op-card');
+  const operations = [];
+  cards.forEach(card => {
+    const name = card.querySelector('.op-name').value.trim();
+    const steps = [];
+    card.querySelectorAll('tbody tr').forEach(row => {
+      const toolId      = row.querySelector('.col-toolid').value.trim();
+      const description = row.querySelector('.col-desc').value.trim();
+      const minZ        = row.querySelector('.col-minz').value.trim();
+      // Only include a row if at least one field is filled
+      if (toolId || description || minZ) {
+        steps.push({ toolId, description, minZ });
+      }
+    });
+    if (name || steps.length > 0) {
+      operations.push({ name, steps });
+    }
+  });
+  return operations;
+}
+
+// ─── Initialize Page ──────────────────────────────────────────────────────────
+async function initializePage() {
+  // Load tools first so dropdowns are ready before cards are built
+  await loadToolOptions();
+
+  if (editId) {
+    await loadPartForEdit(editId);
+  }
+}
 
 async function loadPartForEdit(id) {
   try {
@@ -90,12 +230,10 @@ async function loadPartForEdit(id) {
       document.getElementById('cycle').value = part.cycle || '';
       document.getElementById('setup').value = part.setup || '';
       document.getElementById('note').value = part.note || '';
-      
-      if (part.tools && Array.isArray(part.tools)) {
-        part.tools.forEach(toolId => {
-          const cb = document.querySelector(`input[name="tools"][value="${toolId}"]`);
-          if (cb) cb.checked = true;
-        });
+
+      // Restore operation cards
+      if (part.operations && Array.isArray(part.operations)) {
+        part.operations.forEach(op => addOperationCard(op));
       }
     } else {
       console.log("No such document!");
@@ -105,61 +243,51 @@ async function loadPartForEdit(id) {
   }
 }
 
-// Listen for form submit
+initializePage();
+
+// ─── Form Submission ──────────────────────────────────────────────────────────
 document.getElementById('inputForm').addEventListener('submit', submitForm);
 
-// Do several things on button press
-function submitForm(e){
+function submitForm(e) {
   e.preventDefault();
 
-  // 1. get values
-  var partNum = getInputVal('partNum');
-  var cycle = getInputVal('cycle');
-  var setup = getInputVal('setup');
-  var note = getInputVal('note');
-  
-  // Get selected tools
-  var tools = Array.from(document.querySelectorAll('input[name="tools"]:checked')).map(cb => cb.value);
+  const partNum    = getInputVal('partNum');
+  const cycle      = getInputVal('cycle');
+  const setup      = getInputVal('setup');
+  const note       = getInputVal('note');
+  const operations = collectOperations();
 
-  // 2. save part information
-  addPart(partNum, cycle, setup, note, tools);
+  savePart(partNum, cycle, setup, note, operations);
 
-  // 3. show alert
   const alertEl = document.querySelector('.alert');
   alertEl.textContent = editId ? "Saved part!" : "Created part!";
   alertEl.style.display = 'block';
 
-  // 4. hide alert after 3 seconds
-  setTimeout(function(){
-    alertEl.style.display = 'none';
-  },3000);
+  setTimeout(() => { alertEl.style.display = 'none'; }, 3000);
 
-  // 5.a clear form only if we are not editing
   if (!editId) {
     document.getElementById('inputForm').reset();
+    operationsContainer.innerHTML = '';
   } else {
-    // 5.b navigate back to list view after a successful edit
     setTimeout(() => { window.location.href = 'parts.html'; }, 1000);
   }
 }
 
-// get form values shortcut
-function getInputVal(id){
+function getInputVal(id) {
   return document.getElementById(id).value;
 }
 
-// update database
-async function addPart(partNum, cycle, setup, note, tools) {
+async function savePart(partNum, cycle, setup, note, operations) {
   try {
     await setDoc(doc(db, "parts", partNum), {
       number: partNum,
-      cycle: cycle,
-      setup: setup,
-      note: note,
-      tools: tools
+      cycle,
+      setup,
+      note,
+      operations
     });
-    console.log("Document written with ID: ", partNum);
+    console.log("Document written with ID:", partNum);
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Error saving document:", e);
   }
 }

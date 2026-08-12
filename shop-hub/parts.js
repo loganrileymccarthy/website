@@ -12,56 +12,49 @@ const firebaseConfig = {
   measurementId: "G-FZM8W21VEG"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const partsList = document.getElementById('partsList');
 
-// Fetch and render parts
 async function loadParts() {
   try {
     const querySnapshot = await getDocs(collection(db, "parts"));
-    partsList.innerHTML = ''; // Clear loading text
-    
+    partsList.innerHTML = '';
+
     if (querySnapshot.empty) {
       partsList.innerHTML = '<li>No parts found.</li>';
       return;
     }
 
-    querySnapshot.forEach((docSnap) => {
-      const part = docSnap.data();
-      const id = docSnap.id;
-      
+    // Collect and sort by part number
+    const parts = [];
+    querySnapshot.forEach(docSnap => parts.push({ id: docSnap.id, ...docSnap.data() }));
+    parts.sort((a, b) => String(a.number).localeCompare(String(b.number), undefined, { numeric: true }));
+
+    parts.forEach(part => {
+      // Build a short descriptor line
+      const descriptorParts = [];
+      if (part.cycle) descriptorParts.push(`cycle ${part.cycle}`);
+      if (part.setup) descriptorParts.push(`setup ${part.setup}`);
+      const opCount = part.operations ? part.operations.length : 0;
+      if (opCount > 0) descriptorParts.push(`${opCount} op${opCount !== 1 ? 's' : ''}`);
+      const descriptor = descriptorParts.length > 0 ? ` — ${descriptorParts.join(', ')}` : '';
+
       const li = document.createElement('li');
-      li.className = 'part-item';
-      
+      li.className = 'part-item tool-list-item';
       li.innerHTML = `
         <div class="part-details">
-          <strong>Part Number:</strong> ${part.number} <br>
-          <strong>Cycle Time:</strong> ${part.cycle || 'N/A'} <br>
-          <strong>Setup Time:</strong> ${part.setup || 'N/A'} <br>
-          <strong>Note:</strong> ${part.note || 'None'} <br>
-          <strong>Assigned Tools:</strong> ${part.tools && part.tools.length > 0 ? part.tools.join(', ') : 'None'}
+          <a href="part-detail.html?id=${encodeURIComponent(part.id)}" class="part-link">${part.number}</a>
+          <span class="tool-descriptor">${descriptor}</span>
         </div>
         <div class="actions">
-          <button class="edit-btn" data-id="${id}">Edit</button>
-          <button class="delete-btn" data-id="${id}">Delete</button>
+          <button class="delete-btn" data-id="${part.id}">Delete</button>
         </div>
       `;
-      
       partsList.appendChild(li);
     });
 
-    // Add event listeners to edit buttons
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = e.target.getAttribute('data-id');
-        window.location.href = `edit-part.html?id=${id}`;
-      });
-    });
-
-    // Add event listeners to delete buttons
     document.querySelectorAll('.delete-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = e.target.getAttribute('data-id');
@@ -70,23 +63,21 @@ async function loadParts() {
         }
       });
     });
-    
+
   } catch (error) {
-    console.error("Error loading parts: ", error);
+    console.error("Error loading parts:", error);
     partsList.innerHTML = '<li>Error loading parts.</li>';
   }
 }
 
-// Delete part
 async function deletePart(id) {
   try {
     await deleteDoc(doc(db, "parts", id));
-    loadParts(); // Reload the list after deletion
+    loadParts();
   } catch (error) {
-    console.error("Error deleting part: ", error);
+    console.error("Error deleting part:", error);
     alert("Could not delete the part.");
   }
 }
 
-// Load parts on page load
 loadParts();

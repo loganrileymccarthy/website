@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub - Tool Detail</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tool-detail-card {
+      background: var(--bg-color-2);
+      border: 1px solid var(--border-color);
+      padding: 1.5em;
+    }
+    .tool-detail-card h2 {
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5em;
+      margin-bottom: 1em;
+    }
+    .detail-row {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 0.6em;
+    }
+    .detail-label {
+      font-weight: bold;
+      min-width: 140px;
+    }
+    .actions-bar {
+      margin-top: 1.5em;
+      display: flex;
+      gap: 0.75em;
+    }
+    /* ---- Stock widget (inline in detail row) ---- */
+    .stock-row {
+      align-items: center;
+    }
+    .stock-widget {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      font-size: 0.95em;
+    }
+    .stock-btn {
+      background: var(--bg-color-3);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      width: 1.6em;
+      height: 1.6em;
+      line-height: 1;
+      font-size: 1em;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+    }
+    .stock-btn:hover {
+      background: var(--neutral-button);
+      color: var(--text-color-2);
+    }
+    .stock-qty {
+      min-width: 1.6em;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.05em;
+    }
+    .stock-qty.stock-unset {
+      opacity: 0.4;
+    }
+    .stock-verified {
+      opacity: 0.5;
+      font-size: 0.82em;
+      font-style: italic;
+      margin-left: 0.3em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="company-info">
+        <h3>Tool Detail</h3>
+        <ul>
+          <li><a href="tools.html">← Back to Tools List</a></li>
+          <li><a href="index.html">Back to Hub</a></li>
+        </ul>
+      </div>
+      <div class="app-content">
+        <div id="toolDetailContent">
+          <p>Loading tool...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="tool-detail.js"></script>
+</body>
+</html>

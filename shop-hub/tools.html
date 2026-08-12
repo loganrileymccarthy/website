@@ -7,6 +7,56 @@
   <title>Shop Hub - Tools List</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ---- Stock widget ---- */
+    .tool-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+      flex-wrap: wrap;
+    }
+    .stock-widget {
+      display: flex;
+      align-items: center;
+      gap: 0.35em;
+      font-size: 0.88em;
+    }
+    .stock-label {
+      font-weight: bold;
+      margin-right: 0.1em;
+    }
+    .stock-btn {
+      background: var(--bg-color-3);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      width: 1.6em;
+      height: 1.6em;
+      line-height: 1;
+      font-size: 1em;
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+    }
+    .stock-btn:hover {
+      background: var(--neutral-button);
+      color: var(--text-color-2);
+    }
+    .stock-qty {
+      min-width: 1.4em;
+      text-align: center;
+      font-weight: bold;
+    }
+    .stock-qty.stock-unset {
+      opacity: 0.45;
+    }
+    .stock-verified {
+      color: var(--text-color);
+      opacity: 0.55;
+      font-size: 0.85em;
+      font-style: italic;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
   <div class="container">

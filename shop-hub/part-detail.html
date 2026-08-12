@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub - Part Detail</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .part-detail-card {
+      background: var(--bg-color-2);
+      border: 1px solid var(--border-color);
+      padding: 1.5em;
+    }
+    .part-detail-card h2 {
+      margin-top: 0;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5em;
+      margin-bottom: 1em;
+    }
+    .detail-row {
+      display: flex;
+      gap: 1em;
+      margin-bottom: 0.6em;
+    }
+    .detail-label {
+      font-weight: bold;
+      min-width: 130px;
+    }
+    /* ---- Sequence of Operations display ---- */
+    .ops-section {
+      margin-top: 1.25em;
+      border-top: 2px solid var(--border-color);
+      padding-top: 1em;
+    }
+    .ops-section-title {
+      font-weight: bold;
+      margin-bottom: 0.75em;
+    }
+    .op-display-card {
+      background: var(--bg-color-3);
+      border: 1px solid var(--border-color);
+      padding: 1em;
+      margin-bottom: 1em;
+    }
+    .op-display-card h3 {
+      margin: 0 0 0.6em 0;
+      font-size: 0.95em;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.4em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .op-display-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }
+    .op-display-table th {
+      background: var(--bg-color);
+      padding: 0.35em 0.6em;
+      text-align: left;
+      border: 1px solid var(--border-color);
+      font-size: 0.82em;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .op-display-table td {
+      padding: 0.35em 0.6em;
+      border: 1px solid var(--border-color);
+    }
+    .op-display-table tr:nth-child(even) td {
+      background: var(--bg-color-2);
+    }
+    .no-ops-msg {
+      opacity: 0.6;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+    .actions-bar {
+      margin-top: 1.5em;
+      display: flex;
+      gap: 0.75em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="company-info">
+        <h3>Part Detail</h3>
+        <ul>
+          <li><a href="parts.html">← Back to Parts List</a></li>
+          <li><a href="index.html">Back to Hub</a></li>
+        </ul>
+      </div>
+      <div class="app-content">
+        <div id="partDetailContent">
+          <p>Loading part...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="part-detail.js"></script>
+</body>
+</html>

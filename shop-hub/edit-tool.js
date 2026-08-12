@@ -28,13 +28,14 @@ async function loadToolForEdit(id) {
     if (docSnap.exists()) {
       const tool = docSnap.data();
       document.getElementById('toolName').value = id;
-      document.getElementById('toolName').readOnly = true; 
+      document.getElementById('toolName').readOnly = true;
       document.getElementById('type').value = tool.type || '';
       document.getElementById('material').value = tool.material || '';
       document.getElementById('brand').value = tool.brand || '';
       document.getElementById('flutes').value = tool.flutes || '';
       document.getElementById('diameter').value = tool.diameter || '';
       document.getElementById('cuttingLength').value = tool.cuttingLength || '';
+      document.getElementById('stock').value = tool.stock !== undefined ? tool.stock : '';
     } else {
       console.log("No such document!");
     }
@@ -45,26 +46,25 @@ async function loadToolForEdit(id) {
 
 document.getElementById('inputForm').addEventListener('submit', submitForm);
 
-function submitForm(e){
+function submitForm(e) {
   e.preventDefault();
 
-  const toolName = document.getElementById('toolName').value;
-  const type = document.getElementById('type').value;
-  const material = document.getElementById('material').value;
-  const brand = document.getElementById('brand').value;
-  const flutes = document.getElementById('flutes').value;
-  const diameter = document.getElementById('diameter').value;
+  const toolName     = document.getElementById('toolName').value;
+  const type         = document.getElementById('type').value;
+  const material     = document.getElementById('material').value;
+  const brand        = document.getElementById('brand').value;
+  const flutes       = document.getElementById('flutes').value;
+  const diameter     = document.getElementById('diameter').value;
   const cuttingLength = document.getElementById('cuttingLength').value;
+  const stock        = document.getElementById('stock').value;
 
-  addTool(toolName, type, material, brand, flutes, diameter, cuttingLength);
+  addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock);
 
   const alertEl = document.querySelector('.alert');
   alertEl.textContent = editId ? "Saved tool!" : "Created tool!";
   alertEl.style.display = 'block';
 
-  setTimeout(function(){
-    alertEl.style.display = 'none';
-  },3000);
+  setTimeout(() => { alertEl.style.display = 'none'; }, 3000);
 
   if (!editId) {
     document.getElementById('inputForm').reset();
@@ -73,19 +73,26 @@ function submitForm(e){
   }
 }
 
-async function addTool(toolName, type, material, brand, flutes, diameter, cuttingLength) {
+async function addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock) {
   try {
     const data = {};
-    if (type) data.type = parseInt(type);
-    if (material) data.material = parseInt(material);
-    if (brand) data.brand = parseInt(brand);
-    if (flutes) data.flutes = parseInt(flutes);
-    if (diameter) data.diameter = parseFloat(diameter);
+    if (type)          data.type          = parseInt(type);
+    if (material)      data.material      = parseInt(material);
+    if (brand)         data.brand         = parseInt(brand);
+    if (flutes)        data.flutes        = parseInt(flutes);
+    if (diameter)      data.diameter      = parseFloat(diameter);
     if (cuttingLength) data.cuttingLength = parseFloat(cuttingLength);
+    if (stock !== '')  data.stock         = parseInt(stock);
 
-    await setDoc(doc(db, "tools", toolName), data);
-    console.log("Document written with ID: ", toolName);
+    // When setting stock for the first time via this form, stamp the verified date.
+    // (Quick-adjust from the list/detail page will overwrite this with its own timestamp.)
+    if (stock !== '') {
+      data.stockVerified = new Date().toISOString();
+    }
+
+    await setDoc(doc(db, "tools", toolName), data, { merge: true });
+    console.log("Document written with ID:", toolName);
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Error adding document:", e);
   }
 }

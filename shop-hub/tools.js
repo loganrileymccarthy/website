@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCKOYAiEH5YqwYEC_y_4upwcNb5D2FVo7M",
@@ -17,58 +17,133 @@ const db = getFirestore(app);
 
 const toolsList = document.getElementById('toolsList');
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatVerified(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function updateStock(id, newQty) {
+  const ts = new Date().toISOString();
+  await updateDoc(doc(db, "tools", id), {
+    stock: newQty,
+    stockVerified: ts
+  });
+  return ts;
+}
+
+// ─── Build a stock widget (qty stepper + verified label) ──────────────────────
+function buildStockWidget(id, stock, stockVerified) {
+  const qty = stock !== undefined ? stock : null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'stock-widget';
+
+  const label = document.createElement('span');
+  label.className = 'stock-label';
+  label.textContent = 'Stock:';
+
+  const minusBtn = document.createElement('button');
+  minusBtn.type = 'button';
+  minusBtn.className = 'stock-btn stock-minus';
+  minusBtn.textContent = '−';
+
+  const qtyEl = document.createElement('span');
+  qtyEl.className = 'stock-qty' + (qty === null ? ' stock-unset' : '');
+  qtyEl.textContent = qty !== null ? qty : '?';
+
+  const plusBtn = document.createElement('button');
+  plusBtn.type = 'button';
+  plusBtn.className = 'stock-btn stock-plus';
+  plusBtn.textContent = '+';
+
+  const verifiedEl = document.createElement('span');
+  verifiedEl.className = 'stock-verified';
+  verifiedEl.textContent = stockVerified ? `verified ${formatVerified(stockVerified)}` : 'not verified';
+
+  // State tracked locally so we don't need to reload after every click
+  let current = qty !== null ? qty : 0;
+
+  async function adjust(delta) {
+    const next = Math.max(0, current + delta);
+    qtyEl.textContent = next;
+    qtyEl.classList.remove('stock-unset');
+    current = next;
+    try {
+      const ts = await updateStock(id, next);
+      verifiedEl.textContent = `verified ${formatVerified(ts)}`;
+    } catch (err) {
+      console.error("Error updating stock:", err);
+    }
+  }
+
+  minusBtn.addEventListener('click', () => adjust(-1));
+  plusBtn.addEventListener('click',  () => adjust(+1));
+
+  wrapper.appendChild(label);
+  wrapper.appendChild(minusBtn);
+  wrapper.appendChild(qtyEl);
+  wrapper.appendChild(plusBtn);
+  wrapper.appendChild(verifiedEl);
+
+  return wrapper;
+}
+
+// ─── Load Tools ───────────────────────────────────────────────────────────────
 async function loadTools() {
   try {
     const querySnapshot = await getDocs(collection(db, "tools"));
-    toolsList.innerHTML = ''; 
-    
+    toolsList.innerHTML = '';
+
     if (querySnapshot.empty) {
       toolsList.innerHTML = '<li>No tools found.</li>';
       return;
     }
 
-    querySnapshot.forEach((docSnap) => {
-      const tool = docSnap.data();
-      const id = docSnap.id;
-      
+    // Collect and sort
+    const tools = [];
+    querySnapshot.forEach(docSnap => tools.push({ id: docSnap.id, ...docSnap.data() }));
+    tools.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+
+    tools.forEach(tool => {
+      const parts = [];
+      if (tool.diameter) parts.push(`${tool.diameter}" diam`);
+      if (tool.flutes)   parts.push(`${tool.flutes} fl`);
+      if (tool.type)     parts.push(`type ${tool.type}`);
+      const descriptor = parts.length > 0 ? ` — ${parts.join(', ')}` : '';
+
       const li = document.createElement('li');
-      li.className = 'part-item'; // Reusing part-item style
-      
-      li.innerHTML = `
-        <div class="part-details">
-          <strong>Tool Name:</strong> ${id} <br>
-          <strong>Type:</strong> ${tool.type || 'N/A'} <br>
-          <strong>Material:</strong> ${tool.material || 'N/A'} <br>
-          <strong>Brand:</strong> ${tool.brand || 'N/A'} <br>
-          <strong>Flutes:</strong> ${tool.flutes || 'N/A'} <br>
-          <strong>Diameter:</strong> ${tool.diameter ? tool.diameter + '"' : 'N/A'} <br>
-          <strong>Cutting Length:</strong> ${tool.cuttingLength ? tool.cuttingLength + '"' : 'N/A'}
-        </div>
-        <div class="actions">
-          <button class="edit-btn" data-id="${id}">Edit</button>
-          <button class="delete-btn" data-id="${id}">Delete</button>
-        </div>
+      li.className = 'part-item tool-list-item';
+
+      const detailsDiv = document.createElement('div');
+      detailsDiv.className = 'part-details';
+      detailsDiv.innerHTML = `
+        <a href="tool-detail.html?id=${encodeURIComponent(tool.id)}" class="part-link">${tool.id}</a>
+        <span class="tool-descriptor">${descriptor}</span>
       `;
-      
+
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'actions tool-actions';
+      actionsDiv.appendChild(buildStockWidget(tool.id, tool.stock, tool.stockVerified));
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.dataset.id = tool.id;
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.addEventListener('click', async () => {
+        if (confirm(`Are you sure you want to delete tool "${tool.id}"?`)) {
+          await deleteTool(tool.id);
+        }
+      });
+      actionsDiv.appendChild(deleteBtn);
+
+      li.appendChild(detailsDiv);
+      li.appendChild(actionsDiv);
       toolsList.appendChild(li);
     });
 
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = e.target.getAttribute('data-id');
-        window.location.href = `edit-tool.html?id=${id}`;
-      });
-    });
-
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        const id = e.target.getAttribute('data-id');
-        if (confirm(`Are you sure you want to delete tool ${id}?`)) {
-          await deleteTool(id);
-        }
-      });
-    });
-    
   } catch (error) {
     console.error("Error loading tools:", error);
     toolsList.innerHTML = '<li>Error loading tools.</li>';
