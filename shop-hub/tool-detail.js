@@ -132,6 +132,10 @@ async function loadTool() {
           <span class="detail-label">Cutting Length:</span>
           <span>${fmt(tool.cuttingLength, '"')}</span>
         </div>
+        <div class="detail-row">
+          <span class="detail-label">Vendor Link:</span>
+          <span>${tool.vendorLink ? `<a href="${tool.vendorLink}" target="_blank" rel="noopener noreferrer">${tool.vendorLink}</a>` : 'N/A'}</span>
+        </div>
         <div class="detail-row stock-row" id="stockRow">
           <span class="detail-label">Stock:</span>
           <!-- stock widget injected here -->

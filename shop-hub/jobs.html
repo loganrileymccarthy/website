@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shop Hub - Jobs List</title>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .job-status {
+      display: inline-block;
+      font-size: 0.78em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+    .job-status.overdue  { background: var(--danger-button);  color: var(--text-color-2); }
+    .job-status.due-soon { background: #7a5800;               color: #ffd; }
+    .job-status.open     { background: var(--bg-color-3);     color: var(--text-color);   }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title-block">Shop Hub</h1>
+    <div class="wrapper">
+      <div class="menu-block">
+        <h3>Jobs List</h3>
+        <ul>
+          <li><a href="index.html">Back to Hub</a></li>
+          <li><a href="edit-job.html">Add New Job</a></li>
+        </ul>
+      </div>
+      <div class="app-content">
+        <ul id="jobsList" class="parts-list">
+          <!-- Jobs will be injected here -->
+          <li>Loading jobs...</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="jobs.js"></script>
+</body>
+</html>

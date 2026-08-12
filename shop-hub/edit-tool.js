@@ -36,6 +36,7 @@ async function loadToolForEdit(id) {
       document.getElementById('diameter').value = tool.diameter || '';
       document.getElementById('cuttingLength').value = tool.cuttingLength || '';
       document.getElementById('stock').value = tool.stock !== undefined ? tool.stock : '';
+      document.getElementById('vendorLink').value = tool.vendorLink || '';
     } else {
       console.log("No such document!");
     }
@@ -57,8 +58,9 @@ function submitForm(e) {
   const diameter     = document.getElementById('diameter').value;
   const cuttingLength = document.getElementById('cuttingLength').value;
   const stock        = document.getElementById('stock').value;
+  const vendorLink   = document.getElementById('vendorLink').value;
 
-  addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock);
+  addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock, vendorLink);
 
   const alertEl = document.querySelector('.alert');
   alertEl.textContent = editId ? "Saved tool!" : "Created tool!";
@@ -73,7 +75,7 @@ function submitForm(e) {
   }
 }
 
-async function addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock) {
+async function addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock, vendorLink) {
   try {
     const data = {};
     if (type)          data.type          = parseInt(type);
@@ -83,6 +85,7 @@ async function addTool(toolName, type, material, brand, flutes, diameter, cuttin
     if (diameter)      data.diameter      = parseFloat(diameter);
     if (cuttingLength) data.cuttingLength = parseFloat(cuttingLength);
     if (stock !== '')  data.stock         = parseInt(stock);
+    if (vendorLink)    data.vendorLink     = vendorLink;
 
     // When setting stock for the first time via this form, stamp the verified date.
     // (Quick-adjust from the list/detail page will overwrite this with its own timestamp.)
