@@ -110,8 +110,7 @@ async function loadTools() {
     tools.forEach(tool => {
       const parts = [];
       if (tool.diameter) parts.push(`${tool.diameter}" diam`);
-      if (tool.flutes)   parts.push(`${tool.flutes} fl`);
-      if (tool.type)     parts.push(`type ${tool.type}`);
+      if (tool.cuttingLength)   parts.push(`${tool.cuttingLength}" LOC`);
       const descriptor = parts.length > 0 ? ` — ${parts.join(', ')}` : '';
 
       const li = document.createElement('li');
