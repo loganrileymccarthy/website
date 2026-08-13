@@ -32,7 +32,7 @@ function buildOperationsHTML(operations) {
       ? op.steps.map((step, i) => `
           <tr>
             <td>${i + 1}</td>
-            <td>${escHtml(step.toolId || '—')}</td>
+            <td>${step.toolId ? `<a href="tool-detail.html?id=${encodeURIComponent(step.toolId)}">${step.toolId}</a>` : '—'}</td>
             <td>${escHtml(step.description || '—')}</td>
             <td>${escHtml(step.minZ || '—')}</td>
           </tr>`).join('')

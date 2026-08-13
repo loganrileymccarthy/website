@@ -22,14 +22,17 @@ class MyFooter extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML = `
 		<footer>
+			<!-- 
 			<p>
                 <label style="font-size: 11px;">
                     <input type="checkbox" id="darkModeToggleGlobal" checked> Dark Mode
                 </label>
             </p>
+			-->
 		</footer>
 	`
 
+		
 		// Add logic after elements are created
 		this.querySelector('#darkModeToggleGlobal').addEventListener('change', (e) => {
 			if (e.target.checked) {
