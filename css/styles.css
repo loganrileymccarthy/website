@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Agave Nerd Font";
-  src: url("fonts/AgaveNerdFont-Regular.woff2") format("woff2");
+  src: url("fonts/AgaveNerdFontMono-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
 }
@@ -27,7 +27,7 @@
 
     /* Typography */
     /*--font-family: 'Outfit', sans-serif;*/
-    --font-family: "Agave Nerd Font", monospace;
+    --font-family: "Agave Nerd Font Mono", monospace;
 
     /* Effects */
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -42,7 +42,7 @@
 /*GLOBAL*/
 * {
   box-sizing: border-box;
-  font-family: "Agave Nerd Font", monospace;
+  font-family: "Agave Nerd Font Mono", monospace;
 }
 
 /*MAIN SIZING*/
