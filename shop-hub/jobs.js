@@ -28,10 +28,25 @@ function fmtDate(iso) {
   });
 }
 
-/** Returns 'overdue' | 'due-soon' (within 7 days) | 'open' */
-function dueStatus(dueDateStr) {
-  if (!dueDateStr) return 'open';
-  const [y, m, d] = dueDateStr.split('-').map(Number);
+function getJobTotals(job) {
+  const ordered = job.quantityOrdered !== undefined ? job.quantityOrdered : (job.quantity || 0);
+  let complete = 0;
+  if (job.batches && Array.isArray(job.batches) && job.batches.length > 0) {
+    complete = job.batches.reduce((sum, b) => sum + Number(b.qty || 0), 0);
+  } else if (job.quantityComplete !== undefined) {
+    complete = Number(job.quantityComplete);
+  }
+  return { ordered, complete };
+}
+
+/** Returns 'completed' | 'overdue' | 'due-soon' (within 7 days) | 'open' */
+function dueStatus(job) {
+  const { ordered, complete } = getJobTotals(job);
+  if (ordered > 0 && complete >= ordered) {
+    return 'completed';
+  }
+  if (!job.dueDate) return 'open';
+  const [y, m, d] = job.dueDate.split('-').map(Number);
   const due = new Date(y, m - 1, d);
   const now = new Date();
   now.setHours(0, 0, 0, 0);
@@ -41,7 +56,7 @@ function dueStatus(dueDateStr) {
   return 'open';
 }
 
-const statusLabel = { overdue: 'Overdue', 'due-soon': 'Due Soon', open: 'Open' };
+const statusLabel = { completed: 'Completed', overdue: 'Overdue', 'due-soon': 'Due Soon', open: 'Open' };
 
 // ─── Load Jobs ────────────────────────────────────────────────────────────────
 async function loadJobs() {
@@ -65,11 +80,13 @@ async function loadJobs() {
     });
 
     jobs.forEach(job => {
-      const status = dueStatus(job.dueDate);
+      const { ordered, complete } = getJobTotals(job);
+      const status = dueStatus(job);
       const descriptorParts = [];
-      if (job.partId)   descriptorParts.push(`Part ${job.partId}`);
-      if (job.quantity) descriptorParts.push(`Qty ${job.quantity}`);
-      if (job.dueDate)  descriptorParts.push(`Due ${fmtDate(job.dueDate)}`);
+      if (job.partId) descriptorParts.push(`Part ${job.partId}`);
+      if (ordered > 0) descriptorParts.push(`Qty: ${complete}/${ordered}`);
+      else if (complete > 0) descriptorParts.push(`Qty Complete: ${complete}`);
+      if (job.dueDate) descriptorParts.push(`Due ${fmtDate(job.dueDate)}`);
       const descriptor = descriptorParts.length > 0 ? ` — ${descriptorParts.join(', ')}` : '';
 
       const li = document.createElement('li');

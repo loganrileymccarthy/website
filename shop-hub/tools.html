@@ -71,10 +71,16 @@
         </ul>
       </div>
       <div class="app-content">
-        <ul id="toolsList" class="parts-list">
-          <!-- Tools will be injected here -->
-          <li>Loading tools...</li>
-        </ul>
+        <div class="tools-header-bar">
+          <span id="toolsSummary" class="tools-summary">Loading tools...</span>
+          <div class="tools-controls">
+            <button type="button" id="expandAllBtn" class="control-btn">Expand All</button>
+            <button type="button" id="collapseAllBtn" class="control-btn">Collapse All</button>
+          </div>
+        </div>
+        <div id="toolsCategories" class="tools-categories">
+          <!-- Category cards will be injected here -->
+        </div>
       </div>
     </div>
   </div>

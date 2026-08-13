@@ -78,7 +78,7 @@ function submitForm(e) {
 async function addTool(toolName, type, material, brand, flutes, diameter, cuttingLength, stock, vendorLink) {
   try {
     const data = {};
-    if (type)          data.type          = parseInt(type);
+    if (type)          data.type          = type;
     if (material)      data.material      = parseInt(material);
     if (brand)         data.brand         = parseInt(brand);
     if (flutes)        data.flutes        = parseInt(flutes);
