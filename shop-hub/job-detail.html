@@ -19,9 +19,121 @@
       margin-left: 0.6em;
       vertical-align: middle;
     }
-    .job-badge.overdue  { background: var(--danger-button);  color: var(--text-color-2); }
-    .job-badge.due-soon { background: #7a5800;               color: #ffd; }
-    .job-badge.open     { background: var(--bg-color-3);     color: var(--text-color);   }
+    .job-badge.completed { background: #2e7d32;               color: #fff; }
+    .job-badge.overdue   { background: var(--danger-button);  color: var(--text-color-2); }
+    .job-badge.due-soon  { background: #7a5800;               color: #ffd; }
+    .job-badge.open      { background: var(--bg-color-3);     color: var(--text-color);   }
+
+    /* ---- Progress Bar ---- */
+    .progress-bar-wrap {
+      width: 100%;
+      background: var(--bg-color-3);
+      border: 1px solid var(--border-color);
+      height: 22px;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+      margin-top: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--neutral-button);
+      transition: width 0.3s ease;
+    }
+    .progress-bar-fill.completed {
+      background: #4caf50;
+    }
+    .progress-bar-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78em;
+      font-weight: bold;
+      color: var(--text-color);
+      text-shadow: 0 0 2px rgba(255,255,255,0.7);
+    }
+
+    /* ---- Batches Section ---- */
+    .batch-section {
+      margin-top: 1.5em;
+      padding-top: 1em;
+      border-top: 2px solid var(--border-color);
+    }
+    .batch-section h3 {
+      margin-top: 0;
+      margin-bottom: 0.75em;
+    }
+    .batch-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1em;
+    }
+    .batch-table th, .batch-table td {
+      border: 1px solid var(--border-color);
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 0.9em;
+    }
+    .batch-table th {
+      background: var(--bg-color-3);
+    }
+    .batch-form {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      background: var(--bg-color-3);
+      padding: 12px;
+      border-radius: 4px;
+    }
+    .batch-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .batch-field label {
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+    .batch-field input {
+      padding: 6px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      font-family: inherit;
+      font-size: 0.9em;
+      background: #fff;
+    }
+    .batch-add-btn {
+      background: var(--neutral-button);
+      color: var(--text-color-2);
+      border: 0;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 3px;
+      font-size: 0.85em;
+    }
+    .batch-add-btn:hover {
+      background: var(--neutral-button-hover);
+    }
+    .batch-delete-btn {
+      background: var(--danger-button);
+      color: var(--text-color-2);
+      border: 0;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-size: 0.85em;
+      border-radius: 2px;
+    }
+    .batch-delete-btn:hover {
+      background: var(--danger-button-hover);
+    }
   </style>
 </head>
 <body>

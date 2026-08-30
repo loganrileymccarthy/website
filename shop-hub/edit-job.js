@@ -47,7 +47,8 @@ async function loadJobForEdit(id) {
       document.getElementById('jobId').value = id;
       document.getElementById('jobId').readOnly = true;
       document.getElementById('partId').value = job.partId || '';
-      document.getElementById('quantity').value = job.quantity !== undefined ? job.quantity : '';
+      const qtyOrd = job.quantityOrdered !== undefined ? job.quantityOrdered : (job.quantity !== undefined ? job.quantity : '');
+      document.getElementById('quantityOrdered').value = qtyOrd;
       document.getElementById('startDate').value = job.startDate || '';
       document.getElementById('dueDate').value = job.dueDate || '';
       document.getElementById('notes').value = job.notes || '';
@@ -72,14 +73,14 @@ document.getElementById('inputForm').addEventListener('submit', submitForm);
 function submitForm(e) {
   e.preventDefault();
 
-  const jobId     = document.getElementById('jobId').value.trim();
-  const partId    = document.getElementById('partId').value;
-  const quantity  = document.getElementById('quantity').value;
-  const startDate = document.getElementById('startDate').value;
-  const dueDate   = document.getElementById('dueDate').value;
-  const notes     = document.getElementById('notes').value.trim();
+  const jobId           = document.getElementById('jobId').value.trim();
+  const partId          = document.getElementById('partId').value;
+  const quantityOrdered = document.getElementById('quantityOrdered').value;
+  const startDate       = document.getElementById('startDate').value;
+  const dueDate         = document.getElementById('dueDate').value;
+  const notes           = document.getElementById('notes').value.trim();
 
-  saveJob(jobId, partId, quantity, startDate, dueDate, notes);
+  saveJob(jobId, partId, quantityOrdered, startDate, dueDate, notes);
 
   const alertEl = document.querySelector('.alert');
   alertEl.textContent = editId ? "Saved job!" : "Created job!";
@@ -95,14 +96,14 @@ function submitForm(e) {
   }
 }
 
-async function saveJob(jobId, partId, quantity, startDate, dueDate, notes) {
+async function saveJob(jobId, partId, quantityOrdered, startDate, dueDate, notes) {
   try {
     const data = {};
-    if (partId)    data.partId    = partId;
-    if (quantity)  data.quantity  = parseInt(quantity);
-    if (startDate) data.startDate = startDate;
-    if (dueDate)   data.dueDate   = dueDate;
-    if (notes)     data.notes     = notes;
+    if (partId)          data.partId          = partId;
+    if (quantityOrdered) data.quantityOrdered = parseInt(quantityOrdered);
+    if (startDate)       data.startDate       = startDate;
+    if (dueDate)         data.dueDate         = dueDate;
+    if (notes)           data.notes           = notes;
 
     await setDoc(doc(db, "jobs", jobId), data, { merge: true });
     console.log("Job saved:", jobId);

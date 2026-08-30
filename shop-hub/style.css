@@ -48,11 +48,14 @@ ul{
   list-style: none;
   padding:0;
 }
-input, textarea{
+input, textarea, select {
   width: 100%;
   padding: 1em;
   border: none;
   resize: none;
+  font-family: inherit;
+  background-color: #fff;
+  color: var(--text-color);
 }
 form {
   display: grid;
@@ -156,4 +159,138 @@ a:hover {
 }
 .edit-btn:hover {
   background: var(--neutral-button-hover);
+}
+
+/* ====================== CATEGORY CARDS ====================== */
+.tools-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25em;
+  padding-bottom: 0.75em;
+  border-bottom: 2px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 0.75em;
+}
+
+.tools-summary {
+  font-weight: bold;
+  color: var(--text-color);
+  font-size: 1.05em;
+}
+
+.tools-controls {
+  display: flex;
+  gap: 0.5em;
+}
+
+.control-btn {
+  background: var(--bg-color-3);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 6px 12px;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.control-btn:hover {
+  background: var(--neutral-button);
+  color: var(--text-color-2);
+}
+
+.tools-categories {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.category-card {
+  background: var(--bg-color-2);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.category-card:last-child {
+  border-bottom: none;
+}
+
+.category-header {
+  background: var(--bg-color-3);
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-color);
+  transition: background 0.15s ease;
+}
+
+.category-header:hover {
+  background: #aab8c5;
+}
+
+.category-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.category-name {
+  font-size: 0.95em;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.category-badge {
+  background: var(--text-color);
+  color: var(--text-color-2);
+  font-size: 0.75em;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.category-badge.empty {
+  opacity: 0.5;
+  background: var(--border-color);
+}
+
+.category-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+
+.category-toggle i {
+  transition: transform 0.2s ease;
+  font-size: 0.9em;
+}
+
+.category-card.collapsed .category-toggle i {
+  transform: rotate(-90deg);
+}
+
+.category-body {
+  padding: 0.6em 0.75em;
+  background: var(--bg-color-2);
+  border-top: 1px solid var(--border-color);
+}
+
+.category-card.collapsed .category-body {
+  display: none;
+}
+
+.empty-category-msg {
+  font-style: italic;
+  opacity: 0.6;
+  font-size: 0.85em;
+  padding: 0.3em 0.5em;
 }

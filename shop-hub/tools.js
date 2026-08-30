@@ -15,15 +15,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const toolsList = document.getElementById('toolsList');
+const toolsSummary = document.getElementById('toolsSummary');
+const toolsCategories = document.getElementById('toolsCategories');
+const expandAllBtn = document.getElementById('expandAllBtn');
+const collapseAllBtn = document.getElementById('collapseAllBtn');
+
+const CATEGORIES = [
+  { id: 'drill', label: 'Drill' },
+  { id: 'spot drill', label: 'Spot Drill' },
+  { id: 'centerdrill', label: 'Centerdrill' },
+  { id: 'countersink', label: 'Countersink' },
+  { id: 'chamfer', label: 'Chamfer' },
+  { id: 'endmill', label: 'Endmill' },
+  { id: 'ball endmill', label: 'Ball Endmill' },
+  { id: 'tap', label: 'Tap' },
+  { id: 'threadmill', label: 'Threadmill' }
+];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatVerified(iso) {
-  if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-}
 
 async function updateStock(id, newQty) {
   const ts = new Date().toISOString();
@@ -34,8 +43,8 @@ async function updateStock(id, newQty) {
   return ts;
 }
 
-// ─── Build a stock widget (qty stepper + verified label) ──────────────────────
-function buildStockWidget(id, stock, stockVerified) {
+// ─── Build a stock widget (qty stepper) ───────────────────────────────────────
+function buildStockWidget(id, stock) {
   const qty = stock !== undefined ? stock : null;
 
   const wrapper = document.createElement('div');
@@ -59,11 +68,6 @@ function buildStockWidget(id, stock, stockVerified) {
   plusBtn.className = 'stock-btn stock-plus';
   plusBtn.textContent = '+';
 
-  const verifiedEl = document.createElement('span');
-  verifiedEl.className = 'stock-verified';
-  verifiedEl.textContent = stockVerified ? `verified ${formatVerified(stockVerified)}` : 'not verified';
-
-  // State tracked locally so we don't need to reload after every click
   let current = qty !== null ? qty : 0;
 
   async function adjust(delta) {
@@ -72,8 +76,7 @@ function buildStockWidget(id, stock, stockVerified) {
     qtyEl.classList.remove('stock-unset');
     current = next;
     try {
-      const ts = await updateStock(id, next);
-      verifiedEl.textContent = `verified ${formatVerified(ts)}`;
+      await updateStock(id, next);
     } catch (err) {
       console.error("Error updating stock:", err);
     }
@@ -86,31 +89,47 @@ function buildStockWidget(id, stock, stockVerified) {
   wrapper.appendChild(minusBtn);
   wrapper.appendChild(qtyEl);
   wrapper.appendChild(plusBtn);
-  wrapper.appendChild(verifiedEl);
 
   return wrapper;
 }
 
-// ─── Load Tools ───────────────────────────────────────────────────────────────
-async function loadTools() {
-  try {
-    const querySnapshot = await getDocs(collection(db, "tools"));
-    toolsList.innerHTML = '';
+// ─── Build Category Card Component ───────────────────────────────────────────
+function createCategoryCard(catInfo, categoryTools) {
+  const count = categoryTools.length;
 
-    if (querySnapshot.empty) {
-      toolsList.innerHTML = '<li>No tools found.</li>';
-      return;
-    }
+  const card = document.createElement('div');
+  // Collapse cards by default if empty, keep open if non-empty
+  card.className = 'category-card' + (count === 0 ? ' collapsed' : '');
 
-    // Collect and sort
-    const tools = [];
-    querySnapshot.forEach(docSnap => tools.push({ id: docSnap.id, ...docSnap.data() }));
-    tools.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+  const header = document.createElement('div');
+  header.className = 'category-header';
+  header.innerHTML = `
+    <div class="category-title-group">
+      <span class="category-name">${catInfo.label}</span>
+      <span class="category-badge ${count === 0 ? 'empty' : ''}">${count}</span>
+    </div>
+    <div class="category-toggle">
+      <i class="fa fa-chevron-down"></i>
+    </div>
+  `;
 
-    tools.forEach(tool => {
+  header.addEventListener('click', () => {
+    card.classList.toggle('collapsed');
+  });
+
+  const body = document.createElement('div');
+  body.className = 'category-body';
+
+  if (count === 0) {
+    body.innerHTML = `<div class="empty-category-msg">No tools in this category</div>`;
+  } else {
+    const ul = document.createElement('ul');
+    ul.className = 'parts-list';
+
+    categoryTools.forEach(tool => {
       const parts = [];
-      if (tool.diameter) parts.push(`${tool.diameter}" diam`);
-      if (tool.cuttingLength)   parts.push(`${tool.cuttingLength}" LOC`);
+      if (tool.diameter)     parts.push(`${tool.diameter}" diam`);
+      if (tool.cuttingLength) parts.push(`${tool.cuttingLength}" LOC`);
       const descriptor = parts.length > 0 ? ` — ${parts.join(', ')}` : '';
 
       const li = document.createElement('li');
@@ -125,7 +144,7 @@ async function loadTools() {
 
       const actionsDiv = document.createElement('div');
       actionsDiv.className = 'actions tool-actions';
-      actionsDiv.appendChild(buildStockWidget(tool.id, tool.stock, tool.stockVerified));
+      actionsDiv.appendChild(buildStockWidget(tool.id, tool.stock));
 
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'delete-btn';
@@ -140,12 +159,75 @@ async function loadTools() {
 
       li.appendChild(detailsDiv);
       li.appendChild(actionsDiv);
-      toolsList.appendChild(li);
+      ul.appendChild(li);
     });
+
+    body.appendChild(ul);
+  }
+
+  card.appendChild(header);
+  card.appendChild(body);
+  return card;
+}
+
+// ─── Load Tools ───────────────────────────────────────────────────────────────
+async function loadTools() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "tools"));
+    toolsCategories.innerHTML = '';
+
+    if (querySnapshot.empty) {
+      if (toolsSummary) toolsSummary.textContent = 'Total Tools: 0';
+      toolsCategories.innerHTML = '<p>No tools found.</p>';
+      return;
+    }
+
+    const tools = [];
+    querySnapshot.forEach(docSnap => tools.push({ id: docSnap.id, ...docSnap.data() }));
+
+    if (toolsSummary) {
+      toolsSummary.textContent = `Total Tools: ${tools.length}`;
+    }
+
+    // Group tools into categories
+    const categorized = {};
+    CATEGORIES.forEach(cat => {
+      categorized[cat.id] = [];
+    });
+    categorized['uncategorized'] = [];
+
+    tools.forEach(tool => {
+      const typeKey = (tool.type || '').toString().trim().toLowerCase();
+      if (categorized[typeKey]) {
+        categorized[typeKey].push(tool);
+      } else {
+        categorized['uncategorized'].push(tool);
+      }
+    });
+
+    // Sort inside each category
+    Object.keys(categorized).forEach(key => {
+      categorized[key].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+    });
+
+    // Render category cards
+    CATEGORIES.forEach(cat => {
+      const cardEl = createCategoryCard(cat, categorized[cat.id]);
+      toolsCategories.appendChild(cardEl);
+    });
+
+    // Render uncategorized card if any exist
+    if (categorized['uncategorized'].length > 0) {
+      const uncatCard = createCategoryCard(
+        { id: 'uncategorized', label: 'Uncategorized' },
+        categorized['uncategorized']
+      );
+      toolsCategories.appendChild(uncatCard);
+    }
 
   } catch (error) {
     console.error("Error loading tools:", error);
-    toolsList.innerHTML = '<li>Error loading tools.</li>';
+    toolsCategories.innerHTML = '<p>Error loading tools.</p>';
   }
 }
 
@@ -157,6 +239,18 @@ async function deleteTool(id) {
     console.error("Error deleting tool:", error);
     alert("Could not delete the tool.");
   }
+}
+
+if (expandAllBtn) {
+  expandAllBtn.addEventListener('click', () => {
+    document.querySelectorAll('.category-card').forEach(card => card.classList.remove('collapsed'));
+  });
+}
+
+if (collapseAllBtn) {
+  collapseAllBtn.addEventListener('click', () => {
+    document.querySelectorAll('.category-card').forEach(card => card.classList.add('collapsed'));
+  });
 }
 
 loadTools();
