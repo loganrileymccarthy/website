@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>&#x2694 CNC Dashboard &#x2694</title>
+    <title>&#x2694 spot-drill-tap &#x2694</title>
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -98,43 +98,60 @@
 
         .calculator-panel h3 {
             margin: 0;
+            font-size: 18px;
             color: yellow;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
         }
 
         .calc-row {
             display: flex;
-            flex-direction: row;
             align-items: flex-end;
-            /* Align inputs to bottom so labels align top */
             gap: 10px;
-            justify-content: space-between;
-            width: 100%;
         }
 
         .calc-col {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 5px;
-            width: 100%;
+            flex: 1;
         }
 
-        .calc-col input[type="number"],
-        .calc-col input[type="text"],
+        .calc-col label {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        .calc-col input,
         .calc-col select {
+            padding: 8px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
             width: 100%;
-            pointer-events: auto;
+            box-sizing: border-box;
         }
 
-        /* Converter styles */
+        .calc-col input:focus,
+        .calc-col select:focus {
+            border-color: yellow;
+            outline: none;
+        }
+
+        .calc-readonly {
+            background-color: #333 !important;
+            cursor: not-allowed;
+            border-color: #666 !important;
+        }
+
         .converter-container {
             display: flex;
             align-items: center;
-            gap: 15px;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 10px;
         }
 
         .converter-container input[type="number"] {
@@ -166,15 +183,89 @@
         .light-mode .tab-buttons button:hover:not(.active) {
             background-color: #ddd;
         }
+
+        .light-mode .calc-readonly {
+            background-color: #e4d8c8 !important;
+            border-color: #bbb !important;
+            color: #555 !important;
+        }
+
+        /* Pilot sizes table */
+        .pilot-table .pilot-group-label {
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            padding: 6px 8px;
+        }
+
+        .pilot-table .cut-group {
+            color: #6bbfff;
+            border-bottom: 2px solid #6bbfff;
+        }
+
+        .pilot-table .form-group {
+            color: #ffa06b;
+            border-bottom: 2px solid #ffa06b;
+        }
+
+        .pilot-table .pilot-size-col {
+            min-width: 120px;
+            font-weight: bold;
+        }
+
+        .pilot-table .pilot-pct-col {
+            text-align: center;
+            min-width: 90px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .pilot-table .group-divider {
+            border-left: 2px solid #555;
+        }
+
+        .pilot-table td.group-divider {
+            border-left: 2px solid #555;
+        }
+
+        .pilot-table .col-70 {
+            background-color: rgba(255, 255, 100, 0.06);
+        }
+
+        .light-mode .pilot-table .col-70 {
+            background-color: rgba(0, 80, 200, 0.07);
+        }
+
+        .pilot-cell {
+            text-align: center;
+            padding: 5px 8px;
+            white-space: nowrap;
+        }
+
+        .pilot-cell .p-in {
+            display: block;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .pilot-cell .p-mm {
+            display: block;
+            font-size: 11px;
+            color: #888;
+        }
+
+        .light-mode .pilot-cell .p-mm {
+            color: #555;
+        }
     </style>
 </head>
 
 <body>
-    <script type="module" src="../../main.js"></script>
+    <script type="module" src="../main.js"></script>
     <div class="wrapper-wide">
         <my-header></my-header>
         <main>
-            <h2>CNC Dashboard</h2>
+            <h2>spot-drill-tap</h2>
 
             <div class="dashboard-layout">
                 <div class="left-panel">
@@ -186,6 +277,33 @@
                             <span style="color: white; font-size: 20px;" class="converter-arrows">&#x2194;</span>
                             <input type="number" id="mm-input" placeholder="mm">
                             <label style="margin-bottom: 0;">mm</label>
+                        </div>
+                    </div>
+
+                    <div class="calculator-panel">
+                        <h3>Spot</h3>
+                        <div class="calc-row">
+                            <div class="calc-col">
+                                <label>Desired Dia</label>
+                                <input type="number" id="spot-dia" placeholder="Dia" step="any">
+                            </div>
+                            <div class="calc-col">
+                                <label>Tip Angle (&deg;)</label>
+                                <input type="number" id="spot-angle" placeholder="Angle" step="any" list="spot-angle-list">
+                                <datalist id="spot-angle-list">
+                                    <option value="90">90&deg;</option>
+                                    <option value="120">120&deg;</option>
+                                    <option value="82">82&deg;</option>
+                                    <option value="60">60&deg;</option>
+                                    <option value="118">118&deg;</option>
+                                    <option value="140">140&deg;</option>
+                                    <option value="142">142&deg;</option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="calc-col">
+                            <label>Depth</label>
+                            <input type="number" id="spot-depth" placeholder="Depth" readonly class="calc-readonly">
                         </div>
                     </div>
 
@@ -224,8 +342,7 @@
                         </div>
                         <div class="calc-col">
                             <label>Feedrate (IPM)</label>
-                            <input type="number" id="feed-ipm" placeholder="IPM" readonly
-                                style="background-color: #333; cursor: not-allowed; border-color: #666;">
+                            <input type="number" id="feed-ipm" placeholder="IPM" readonly class="calc-readonly">
                         </div>
                     </div>
                 </div>
@@ -297,12 +414,20 @@
                         </div>
 
                         <div id="pilot-sizes-tab" class="tab-content">
-                            <table>
+                            <table class="pilot-table">
                                 <thead>
+                                    <tr class="pilot-group-header">
+                                        <th rowspan="2" class="pilot-size-col">Tap Size</th>
+                                        <th colspan="3" class="pilot-group-label cut-group">Cut Tap</th>
+                                        <th colspan="3" class="pilot-group-label form-group">Form Tap</th>
+                                    </tr>
                                     <tr>
-                                        <th>Tap Size</th>
-                                        <th>Cut Tap Drill</th>
-                                        <th>Form Tap Drill</th>
+                                        <th class="pilot-pct-col">65%</th>
+                                        <th class="pilot-pct-col col-70">70%</th>
+                                        <th class="pilot-pct-col">75%</th>
+                                        <th class="pilot-pct-col group-divider">65%</th>
+                                        <th class="pilot-pct-col col-70">70%</th>
+                                        <th class="pilot-pct-col">75%</th>
                                     </tr>
                                 </thead>
                                 <tbody id="taps-tbody">
@@ -479,6 +604,29 @@
             }
         });
 
+        // Spot Depth Calculator Logic
+        const spotDiaInput = document.getElementById('spot-dia');
+        const spotAngleInput = document.getElementById('spot-angle');
+        const spotDepthInput = document.getElementById('spot-depth');
+
+        const updateSpotDepth = () => {
+            const dia = parseFloat(spotDiaInput.value);
+            const angle = parseFloat(spotAngleInput.value);
+
+            if (!isNaN(dia) && !isNaN(angle) && dia > 0 && angle > 0 && angle < 180) {
+                const rad = (angle * Math.PI) / 360;
+                const depth = dia / (2 * Math.tan(rad));
+                spotDepthInput.value = depth.toFixed(4);
+            } else {
+                spotDepthInput.value = '';
+            }
+        };
+
+        if (spotDiaInput && spotAngleInput && spotDepthInput) {
+            spotDiaInput.addEventListener('input', updateSpotDepth);
+            spotAngleInput.addEventListener('input', updateSpotDepth);
+        }
+
         // Light mode listener for the arrows
         const darkModeToggle = document.getElementById('darkModeToggleGlobal');
         const arrows = document.querySelector('.converter-arrows');
@@ -540,20 +688,24 @@
             `<tr><td>${row.size}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`
         );
 
-        const tapRowGen = row => {
-            const cutDrill = row.pilotDiaCut || '-';
-            const formDrill = row.pilotDiaForm || '-';
-            return `<tr><td>${row.size}</td><td>${cutDrill}</td><td>${formDrill}</td></tr>`;
-        };
+        const fmt = (val, dec) => val !== undefined ? val.toFixed(dec) : '–';
 
-        const allThreadsWithPilots = [
-            ...(dashboardData.metricThreads || []),
-            ...(dashboardData.unifiedThreads || [])
-        ].filter(t => t.pilotDiaCut || t.pilotDiaForm);
+        const pilotRowGen = t => `<tr>
+            <td class="pilot-size-col">${t.size}</td>
+            <td class="pilot-cell"><span class="p-in">${fmt(t.pilot65In, 4)}"</span><span class="p-mm">${fmt(t.pilot65Mm, 3)} mm</span></td>
+            <td class="pilot-cell col-70"><span class="p-in">${fmt(t.pilot70In, 4)}"</span><span class="p-mm">${fmt(t.pilot70Mm, 3)} mm</span></td>
+            <td class="pilot-cell"><span class="p-in">${fmt(t.pilot75In, 4)}"</span><span class="p-mm">${fmt(t.pilot75Mm, 3)} mm</span></td>
+            <td class="pilot-cell group-divider"><span class="p-in">${fmt(t.pilot65FormIn, 4)}"</span><span class="p-mm">${fmt(t.pilot65FormMm, 3)} mm</span></td>
+            <td class="pilot-cell col-70"><span class="p-in">${fmt(t.pilot70FormIn, 4)}"</span><span class="p-mm">${fmt(t.pilot70FormMm, 3)} mm</span></td>
+            <td class="pilot-cell"><span class="p-in">${fmt(t.pilot75FormIn, 4)}"</span><span class="p-mm">${fmt(t.pilot75FormMm, 3)} mm</span></td>
+        </tr>`;
 
-        const uniquePilotThreads = Array.from(new Map(allThreadsWithPilots.map(t => [t.size, t])).values());
+        const uniquePilotThreads = [
+            ...Array.from(new Map((dashboardData.metricThreads || []).map(t => [t.size, t])).values()),
+            ...Array.from(new Map((dashboardData.unifiedThreads || []).map(t => [t.size, t])).values())
+        ];
 
-        populateTable('taps-tbody', uniquePilotThreads, tapRowGen);
+        populateTable('taps-tbody', uniquePilotThreads, pilotRowGen);
 
         // Chart.js Logic for Cutting Speed
         const initChart = () => {

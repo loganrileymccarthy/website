@@ -1,5 +1,5 @@
 %
-O09011 (FACE MILL MACRO - ZIG ZAG)
+O08001 (FACE MILL MACRO - ZIG ZAG)
 (CALL WITH: G65 P9011 I... J... Z... R... C... F... [X... Y... K... Q... W... E...])
 (I #4  = LENGTH OF PART IN X)
 (J #5  = WIDTH OF PART IN Y)
