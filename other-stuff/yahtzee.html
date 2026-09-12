@@ -7,13 +7,7 @@
     <title>&#x2694LRM&#x2694</title>
     <link rel="stylesheet" href="../css/styles.css">
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+
         
         header {
             text-align: center;
@@ -78,8 +72,8 @@
         .history-card {
             background-color: #2a2a2a;
             color: #eee;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 5px;
+            margin-bottom: 5px;
             border-radius: 8px;
             cursor: pointer;
             border: 1px solid #444;
@@ -168,46 +162,31 @@
             cursor: pointer;
             padding: 10px 20px;
             border-radius: 8px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--color-3);
+            color: black;
             border: none;
             margin-left: 10px;
             font-weight: bold;
             transition: background-color 0.2s;
         }
         .roll-btn-compact:hover {
-            background-color: #45a049;
+            background-color: var(--color-3);
+            color: white;
         }
         .roll-btn-compact:active {
             transform: translateY(2px);
         }
 
         .setup-section {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            background-color: #1e1e1e;
-            border: 1px solid #333;
-            padding: 20px;
-            border-radius: 10px;
-            width: 100%;
             text-align: center;
         }
         
         .setup-section input {
-            margin: 5px;
-            padding: 8px;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #555;
-            background-color: #2a2a2a;
-            color: white;
             width: 150px;
         }
         
-        .setup-section input::placeholder {
-            color: #888;
-        }
+
 
         .game-id-container {
             margin-bottom: 15px;
@@ -318,12 +297,10 @@
             width: 20px;
             height: 20px;
             cursor: pointer;
-            accent-color: #4CAF50;
             margin: 4px 0px;
         }
         .main-score-table .total-row td {
-            background-color: #153e18;
-            color: #81ff8f;
+            background-color: var(--color-1);
             font-weight: bold;
         }
         
@@ -332,15 +309,16 @@
             padding: 10px 20px;
             font-size: 1.2rem;
             cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
+            background-color: var(--color-3);
+            color: black;
             border: none;
             border-radius: 5px;
             font-weight: bold;
         }
         
         .action-btn:hover {
-            background-color: #45a049;
+            background-color: var(--color-3);
+            color: white;
         }
 
         .secondary-btn {
@@ -414,9 +392,9 @@
     <script type="module" src="../main.js"></script>
     <my-header></my-header>
     <main>
-        <div class="main-layout">
-            <div class="left-panel">
-                <div class="setup-section" id="setupSection">
+        <div class="container-horizontal">
+            <div class="container-vertical">
+                <div class="page-section setup-section" id="setupSection">
                     <div class="game-id-container">
                         <label for="gameIdInput">Game ID:</label>
                         <input type="text" id="gameIdInput" placeholder="e.g. Game-123">
@@ -436,7 +414,7 @@
                     <button class="action-btn" id="startGameBtn">Start Game</button>
                 </div>
 
-                <div class="game-section" id="gameSection">
+                <div class="page-section game-section" id="gameSection">
                     <div class="table-wrapper">
                         <div class="game-header">
                             <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -479,7 +457,7 @@
                 </div>
             </div>
 
-            <div class="right-panel">
+            <div class="page-section">
                 <h2>Game History</h2>
                 <div id="historyContainer">
                     <p style="text-align:center;">Loading history...</p>
