@@ -79,6 +79,7 @@
     <div class="wrapper-main">
         <my-header></my-header>
         <main>
+          <div class="page-section">
             <h1>
                 Hold'em Board Generator
             </h1>
@@ -99,9 +100,6 @@
                         <option value="Flush">Flush</option>
                         <option value="Straight">Straight</option>
                         <option value="Trips">Trips</option>
-                        <option value="Two Pair">Two Pair</option>
-                        <option value="Pair">Pair</option>
-                        <option value="High Card">High Card</option>
                     </select>
                     <div class="validation-icon" id="iconFlop"></div>
                     <!-- Hidden field to store correct answer -->
@@ -119,9 +117,6 @@
                         <option value="Flush">Flush</option>
                         <option value="Straight">Straight</option>
                         <option value="Trips">Trips</option>
-                        <option value="Two Pair">Two Pair</option>
-                        <option value="Pair">Pair</option>
-                        <option value="High Card">High Card</option>
                     </select>
                     <div class="validation-icon" id="iconTurn"></div>
                     <input type="hidden" id="answerTurn">
@@ -138,15 +133,12 @@
                         <option value="Flush">Flush</option>
                         <option value="Straight">Straight</option>
                         <option value="Trips">Trips</option>
-                        <option value="Two Pair">Two Pair</option>
-                        <option value="Pair">Pair</option>
-                        <option value="High Card">High Card</option>
                     </select>
                     <div class="validation-icon" id="iconRiver"></div>
                     <input type="hidden" id="answerRiver">
                 </div>
             </div>
-
+          </div>
     <script>
         let currentDeck = [];
         let currentHand = [];
