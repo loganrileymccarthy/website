@@ -407,7 +407,7 @@ img {
   border-radius: 4px;
 }
 .tab-content.active {
-  display: block;
+  display: flex;
 }
 
 /* Image containers */

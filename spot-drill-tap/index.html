@@ -22,6 +22,16 @@
 
         .calc-panel h3 {
             color: var(--color-4);
+            margin: 0;
+        }
+
+        .calc-subheading {
+            font-size: 11px;
+            color: var(--color-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: bold;
         }
 
         .calc-row {
@@ -39,26 +49,11 @@
         .calc-col input,
         .calc-col select {
             padding: 8px;
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            color: white;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
             width: 100%;
-            box-sizing: border-box;
-        }
-
-        .calc-col input:focus,
-        .calc-col select:focus {
-            border-color: yellow;
-            outline: none;
         }
 
         .calc-readonly {
-            background-color: #333 !important;
             cursor: not-allowed;
-            border-color: #666 !important;
         }
 
         .converter-container {
@@ -73,6 +68,10 @@
             pointer-events: auto;
         }
 
+        .converter-arrows {
+            color: var(--color-3);
+            padding-bottom: 6px;
+        }
 
     </style>
 </head>
@@ -86,15 +85,9 @@
 
             <div class="container-horizontal">
                 <div class="container-vertical" style="flex: 1 1 30%">
-                    <div class="page-section calc-panel" style="flex: 1 1 10%">
-                        <div class="converter-container">
-                            <input type="number" id="inch-input" placeholder="in">
-                            <span style="color: white; font-size: 20px;" class="converter-arrows">&#x2194;</span>
-                            <input type="number" id="mm-input" placeholder="mm">
-                        </div>
-                    </div>
 
-                    <div class="page-section calc-panel" style="flex: 1 1 30%;">
+                    <!-- Spot -->
+                    <div class="page-section calc-panel" style="flex: 1 1 21%;">
                         <h3>Spot</h3>
                         <div class="calc-row">
                             <div class="calc-col">
@@ -103,13 +96,13 @@
                             <div class="calc-col">
                                 <input type="number" id="spot-angle" placeholder="Angle (&deg;)" step="any" list="spot-angle-list">
                                 <datalist id="spot-angle-list">
-                                    <option value="90">90&deg;</option>
-                                    <option value="120">120&deg;</option>
-                                    <option value="82">82&deg;</option>
-                                    <option value="60">60&deg;</option>
-                                    <option value="118">118&deg;</option>
-                                    <option value="140">140&deg;</option>
-                                    <option value="142">142&deg;</option>
+                                    <option value="60"></option>
+                                    <option value="82"></option>
+                                    <option value="90"></option>
+                                    <option value="118"></option>
+                                    <option value="120"></option>
+                                    <option value="140"></option>
+                                    <option value="142"></option>
                                 </datalist>
                             </div>
                         </div>
@@ -118,26 +111,59 @@
                         </div>
                     </div>
 
-                    <div class="page-section calc-panel" style="flex: 1 1 30%;">
-                        <h3>Tap Speed</h3>
+                    <!-- Drill & Tap -->
+                    <div class="page-section calc-panel" style="flex: 1 1 45%;">
+                        <h3>Drill & Tap</h3>
                         <div class="calc-col">
                             <select id="tap-select">
                                 <option value="" disabled selected>Select a tap...</option>
                             </select>
                         </div>
+                        <div class="calc-col">
+                            <span class="calc-subheading">Cut Pilot (70%)</span>
+                            <div class="calc-row">
+                                <div class="calc-col">
+                                    <input type="text" id="pilot-cut-in" placeholder="Cut (in)" readonly class="calc-readonly">
+                                </div>
+                                <div class="calc-col">
+                                    <input type="text" id="pilot-cut-mm" placeholder="Cut (mm)" readonly class="calc-readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calc-col">
+                            <span class="calc-subheading">Form Pilot (70%)</span>
+                            <div class="calc-row">
+                                <div class="calc-col">
+                                    <input type="text" id="pilot-form-in" placeholder="Form (in)" readonly class="calc-readonly">
+                                </div>
+                                <div class="calc-col">
+                                    <input type="text" id="pilot-form-mm" placeholder="Form (mm)" readonly class="calc-readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calc-col">
+                            <span class="calc-subheading">Drill</span>
+                            <select id="drill-select">
+                                <option value="" disabled selected>Select a drill...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Speeds -->
+                    <div class="page-section calc-panel" style="flex: 1 1 9%;">
                         <div class="calc-row">
                             <div class="calc-col">
                                 <input type="number" id="tap-sfm" placeholder="SFM">
                             </div>
-                            <span class="converter-arrows" style="padding-bottom: 6px;">&#x2194;</span>
+                            <span class="converter-arrows">&#x2194;</span>
                             <div class="calc-col">
                                 <input type="number" id="tap-rpm" placeholder="RPM">
                             </div>
                         </div>
                     </div>
 
-                    <div class="page-section calc-panel" style="flex: 1 1 30%;">
-                        <h3>Tap Feed</h3>
+                    <!-- Feeds -->
+                    <div class="page-section calc-panel" style="flex: 1 1 16%;">
                         <div class="calc-row">
                             <div class="calc-col">
                                 <input type="text" id="feed-pitch" placeholder="Pitch">
@@ -150,8 +176,22 @@
                             <input type="number" id="feed-ipm" placeholder="IPM" readonly class="calc-readonly">
                         </div>
                     </div>
+                    
+                    <!-- Converter -->
+                    <div class="page-section calc-panel" style="flex: 1 1 9%;">
+                        <div class="calc-row">
+                            <div class="calc-col">
+                                <input type="number" id="inch-input" placeholder="in">
+                            </div>
+                            <span class="converter-arrows">&#x2194;</span>
+                            <div class="calc-col">
+                                <input type="number" id="mm-input" placeholder="mm">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Tables -->
                 <div class="container-vertical" style="flex: 1 1 70%">
                     <div class="tab-container">
                         <div class="tab-buttons">
@@ -261,13 +301,45 @@
     <script type="module">
         import dashboardData from './dashboard-data.js';
 
-        // Tap Calculators Logic
+        // Pre-sorted list of all drills (fraction, number, letter)
+        const allDrills = [
+            ...(dashboardData.drillsFraction || []),
+            ...(dashboardData.drillsNumber || []),
+            ...(dashboardData.drillsLetter || [])
+        ].sort((a, b) => a.decimalIn - b.decimalIn);
+
+        // Tap & Drill Calculators Logic
         const tapSelect = document.getElementById('tap-select');
+        const drillSelect = document.getElementById('drill-select');
+        const pilotCutInInput = document.getElementById('pilot-cut-in');
+        const pilotCutMmInput = document.getElementById('pilot-cut-mm');
+        const pilotFormInInput = document.getElementById('pilot-form-in');
+        const pilotFormMmInput = document.getElementById('pilot-form-mm');
         const tapSfmInput = document.getElementById('tap-sfm');
         const tapRpmInput = document.getElementById('tap-rpm');
         const feedPitchInput = document.getElementById('feed-pitch');
         const feedRpmInput = document.getElementById('feed-rpm');
         const feedIpmInput = document.getElementById('feed-ipm');
+
+        // Global state for selected tap and drill
+        window.selectedTap = null;
+        window.selectedDrill = null;
+
+        if (drillSelect) {
+            allDrills.forEach(drill => {
+                const option = document.createElement('option');
+                option.value = drill.size;
+                option.text = `${drill.size} (${drill.decimalIn.toFixed(4)}" / ${drill.decimalMm.toFixed(3)} mm)`;
+                option.dataset.decimalIn = drill.decimalIn;
+                option.dataset.decimalMm = drill.decimalMm;
+                drillSelect.appendChild(option);
+            });
+
+            drillSelect.addEventListener('change', () => {
+                const selected = allDrills.find(d => d.size === drillSelect.value);
+                window.selectedDrill = selected || null;
+            });
+        }
 
         if (tapSelect) {
             // Populate tap select
@@ -367,6 +439,39 @@
                 }
 
                 updateFeed();
+
+                // Update Tap Pilot values and nearest drill
+                const thread = (dashboardData.metricThreads || []).find(t => t.size === tapSize) ||
+                               (dashboardData.unifiedThreads || []).find(t => t.size === tapSize);
+
+                window.selectedTap = thread || null;
+
+                if (thread) {
+                    if (pilotCutInInput) pilotCutInInput.value = thread.pilot70In !== undefined ? thread.pilot70In.toFixed(4) + '"' : '–';
+                    if (pilotCutMmInput) pilotCutMmInput.value = thread.pilot70Mm !== undefined ? thread.pilot70Mm.toFixed(3) + ' mm' : '–';
+                    if (pilotFormInInput) pilotFormInInput.value = thread.pilot70FormIn !== undefined ? thread.pilot70FormIn.toFixed(4) + '"' : '–';
+                    if (pilotFormMmInput) pilotFormMmInput.value = thread.pilot70FormMm !== undefined ? thread.pilot70FormMm.toFixed(3) + ' mm' : '–';
+
+                    // Find and auto-select nearest drill to pilot70In
+                    if (drillSelect && thread.pilot70In !== undefined && allDrills.length > 0) {
+                        let nearestDrill = allDrills[0];
+                        let minDiff = Infinity;
+                        for (const drill of allDrills) {
+                            const diff = Math.abs(drill.decimalIn - thread.pilot70In);
+                            if (diff < minDiff) {
+                                minDiff = diff;
+                                nearestDrill = drill;
+                            }
+                        }
+                        drillSelect.value = nearestDrill.size;
+                        drillSelect.dispatchEvent(new Event('change'));
+                    }
+                } else {
+                    if (pilotCutInInput) pilotCutInInput.value = '';
+                    if (pilotCutMmInput) pilotCutMmInput.value = '';
+                    if (pilotFormInInput) pilotFormInInput.value = '';
+                    if (pilotFormMmInput) pilotFormMmInput.value = '';
+                }
             });
 
             tapSfmInput.addEventListener('input', () => {
@@ -493,11 +598,6 @@
         populateTable('metric-threads-tbody', dashboardData.metricThreads, threadRowGen);
         populateTable('unified-threads-tbody', dashboardData.unifiedThreads, threadRowGen);
 
-        const allDrills = [
-            ...(dashboardData.drillsFraction || []),
-            ...(dashboardData.drillsNumber || []),
-            ...(dashboardData.drillsLetter || [])
-        ].sort((a, b) => a.decimalIn - b.decimalIn);
 
         populateTable('drills-tbody', allDrills, row =>
             `<tr><td>${row.size}</td><td>${row.decimalIn.toFixed(4)}</td><td>${row.decimalMm.toFixed(3)}</td></tr>`
